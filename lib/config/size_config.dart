@@ -12,7 +12,7 @@ class _MyWidgetState extends State<MyWidget> {
   Widget build(BuildContext context) {
     return SafeArea(
       child: Container(
-        child: const Text(""),
+        child: const Text("abc "),
       ),
     );
   }
