@@ -1,0 +1,5 @@
+Quy định đặt tên 
+- Đặt tên folder: snake_case(login_screen)
+- Đặt tên file: snake_case (login_screen.dart)
+- Đặt tên biến: camelCase (Vd: firstName)
+- Đặt tên class: PascalCase (class HelloWorld)
