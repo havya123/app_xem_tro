@@ -86,8 +86,8 @@ class _MyHomePageState extends State<MyHomePage> {
           // the App.build method, and use it to set our appbar title.
           title: Text(widget.title),
         ),
-        body: Container(
-          decoration: const BoxDecoration(borderRadius: BorderRadius.only()),
+        body: ListView(
+          children: List.generate(10, (index) => Container()),
         ));
   }
 }
