@@ -1,4 +1,5 @@
 import 'package:app_xem_tro/config/size_config.dart';
+import 'package:app_xem_tro/config/widget/button.dart';
 import 'package:app_xem_tro/config/widget/checkbox.dart';
 import 'package:app_xem_tro/config/widget/text_field.dart';
 import 'package:flutter/material.dart';
@@ -15,6 +16,8 @@ class LoginScreen extends StatelessWidget {
     void isHidden() {
       showpass.value = !showpass.value;
     }
+
+    var isLoading = false.obs;
 
     return Scaffold(
       body: Padding(
@@ -96,25 +99,15 @@ class LoginScreen extends StatelessWidget {
                 ],
               ),
               spaceHeight(context, height: 0.02),
-              Container(
-                width: double.infinity,
-                height: getHeight(context, height: 0.08),
-                decoration: BoxDecoration(
-                    gradient: const LinearGradient(colors: [
-                      Color(0xff363ff5),
-                      Color(0xff6357CC),
-                    ]),
-                    borderRadius: BorderRadius.circular(
-                        borderRadius(context, border: 0.5))),
-                child: const Center(
-                  child: Text(
-                    'Đăng nhập',
-                    style: TextStyle(
-                        color: Colors.white,
-                        fontSize: 19,
-                        fontWeight: FontWeight.bold),
-                  ),
-                ),
+              Button(
+                function: () async {
+                  if (isLoading.value) return;
+                  isLoading.value = !isLoading.value;
+                  await Future.delayed(const Duration(seconds: 2));
+                  Navigator.pushReplacementNamed(context, Routes.homeRoute);
+                },
+                textButton: "Đăng nhập",
+                isLoading: isLoading,
               ),
               spaceHeight(context),
               Row(
