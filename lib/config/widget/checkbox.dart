@@ -25,7 +25,7 @@ class _CheckboxExampleState extends State<CheckboxExample> {
     }
 
     return Checkbox(
-      checkColor: Colors.black,
+      checkColor: Colors.blue,
       fillColor: MaterialStateProperty.resolveWith(getColor),
       value: isChecked,
       onChanged: (bool? value) {
