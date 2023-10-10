@@ -7,8 +7,16 @@ import 'package:get/get.dart';
 
 class RouteManager {
   static List<GetPage> routeManager = [
-    GetPage(name: "/", page: () => const SplashScreen()),
-    GetPage(name: "/loginRoute", page: () => const LoginScreen()),
+    GetPage(
+      name: "/",
+      page: () => const SplashScreen(),
+    ),
+    GetPage(
+      name: "/loginRoute",
+      page: () => const LoginScreen(),
+      transition: Transition.leftToRight,
+      transitionDuration: const Duration(milliseconds: 500),
+    ),
     GetPage(name: "/signupRoute", page: () => const SignupScreen()),
     GetPage(name: "/notFound", page: () => const ErrorScreen()),
     GetPage(name: "/forget", page: () => const ForgetPasswordScreen()),

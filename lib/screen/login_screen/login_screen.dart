@@ -1,7 +1,6 @@
 import 'package:app_xem_tro/config/size_config.dart';
 import 'package:app_xem_tro/config/widget/checkbox.dart';
 import 'package:app_xem_tro/config/widget/text_field.dart';
-import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get/get.dart';
@@ -42,6 +41,7 @@ class LoginScreen extends StatelessWidget {
               TextFieldWidget(
                 hint: 'Số điện thoại',
                 type: TextInputType.phone,
+                maxLength: 10,
               ),
               spaceHeight(context, height: 0.02),
               Obx(
