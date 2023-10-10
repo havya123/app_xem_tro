@@ -3,5 +3,6 @@ class Routes {
   static const String loginRoute = "/loginRoute";
   static const String notFoundRoute = "/notFound";
   static const String signupRoute = "/signupRoute";
-  static const String forgetRoute = "/forget";
+  static const String forgetRoute = "/forgetRoute";
+  static const String homeRoute = "/homeRoute";
 }
