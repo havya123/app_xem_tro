@@ -1,4 +1,5 @@
 import 'package:app_xem_tro/screen/error_screen/error_screen.dart';
+import 'package:app_xem_tro/screen/forget_password_screen/forget_password_screen.dart';
 import 'package:app_xem_tro/screen/login_screen/login_screen.dart';
 import 'package:app_xem_tro/screen/signup_screen/second_signup.dart';
 import 'package:app_xem_tro/screen/signup_screen/signup_screen.dart';
@@ -12,6 +13,7 @@ class RouteManager {
     GetPage(name: "/signupRoute", page: () => const SignupScreen()),
     GetPage(name: "/secondsignup", page: () => const SecondSignup()),
     GetPage(name: "/notFound", page: () => const ErrorScreen()),
+    GetPage(name: "/forget", page: () => const ForgetPasswordScreen()),
   ];
 
   static GetPage notFound =
