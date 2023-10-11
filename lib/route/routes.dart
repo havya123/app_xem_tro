@@ -3,4 +3,5 @@ class Routes {
   static const String loginRoute = "/loginRoute";
   static const String notFoundRoute = "/notFound";
   static const String signupRoute = "/signupRoute";
+  static const String secondSignup = "/secondsignup";
 }
