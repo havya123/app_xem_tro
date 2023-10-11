@@ -1,4 +1,5 @@
 import 'package:app_xem_tro/config/size_config.dart';
+import 'package:app_xem_tro/config/widget/item.dart';
 import 'package:flutter/material.dart';
 
 class HomeScreen extends StatelessWidget {
@@ -100,19 +101,11 @@ class HomeScreen extends StatelessWidget {
             ),
             spaceHeight(context, height: 0.02),
             SizedBox(
-              height: getHeight(context, height: 0.4),
+              height: getHeight(context, height: 0.2),
               child: ListView.separated(
                   scrollDirection: Axis.horizontal,
                   itemBuilder: (context, index) {
-                    return AspectRatio(
-                      aspectRatio: 1,
-                      child: Container(
-                        decoration: BoxDecoration(
-                            color: Colors.yellow,
-                            borderRadius:
-                                BorderRadius.circular(borderRadius(context))),
-                      ),
-                    );
+                    return const Item();
                   },
                   separatorBuilder: (context, index) {
                     return spaceWidth(context);
@@ -140,19 +133,11 @@ class HomeScreen extends StatelessWidget {
             ),
             spaceHeight(context, height: 0.02),
             SizedBox(
-              height: getHeight(context, height: 0.4),
+              height: getHeight(context, height: 0.2),
               child: ListView.separated(
                   scrollDirection: Axis.horizontal,
                   itemBuilder: (context, index) {
-                    return AspectRatio(
-                      aspectRatio: 1,
-                      child: Container(
-                        decoration: BoxDecoration(
-                            color: Colors.yellow,
-                            borderRadius:
-                                BorderRadius.circular(borderRadius(context))),
-                      ),
-                    );
+                    return const Item();
                   },
                   separatorBuilder: (context, index) {
                     return spaceWidth(context);
