@@ -11,9 +11,3 @@ SizedBox spaceHeight(context, {height = 0.04}) =>
 
 SizedBox spaceWidth(context, {width = 0.04}) =>
     SizedBox(width: MediaQuery.sizeOf(context).width * width);
-
-double padding(context, {padding = 0.04}) =>
-    MediaQuery.sizeOf(context).width * padding;
-
-double borderRadius(context, {border = 0.04}) =>
-    MediaQuery.sizeOf(context).width * border;

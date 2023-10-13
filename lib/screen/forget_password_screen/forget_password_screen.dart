@@ -8,10 +8,10 @@ class ForgetPasswordScreen extends StatelessWidget {
     return Scaffold(
       body: SafeArea(
         child: Padding(
-          padding: EdgeInsets.symmetric(horizontal: 10, vertical: 20),
+          padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 20),
           child: Column(
             children: [
-              Row(
+              const Row(
                 children: [
                   Icon(
                     Icons.arrow_circle_left_outlined,
@@ -27,10 +27,10 @@ class ForgetPasswordScreen extends StatelessWidget {
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  Container(
+                  SizedBox(
                     height: getHeight(context, height: 0.08),
                     width: getWidth(context, width: 0.4),
-                    child: TextField(
+                    child: const TextField(
                       decoration: InputDecoration(
                         border: OutlineInputBorder(),
                         labelText: 'Số điện thoại',
@@ -43,7 +43,7 @@ class ForgetPasswordScreen extends StatelessWidget {
                         color: Colors.blue),
                     height: getHeight(context, height: 0.08),
                     width: getWidth(context, width: 0.4),
-                    child: Center(
+                    child: const Center(
                       child: Text(
                         'Lấy mã xác nhận',
                         style: TextStyle(
