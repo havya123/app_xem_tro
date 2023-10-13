@@ -10,6 +10,9 @@ class Routes {
   static const String signupRoute = "/signupRoute";
   static const String forgetRoute = "/forgetRoute";
   static const String homeRoute = "/homeRoute";
+<<<<<<< Updated upstream
   static const String resetRoute = "/resetRoute";
+>>>>>>> Stashed changes
+=======
 >>>>>>> Stashed changes
 }
