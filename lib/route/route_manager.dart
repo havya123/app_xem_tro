@@ -1,8 +1,11 @@
 import 'package:app_xem_tro/screen/error_screen/error_screen.dart';
 import 'package:app_xem_tro/screen/forget_password_screen/forget_password_screen.dart';
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
 =======
 import 'package:app_xem_tro/screen/forget_password_screen/reset_password.dart';
+=======
+>>>>>>> Stashed changes
 import 'package:app_xem_tro/screen/home_screen/home_screen.dart';
 >>>>>>> Stashed changes
 import 'package:app_xem_tro/screen/login_screen/login_screen.dart';
@@ -46,11 +49,15 @@ class RouteManager {
     GetPage(
       name: "/homeRoute",
       page: () => const HomeScreen(),
+<<<<<<< Updated upstream
     ),
     GetPage(
       name: "/resetRoute",
       page: () => const ResetPassword(),
     ),
+>>>>>>> Stashed changes
+=======
+    )
 >>>>>>> Stashed changes
   ];
 
