@@ -2,6 +2,7 @@ import 'package:app_xem_tro/screen/error_screen/error_screen.dart';
 import 'package:app_xem_tro/screen/forget_password_screen/forget_password_screen.dart';
 import 'package:app_xem_tro/screen/home_screen/home_screen.dart';
 import 'package:app_xem_tro/screen/login_screen/login_screen.dart';
+import 'package:app_xem_tro/screen/signup_screen/second_signup.dart';
 import 'package:app_xem_tro/screen/signup_screen/signup_screen.dart';
 import 'package:app_xem_tro/screen/splash_screen/splash_screen.dart';
 import 'package:get/get.dart';
@@ -33,7 +34,8 @@ class RouteManager {
     GetPage(
       name: "/homeRoute",
       page: () => const HomeScreen(),
-    )
+    ),
+    GetPage(name: "/secondsignup", page: () => const SecondSignup()),
   ];
 
   static GetPage notFound =

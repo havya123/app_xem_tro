@@ -7,21 +7,36 @@ class TextFieldWidget extends StatelessWidget {
       this.icon,
       this.isPass = false,
       this.type = TextInputType.text,
-      this.maxLength = 30,
+      this.errorText,
+      this.numberOfLetter,
+      this.errorPass,
+      this.minLetter = 0,
       super.key});
   String hint;
   Widget? icon;
   bool isPass;
   TextInputType type;
-  int maxLength;
+  String? errorText;
+  int? numberOfLetter;
+  String? errorPass;
+  int? minLetter;
+
   @override
   Widget build(BuildContext context) {
-    return TextField(
+    return TextFormField(
+      inputFormatters: [
+        LengthLimitingTextInputFormatter(numberOfLetter),
+      ],
+      validator: (value) {
+        if (value == null || value.isEmpty) {
+          return errorText;
+        } else if (value.length < minLetter!) {
+          return errorPass;
+        }
+        return null;
+      },
       keyboardType: type,
       obscureText: isPass,
-      inputFormatters: [
-        LengthLimitingTextInputFormatter(maxLength),
-      ],
       decoration: InputDecoration(
         labelText: hint,
         labelStyle: const TextStyle(color: Colors.black),
