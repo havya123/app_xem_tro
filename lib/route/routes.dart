@@ -1,9 +1,9 @@
 class Routes {
   static const String splashRoute = "/";
   static const String loginRoute = "/loginRoute";
-  static const String notFoundRoute = "/notFound";
+  static const String notFoundRoute = "/notFoundRoute";
   static const String signupRoute = "/signupRoute";
   static const String forgetRoute = "/forgetRoute";
   static const String homeRoute = "/homeRoute";
-  static const String secondSignup = "/secondsignup";
+  static const String secondSignup = "/secondSignupRoute";
 }

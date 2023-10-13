@@ -24,7 +24,7 @@ class RouteManager {
       page: () => const SignupScreen(),
     ),
     GetPage(
-      name: "/notFound",
+      name: "/notFoundRoute",
       page: () => const ErrorScreen(),
     ),
     GetPage(
@@ -35,9 +35,9 @@ class RouteManager {
       name: "/homeRoute",
       page: () => const HomeScreen(),
     ),
-    GetPage(name: "/secondsignup", page: () => const SecondSignup()),
+    GetPage(name: "/secondSignup", page: () => const SecondSignup()),
   ];
 
   static GetPage notFound =
-      GetPage(name: "/notFound", page: () => const ErrorScreen());
+      GetPage(name: "/notFoundRoute", page: () => const ErrorScreen());
 }
