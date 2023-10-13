@@ -44,25 +44,31 @@ class LoginScreen extends StatelessWidget {
               TextFieldWidget(
                 hint: 'Số điện thoại',
                 type: TextInputType.phone,
-                maxLength: 10,
+                errorText: "Hãy nhập số điện thoại",
+                numberOfLetter: 10,
+                errorPass: "Yêu cầu nhập đủ 10 chữ số điện thoại",
+                minLetter: 10,
               ),
               spaceHeight(context, height: 0.02),
               Obx(
                 () => TextFieldWidget(
-                    hint: 'Mật khẩu',
-                    isPass: showpass.value,
-                    icon: IconButton(
-                        onPressed: () {
-                          isHidden();
-                        },
-                        icon: Obx(
-                          () => Icon(
-                            showpass.value
-                                ? FontAwesomeIcons.eyeSlash
-                                : FontAwesomeIcons.eye,
-                            color: Colors.black,
-                          ),
-                        ))),
+                  hint: 'Mật khẩu',
+                  isPass: showpass.value,
+                  icon: IconButton(
+                      onPressed: () {
+                        isHidden();
+                      },
+                      icon: Obx(
+                        () => Icon(
+                          showpass.value
+                              ? FontAwesomeIcons.eyeSlash
+                              : FontAwesomeIcons.eye,
+                          color: Colors.black,
+                        ),
+                      )),
+                  minLetter: 8,
+                  errorPass: "Nhập đủ 8 ký tự",
+                ),
               ),
               spaceHeight(context),
               Row(

@@ -73,7 +73,7 @@ class SecondSignup extends StatelessWidget {
                     children: <Widget>[
                       TextFieldWidget(
                         hint: 'Họ và tên',
-                        errorText: "Hãy nhập thông tin này",
+                        errorText: "Hãy nhập họ và tên",
                       ),
                       spaceHeight(context, height: 0.015),
                       const Align(
@@ -104,8 +104,9 @@ class SecondSignup extends StatelessWidget {
                         yearFlex: 3,
                         hintTextStyle: const TextStyle(fontSize: 15),
                         // selectedDay: 14, // optional
-                        selectedMonth: 10, // optional
-                        selectedYear: 1993, // optional
+                        selectedMonth: 1, // optional
+                        selectedDay: 1,
+                        selectedYear: 2020, // optional
                         onChangedDay: (value) => print('onChangedDay: $value'),
                         onChangedMonth: (value) =>
                             print('onChangedMonth: $value'),
@@ -118,7 +119,7 @@ class SecondSignup extends StatelessWidget {
                       TextFieldWidget(
                           hint: 'Email',
                           type: TextInputType.emailAddress,
-                          errorText: "Hãy nhập thông tin này"),
+                          errorText: "Hãy nhập Email"),
                       spaceHeight(context, height: 0.015),
                       Obx(
                         () => TextFieldWidget(
@@ -136,7 +137,7 @@ class SecondSignup extends StatelessWidget {
                                   color: Colors.black,
                                 ),
                               )),
-                          errorText: "Hãy nhập thông tin này",
+                          errorText: "Hãy nhập mật khẩu",
                           errorPass: "Yêu cầu ít nhất 8 ký tự",
                           minLetter: 8,
                         ),
@@ -157,7 +158,7 @@ class SecondSignup extends StatelessWidget {
                                   color: Colors.black,
                                 ),
                               )),
-                          errorText: "Hãy nhập thông tin này",
+                          errorText: "Hãy xác nhận mật khẩu",
                           errorPass: "Yêu cầu ít nhất 8 ký tự",
                           minLetter: 8)),
                     ],
