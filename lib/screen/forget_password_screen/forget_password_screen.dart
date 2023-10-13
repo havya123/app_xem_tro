@@ -33,7 +33,7 @@ class ForgetPasswordScreen extends StatelessWidget {
                     child: TextField(
                       decoration: InputDecoration(
                         border: OutlineInputBorder(),
-                        labelText: 'Số điện thoại',
+                        labelText: 'Số điện thoạiiii',
                       ),
                     ),
                   ),
