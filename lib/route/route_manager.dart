@@ -18,9 +18,23 @@ class RouteManager {
       transition: Transition.leftToRight,
       transitionDuration: const Duration(milliseconds: 500),
     ),
-    GetPage(name: "/signupRoute", page: () => const SignupScreen()),
-    GetPage(name: "/notFound", page: () => const ErrorScreen()),
-    GetPage(name: "/forget", page: () => const ForgetPasswordScreen()),
+    GetPage(
+      name: "/signupRoute",
+      page: () => const SignupScreen(),
+    ),
+    GetPage(
+      name: "/notFoundRoute",
+      page: () => const ErrorScreen(),
+    ),
+    GetPage(
+      name: "/forgetRoute",
+      page: () => const ForgetPasswordScreen(),
+    ),
+    GetPage(
+      name: "/homeRoute",
+      page: () => const HomeScreen(),
+    ),
+    GetPage(name: "/secondSignup", page: () => const SecondSignup()),
   ];
 
   static GetPage notFound =
