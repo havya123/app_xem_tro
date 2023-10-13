@@ -37,9 +37,6 @@ class TextFieldWidget extends StatelessWidget {
       },
       keyboardType: type,
       obscureText: isPass,
-      inputFormatters: [
-        LengthLimitingTextInputFormatter(maxLength),
-      ],
       decoration: InputDecoration(
         labelText: hint,
         labelStyle: const TextStyle(color: Colors.black),

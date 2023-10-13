@@ -30,10 +30,10 @@ class RouteManager {
       name: "/forgetRoute",
       page: () => const ForgetPasswordScreen(),
     ),
-    GetPage(
-      name: "/homeRoute",
-      page: () => const HomeScreen(),
-    ),
+    // GetPage(
+    //   name: "/homeRoute",
+    //   page: () => const HomeScreen(),
+    // ),
     GetPage(name: "/secondSignup", page: () => const SecondSignup()),
   ];
 
