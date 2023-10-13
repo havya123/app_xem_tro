@@ -56,7 +56,7 @@ class SignupScreen extends StatelessWidget {
                             type: TextInputType.number,
                             errorText: "Hãy nhập mã OTP",
                             numberOfLetter: 6,
-                            errorPass: "Yêu cầu nhập đủ 6 chữ số điện thoại",
+                            errorPass: "Mã OTP gồm 6 số",
                             minLetter: 6,
                           )),
                           spaceWidth(context),
