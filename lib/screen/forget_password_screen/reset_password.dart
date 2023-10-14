@@ -21,7 +21,9 @@ class ResetPassword extends StatelessWidget {
 
     return Scaffold(
       body: Padding(
-        padding: EdgeInsets.symmetric(horizontal: 20, vertical: 20),
+        padding: EdgeInsets.symmetric(
+            horizontal: padding(context, padding: 0.05),
+            vertical: padding(context, padding: 0.12)),
         child: SingleChildScrollView(
           child: Column(
             children: [
@@ -38,7 +40,7 @@ class ResetPassword extends StatelessWidget {
                     ),
                   ),
                   spaceWidth(context, width: 0.07),
-                  Text(
+                  const Text(
                     'Quên mật khẩu',
                     style: TextStyle(fontSize: 40, fontWeight: FontWeight.bold),
                   ),
@@ -55,8 +57,8 @@ class ResetPassword extends StatelessWidget {
                       },
                       icon: Obx(
                         () => showpass.value
-                            ? Icon(FontAwesomeIcons.eyeSlash)
-                            : Icon(FontAwesomeIcons.eye),
+                            ? const Icon(FontAwesomeIcons.eyeSlash)
+                            : const Icon(FontAwesomeIcons.eye),
                       )),
                 ),
               ),
@@ -70,13 +72,13 @@ class ResetPassword extends StatelessWidget {
                       isHidden2();
                     },
                     icon: showpass2.value
-                        ? Icon(FontAwesomeIcons.eyeSlash)
-                        : Icon(FontAwesomeIcons.eye),
+                        ? const Icon(FontAwesomeIcons.eyeSlash)
+                        : const Icon(FontAwesomeIcons.eye),
                   ),
                 ),
               ),
               SizedBox(
-                height: getHeight(context, height: 0.2),
+                height: getHeight(context, height: 0.17),
               ),
               InkWell(
                 onTap: () {},
@@ -84,7 +86,7 @@ class ResetPassword extends StatelessWidget {
                   child: Container(
                     decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(30),
-                      color: Color(0xffAE89FF),
+                      color: const Color(0xffAE89FF),
                     ),
                     height: getHeight(context, height: 0.08),
                     width: double.infinity,
