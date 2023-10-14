@@ -5,7 +5,7 @@ import 'package:datepicker_dropdown/datepicker_dropdown.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get/get.dart';
-import 'package:app_xem_tro/config/extension.dart';
+import 'package:app_xem_tro/config/extension/date_dropdown.dart';
 
 class SecondSignup extends StatelessWidget {
   const SecondSignup({super.key});
@@ -21,6 +21,23 @@ class SecondSignup extends StatelessWidget {
 
     void isHidden2() {
       showpass2.value = !showpass2.value;
+    }
+
+    TextEditingController nameController = TextEditingController();
+    TextEditingController emailController = TextEditingController();
+    TextEditingController addressController = TextEditingController();
+    TextEditingController passController = TextEditingController();
+    TextEditingController confirmpassController = TextEditingController();
+
+    bool checkConfirm() {
+      if (passController.text != confirmpassController.text) {
+        confirmpassController.clear();
+        return false;
+      }
+      if (passController.text == "" && confirmpassController.text == "") {
+        return false;
+      }
+      return true;
     }
 
     return Scaffold(
@@ -74,6 +91,7 @@ class SecondSignup extends StatelessWidget {
                       TextFieldWidget(
                         hint: 'Họ và tên',
                         errorText: "Hãy nhập họ và tên",
+                        controller: nameController,
                       ),
                       spaceHeight(context, height: 0.015),
                       const Align(
@@ -114,12 +132,17 @@ class SecondSignup extends StatelessWidget {
                             print('onChangedYear: $value'),
                       ),
                       spaceHeight(context, height: 0.015),
-                      TextFieldWidget(hint: 'Địa chỉ'),
+                      TextFieldWidget(
+                        hint: 'Địa chỉ',
+                        controller: addressController,
+                      ),
                       spaceHeight(context, height: 0.015),
                       TextFieldWidget(
-                          hint: 'Email',
-                          type: TextInputType.emailAddress,
-                          errorText: "Hãy nhập Email"),
+                        hint: 'Email',
+                        type: TextInputType.emailAddress,
+                        errorText: "Hãy nhập Email",
+                        controller: emailController,
+                      ),
                       spaceHeight(context, height: 0.015),
                       Obx(
                         () => TextFieldWidget(
@@ -140,34 +163,47 @@ class SecondSignup extends StatelessWidget {
                           errorText: "Hãy nhập mật khẩu",
                           errorPass: "Yêu cầu ít nhất 8 ký tự",
                           minLetter: 8,
+                          controller: passController,
+                          isPass1: true,
                         ),
                       ),
                       spaceHeight(context, height: 0.015),
                       Obx(() => TextFieldWidget(
-                          hint: 'Xác nhận mật khẩu',
-                          isPass: showpass2.value,
-                          icon: IconButton(
-                              onPressed: () {
-                                isHidden2();
-                              },
-                              icon: Obx(
-                                () => Icon(
-                                  showpass2.value
-                                      ? FontAwesomeIcons.eyeSlash
-                                      : FontAwesomeIcons.eye,
-                                  color: Colors.black,
-                                ),
-                              )),
-                          errorText: "Hãy xác nhận mật khẩu",
-                          errorPass: "Yêu cầu ít nhất 8 ký tự",
-                          minLetter: 8)),
+                            hint: 'Xác nhận mật khẩu',
+                            isPass: showpass2.value,
+                            icon: IconButton(
+                                onPressed: () {
+                                  isHidden2();
+                                },
+                                icon: Obx(
+                                  () => Icon(
+                                    showpass2.value
+                                        ? FontAwesomeIcons.eyeSlash
+                                        : FontAwesomeIcons.eye,
+                                    color: Colors.black,
+                                  ),
+                                )),
+                            errorText: checkConfirm()
+                                ? "Hãy xác nhận mật khẩu"
+                                : "Mật khẩu không trùng khớp",
+                            errorPass: "Yêu cầu ít nhất 8 ký tự",
+                            minLetter: 8,
+                            controller: confirmpassController,
+                            isPass1: true,
+                            isConfirmPass: true,
+                          )),
                     ],
                   )),
               spaceHeight(context, height: 0.05),
               InkWell(
                 onTap: () {
-                  if (formKey.currentState!.validate()) {
-                    Get.offNamed(Routes.loginRoute);
+                  if (checkConfirm()) {
+                    if (formKey.currentState!.validate()) {
+                      Get.toNamed(Routes.loginRoute);
+                    }
+                  } else {
+                    formKey.currentState!.validate();
+                    return;
                   }
                 },
                 child: Container(

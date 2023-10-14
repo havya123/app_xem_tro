@@ -1,3 +1,5 @@
+import 'package:app_xem_tro/config/extension/email_valid_extension.dart';
+import 'package:email_validator/email_validator.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
@@ -11,6 +13,9 @@ class TextFieldWidget extends StatelessWidget {
       this.numberOfLetter,
       this.errorPass,
       this.minLetter = 0,
+      this.controller,
+      this.isPass1 = false,
+      this.isConfirmPass = false,
       super.key});
   String hint;
   Widget? icon;
@@ -20,10 +25,14 @@ class TextFieldWidget extends StatelessWidget {
   int? numberOfLetter;
   String? errorPass;
   int? minLetter;
+  TextEditingController? controller;
+  bool isPass1;
+  bool isConfirmPass;
 
   @override
   Widget build(BuildContext context) {
     return TextFormField(
+      controller: controller,
       inputFormatters: [
         LengthLimitingTextInputFormatter(numberOfLetter),
       ],
@@ -32,6 +41,10 @@ class TextFieldWidget extends StatelessWidget {
           return errorText;
         } else if (value.length < minLetter!) {
           return errorPass;
+        } else if (type == TextInputType.emailAddress) {
+          if (!controller!.text.isValidEmail()) {
+            return "Sai định dạng Email";
+          }
         }
         return null;
       },
