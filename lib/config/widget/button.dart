@@ -2,8 +2,8 @@ import 'package:app_xem_tro/config/size_config.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-class Button extends StatelessWidget {
-  Button({
+class ButtonWidget extends StatelessWidget {
+  ButtonWidget({
     required this.function,
     super.key,
     this.textButton = "",

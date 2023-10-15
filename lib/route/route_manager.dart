@@ -1,7 +1,6 @@
 import 'package:app_xem_tro/screen/chat_screen/chat_screen.dart';
 import 'package:app_xem_tro/screen/error_screen/error_screen.dart';
 import 'package:app_xem_tro/screen/forget_password_screen/forget_password_screen.dart';
-
 import 'package:app_xem_tro/screen/forget_password_screen/reset_password.dart';
 import 'package:app_xem_tro/screen/login_screen/login_screen.dart';
 import 'package:app_xem_tro/screen/signup_screen/second_signup.dart';
@@ -23,8 +22,6 @@ class RouteManager {
     GetPage(
       name: "/loginRoute",
       page: () => const LoginScreen(),
-      transition: Transition.leftToRight,
-      transitionDuration: const Duration(milliseconds: 500),
     ),
     GetPage(
       name: "/signupRoute",

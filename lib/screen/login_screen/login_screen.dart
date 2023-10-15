@@ -102,7 +102,7 @@ class LoginScreen extends StatelessWidget {
                 ],
               ),
               spaceHeight(context, height: 0.02),
-              Button(
+              ButtonWidget(
                 function: () {},
                 textButton: "Đăng nhập",
               ),

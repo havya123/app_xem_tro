@@ -90,7 +90,7 @@ class ForgetPasswordScreen extends StatelessWidget {
                 SizedBox(
                   height: getHeight(context, height: 0.15),
                 ),
-                Button(
+                ButtonWidget(
                   function: () {
                     Get.toNamed(Routes.resetRoute);
                   },

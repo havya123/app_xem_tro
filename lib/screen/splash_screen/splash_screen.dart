@@ -52,7 +52,7 @@ class SplashScreen extends StatelessWidget {
                   style: TextStyle(fontSize: 15),
                 ),
                 spaceHeight(context, height: 0.10),
-                Button(
+                ButtonWidget(
                   function: () {
                     Get.toNamed(Routes.loginRoute);
                   },

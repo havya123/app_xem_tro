@@ -1,4 +1,5 @@
 import 'package:app_xem_tro/config/size_config.dart';
+import 'package:app_xem_tro/config/widget/button.dart';
 import 'package:app_xem_tro/config/widget/text_field.dart';
 import 'package:app_xem_tro/route/routes.dart';
 import 'package:flutter/material.dart';
@@ -194,8 +195,8 @@ class SecondSignup extends StatelessWidget {
                     ],
                   )),
               spaceHeight(context, height: 0.05),
-              InkWell(
-                onTap: () {
+              ButtonWidget(
+                function: () {
                   if (checkConfirm()) {
                     if (formKey.currentState!.validate()) {
                       Get.toNamed(Routes.loginRoute);
@@ -205,25 +206,7 @@ class SecondSignup extends StatelessWidget {
                     return;
                   }
                 },
-                child: Container(
-                  width: double.infinity,
-                  height: getHeight(context, height: 0.08),
-                  decoration: BoxDecoration(
-                      gradient: const LinearGradient(colors: [
-                        Color(0xff363ff5),
-                        Color(0xff6357CC),
-                      ]),
-                      borderRadius: BorderRadius.circular(30)),
-                  child: const Center(
-                    child: Text(
-                      'Đăng ký',
-                      style: TextStyle(
-                          color: Colors.white,
-                          fontSize: 20,
-                          fontWeight: FontWeight.w600),
-                    ),
-                  ),
-                ),
+                textButton: "Xác nhận",
               ),
             ],
           ),
