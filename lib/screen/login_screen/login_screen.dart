@@ -103,7 +103,9 @@ class LoginScreen extends StatelessWidget {
               ),
               spaceHeight(context, height: 0.02),
               ButtonWidget(
-                function: () {},
+                function: () {
+                  Get.offAllNamed(Routes.navigationRoute);
+                },
                 textButton: "Đăng nhập",
               ),
               spaceHeight(context),
