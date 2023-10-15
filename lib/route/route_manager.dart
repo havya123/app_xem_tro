@@ -1,9 +1,9 @@
+import 'package:app_xem_tro/screen/chat_screen/chat_screen.dart';
 import 'package:app_xem_tro/screen/error_screen/error_screen.dart';
 import 'package:app_xem_tro/screen/forget_password_screen/forget_password_screen.dart';
 
 import 'package:app_xem_tro/screen/forget_password_screen/reset_password.dart';
 import 'package:app_xem_tro/screen/login_screen/login_screen.dart';
-import 'package:app_xem_tro/screen/signup_screen/second_signup.dart';
 import 'package:app_xem_tro/screen/signup_screen/signup_screen.dart';
 import 'package:app_xem_tro/screen/splash_screen/splash_screen.dart';
 import 'package:get/get.dart';
@@ -37,10 +37,9 @@ class RouteManager {
     //   page: () => const HomeScreen(),
     // ),
     GetPage(
-      name: "/resetRoute",
-      page: () => const ResetPassword(),
-    ),
-    GetPage(name: "/secondSignupRoute", page: () => const SecondSignup()),
+      name: "/homeRoute",
+      page: () => const HomeScreen(),
+    )
   ];
 
   static GetPage notFound =

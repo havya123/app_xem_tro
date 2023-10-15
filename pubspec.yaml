@@ -40,6 +40,8 @@ dependencies:
   datepicker_dropdown: ^0.0.8
   email_validator: ^2.1.17
 
+  transparent_image: ^2.0.1
+  persistent_bottom_nav_bar: ^5.0.2
 dev_dependencies:
   flutter_test:
     sdk: flutter

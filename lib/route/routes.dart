@@ -9,4 +9,5 @@ class Routes {
   static const String resetRoute = "/resetRoute";
   static const String forgetRoute = "/forgetRoute";
   static const String secondSignup = "/secondSignupRoute";
+  static const String navigationRoute = "/navigationRoute";
 }
