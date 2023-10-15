@@ -3,18 +3,24 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 class Button extends StatelessWidget {
-  Button(
-      {required this.function,
-      super.key,
-      this.textButton = "",
-      required this.isLoading});
+  Button({
+    required this.function,
+    super.key,
+    this.textButton = "",
+  });
   VoidCallback function;
   String textButton;
-  RxBool isLoading;
   @override
   Widget build(BuildContext context) {
+    var isLoading = false.obs;
     return InkWell(
-      onTap: function,
+      onTap: () async {
+        if (isLoading.value) return;
+        isLoading.value = !isLoading.value;
+        await Future.delayed(const Duration(seconds: 2));
+        isLoading.value = !isLoading.value;
+        function();
+      },
       child: Ink(
         child: Container(
           width: double.infinity,

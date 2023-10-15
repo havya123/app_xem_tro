@@ -1,7 +1,6 @@
 import 'package:app_xem_tro/config/size_config.dart';
 import 'package:app_xem_tro/config/widget/text_field.dart';
 import 'package:app_xem_tro/route/routes.dart';
-import 'package:datepicker_dropdown/datepicker_dropdown.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get/get.dart';
@@ -97,7 +96,7 @@ class SecondSignup extends StatelessWidget {
                       const Align(
                         alignment: Alignment.centerLeft,
                         child: Text(
-                          'Ngày tháng năm sinh',
+                          'Ngày sinh',
                           style: TextStyle(color: Colors.black, fontSize: 16),
                         ),
                       ),

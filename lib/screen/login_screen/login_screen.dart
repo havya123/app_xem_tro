@@ -6,7 +6,6 @@ import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get/get.dart';
 import 'package:app_xem_tro/route/routes.dart';
-import 'package:get/get.dart';
 
 class LoginScreen extends StatelessWidget {
   const LoginScreen({super.key});
@@ -17,8 +16,6 @@ class LoginScreen extends StatelessWidget {
     void isHidden() {
       showpass.value = !showpass.value;
     }
-
-    var isLoading = false.obs;
 
     return Scaffold(
       body: Padding(
@@ -38,7 +35,7 @@ class LoginScreen extends StatelessWidget {
                 ),
               ),
               const Text(
-                'Login',
+                'Đăng nhập',
                 style: TextStyle(fontSize: 30, fontWeight: FontWeight.bold),
               ),
               spaceHeight(context, height: 0.04),
@@ -88,12 +85,17 @@ class LoginScreen extends StatelessWidget {
                   Expanded(
                     child: TextButton(
                       onPressed: () {},
-                      child: const Text(
-                        'Quên mật khẩu ?',
-                        style: TextStyle(
-                            color: Colors.black,
-                            fontSize: 17,
-                            fontWeight: FontWeight.bold),
+                      child: TextButton(
+                        onPressed: () {
+                          Get.toNamed(Routes.forgetRoute);
+                        },
+                        child: const Text(
+                          'Quên mật khẩu ?',
+                          style: TextStyle(
+                              color: Colors.black,
+                              fontSize: 17,
+                              fontWeight: FontWeight.bold),
+                        ),
                       ),
                     ),
                   ),
@@ -101,14 +103,8 @@ class LoginScreen extends StatelessWidget {
               ),
               spaceHeight(context, height: 0.02),
               Button(
-                function: () async {
-                  if (isLoading.value) return;
-                  isLoading.value = !isLoading.value;
-                  await Future.delayed(const Duration(seconds: 2));
-                  Navigator.pushReplacementNamed(context, Routes.homeRoute);
-                },
+                function: () {},
                 textButton: "Đăng nhập",
-                isLoading: isLoading,
               ),
               spaceHeight(context),
               Row(
@@ -120,7 +116,7 @@ class LoginScreen extends StatelessWidget {
                   ),
                   TextButton(
                       onPressed: () {
-                        Navigator.pushNamed(context, Routes.signupRoute);
+                        Get.toNamed(Routes.signupRoute);
                       },
                       child: Text(
                         'Đăng ký',

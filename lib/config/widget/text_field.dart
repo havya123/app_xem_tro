@@ -53,6 +53,12 @@ class TextFieldWidget extends StatelessWidget {
       decoration: InputDecoration(
         labelText: hint,
         labelStyle: const TextStyle(color: Colors.black),
+        focusedErrorBorder: const OutlineInputBorder(
+            borderSide: BorderSide(color: Colors.black),
+            borderRadius: BorderRadius.all(Radius.circular(10))),
+        errorBorder: const OutlineInputBorder(
+            borderSide: BorderSide(color: Colors.black),
+            borderRadius: BorderRadius.all(Radius.circular(10))),
         enabledBorder: const OutlineInputBorder(
             borderSide: BorderSide(color: Colors.black),
             borderRadius: BorderRadius.all(Radius.circular(10))),

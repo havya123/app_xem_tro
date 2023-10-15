@@ -40,7 +40,7 @@ class RouteManager {
       name: "/resetRoute",
       page: () => const ResetPassword(),
     ),
-    GetPage(name: "/secondSignup", page: () => const SecondSignup()),
+    GetPage(name: "/secondSignupRoute", page: () => const SecondSignup()),
   ];
 
   static GetPage notFound =

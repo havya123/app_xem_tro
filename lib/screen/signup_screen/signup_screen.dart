@@ -1,7 +1,7 @@
 import 'package:app_xem_tro/config/size_config.dart';
+import 'package:app_xem_tro/config/widget/button.dart';
 import 'package:app_xem_tro/config/widget/text_field.dart';
 import 'package:app_xem_tro/route/routes.dart';
-import 'package:app_xem_tro/screen/login_screen/login_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -82,28 +82,13 @@ class SignupScreen extends StatelessWidget {
                     ],
                   )),
               spaceHeight(context),
-              InkWell(
-                onTap: () {
+              ButtonWidget(
+                function: () {
                   if (formKey.currentState!.validate()) {
                     Get.toNamed(Routes.secondSignup);
                   }
                 },
-                child: Container(
-                  width: double.infinity,
-                  height: getHeight(context, height: 0.08),
-                  decoration: BoxDecoration(
-                      color: const Color(0xff315EE7),
-                      borderRadius: BorderRadius.circular(20)),
-                  child: const Center(
-                    child: Text(
-                      'Xác nhận',
-                      style: TextStyle(
-                          color: Colors.white,
-                          fontSize: 20,
-                          fontWeight: FontWeight.w600),
-                    ),
-                  ),
-                ),
+                textButton: "Xác nhận",
               ),
               spaceHeight(context, height: 0.015),
               TextButton(

@@ -1,5 +1,7 @@
+import 'package:app_xem_tro/config/widget/button.dart';
 import 'package:flutter/material.dart';
 import 'package:app_xem_tro/route/routes.dart';
+import 'package:get/get.dart';
 
 import '../../config/size_config.dart';
 
@@ -50,30 +52,12 @@ class SplashScreen extends StatelessWidget {
                   style: TextStyle(fontSize: 15),
                 ),
                 spaceHeight(context, height: 0.10),
-                InkWell(
-                  onTap: () {
-                    Navigator.pushReplacementNamed(context, Routes.loginRoute);
+                Button(
+                  function: () {
+                    Get.toNamed(Routes.loginRoute);
                   },
-                  child: Ink(
-                    child: Container(
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(30),
-                        color: Colors.blue,
-                      ),
-                      height: getHeight(context, height: 0.08),
-                      width: double.infinity,
-                      child: const Center(
-                        child: Text(
-                          'Get Started',
-                          style: TextStyle(
-                              fontSize: 20,
-                              fontWeight: FontWeight.bold,
-                              color: Colors.white),
-                        ),
-                      ),
-                    ),
-                  ),
-                )
+                  textButton: "Get Started",
+                ),
               ],
             ),
           ),
