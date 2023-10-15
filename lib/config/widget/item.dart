@@ -55,17 +55,21 @@ class Item extends StatelessWidget {
                               ),
                             ),
                             spaceWidth(context, width: 0.02),
-                            const Text(
+                            Text(
                               "4.8(73)",
-                              style: TextStyle(fontWeight: FontWeight.bold),
+                              style: smallTextStyle(context),
                             ),
                           ],
                         ),
-                        const Text("Nhà trọ siêu cấp vip pro"),
+                        Text(
+                          "Nhà trọ siêu cấp vip pro",
+                          style: smallTextStyle(context, size: 0.018),
+                        ),
                         spaceHeight(context, height: 0.01),
-                        const Text(
+                        Text(
                           "Địa chỉ",
-                          style: TextStyle(color: Colors.grey),
+                          style: smallTextStyle(context,
+                              color: Colors.grey, size: 0.018),
                         ),
                         spaceHeight(context, height: 0.01),
                         Row(
@@ -74,27 +78,39 @@ class Item extends StatelessWidget {
                               children: [
                                 const Icon(Icons.bed),
                                 spaceWidth(context, width: 0.02),
-                                const Text("2 Room"),
+                                Text(
+                                  "2 Room",
+                                  style: smallTextStyle(context),
+                                ),
                                 spaceWidth(context, width: 0.04),
                                 const Icon(Icons.bed),
                                 spaceWidth(context, width: 0.02),
-                                const Text("2 Room")
+                                Text(
+                                  "2 Room",
+                                  style: smallTextStyle(context),
+                                )
                               ],
                             )
                           ],
                         ),
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            const Text(
-                              "\$ 526/month",
-                              style: TextStyle(
-                                  fontWeight: FontWeight.bold, fontSize: 17),
-                            ),
-                            IconButton(
-                                onPressed: () {},
-                                icon: const Icon(FontAwesomeIcons.heart))
-                          ],
+                        Expanded(
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              Text(
+                                "\$ 526/month",
+                                style: mediumTextStyle(
+                                  context,
+                                ),
+                              ),
+                              IconButton(
+                                  onPressed: () {},
+                                  icon: Icon(
+                                    FontAwesomeIcons.heart,
+                                    size: getWidth(context, width: 0.05),
+                                  ))
+                            ],
+                          ),
                         )
                       ],
                     ),

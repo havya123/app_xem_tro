@@ -16,10 +16,7 @@ class HomeScreen extends StatelessWidget {
               Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
             Text(
               "Vị trí hiện tại",
-              style: TextStyle(
-                  color: Colors.grey.shade500,
-                  fontSize: 15,
-                  fontWeight: FontWeight.w500),
+              style: mediumTextStyle(context),
             ),
             spaceHeight(context, height: 0.02),
             Row(
@@ -33,13 +30,7 @@ class HomeScreen extends StatelessWidget {
                   ),
                 ),
                 spaceWidth(context),
-                const Text(
-                  "Bành chính",
-                  style: TextStyle(
-                      fontWeight: FontWeight.bold,
-                      fontSize: 25,
-                      color: Colors.black),
-                )
+                Text("Bành chính", style: largeTextStyle(context))
               ],
             ),
             spaceHeight(context, height: 0.02),
@@ -65,37 +56,25 @@ class HomeScreen extends StatelessWidget {
                         ),
                       ),
                       spaceWidth(context, width: 0.04),
-                      const Text(
+                      Text(
                         "Tìm địa điểm",
-                        style: TextStyle(color: Colors.grey, fontSize: 16),
+                        style: mediumTextStyle(context),
                       )
                     ]),
               ),
             ),
             spaceHeight(context),
-            const Text(
-              "Welcome to ...",
-              style: TextStyle(
-                  color: Colors.black,
-                  fontSize: 25,
-                  fontWeight: FontWeight.bold),
-            ),
+            Text("Welcome to ...", style: largeTextStyle(context)),
             spaceHeight(context),
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                const Text(
-                  "Gần bạn",
-                  style: TextStyle(
-                      color: Colors.black,
-                      fontWeight: FontWeight.bold,
-                      fontSize: 25),
-                ),
+                Text("Gần bạn", style: largeTextStyle(context)),
                 TextButton(
                     onPressed: () {},
-                    child: const Text(
-                      "See all",
-                      style: TextStyle(color: Colors.blue, fontSize: 18),
+                    child: Text(
+                      "Xem tất cả",
+                      style: mediumTextStyle(context, color: Colors.blue),
                     ))
               ],
             ),
@@ -116,18 +95,15 @@ class HomeScreen extends StatelessWidget {
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                const Text(
+                Text(
                   "Top đánh giá ",
-                  style: TextStyle(
-                      color: Colors.black,
-                      fontWeight: FontWeight.bold,
-                      fontSize: 25),
+                  style: largeTextStyle(context),
                 ),
                 TextButton(
                     onPressed: () {},
-                    child: const Text(
-                      "See all",
-                      style: TextStyle(color: Colors.blue, fontSize: 18),
+                    child: Text(
+                      "Xem tất cả",
+                      style: mediumTextStyle(context, color: Colors.blue),
                     ))
               ],
             ),

@@ -21,17 +21,17 @@ class NavigationScreen extends StatelessWidget {
 
     List<PersistentBottomNavBarItem> barItem = [
       PersistentBottomNavBarItem(
-        icon: const Icon(Icons.home),
-      ),
+          icon: const Icon(Icons.home), inactiveColorPrimary: Colors.black),
       PersistentBottomNavBarItem(
-        icon: const Icon(FontAwesomeIcons.heart),
-      ),
+          icon: const Icon(
+            FontAwesomeIcons.heart,
+          ),
+          inactiveColorPrimary: Colors.black),
       PersistentBottomNavBarItem(
-        icon: const Icon(FontAwesomeIcons.message),
-      ),
+          icon: const Icon(FontAwesomeIcons.message),
+          inactiveColorPrimary: Colors.black),
       PersistentBottomNavBarItem(
-        icon: const Icon(Icons.person),
-      ),
+          icon: const Icon(Icons.person), inactiveColorPrimary: Colors.black),
     ];
 
     return PersistentTabView(
@@ -44,9 +44,6 @@ class NavigationScreen extends StatelessWidget {
           borderRadius(context),
         ),
       ),
-      bottomScreenMargin: 20,
-      resizeToAvoidBottomInset: true,
-      margin: const EdgeInsets.symmetric(horizontal: 20),
     );
   }
 }
