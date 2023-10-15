@@ -67,7 +67,7 @@ class ResetPassword extends StatelessWidget {
               SizedBox(
                 height: getHeight(context, height: 0.17),
               ),
-              Button(
+              ButtonWidget(
                 function: () async {
                   Get.offAllNamed(Routes.loginRoute);
                 },
