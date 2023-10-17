@@ -8,6 +8,8 @@ import 'package:app_xem_tro/screen/navigation_screen.dart/navigation_screen.dart
 import 'package:app_xem_tro/screen/profile_screen/profile_screen.dart';
 import 'package:app_xem_tro/screen/save_screen/save_screen.dart';
 import 'package:app_xem_tro/screen/signup_screen/signup_screen.dart';
+import 'package:app_xem_tro/screen/splash_admin/admin_login.dart';
+import 'package:app_xem_tro/screen/splash_admin/splash_screen_admin.dart';
 import 'package:app_xem_tro/screen/splash_screen/splash_screen.dart';
 import 'package:get/get.dart';
 
@@ -59,6 +61,14 @@ class RouteManager {
     GetPage(
       name: "/profileRoute",
       page: () => const ProfileScreen(),
+    ),
+    GetPage(
+      name: "/splash_adminRoute",
+      page: () => const SplashScreenAdmin(),
+    ),
+    GetPage(
+      name: "/admin_loginRoute",
+      page: () => const AdminLogin(),
     ),
   ];
 
