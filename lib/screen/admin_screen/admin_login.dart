@@ -11,6 +11,7 @@ class AdminLogin extends StatelessWidget {
   const AdminLogin({super.key});
   @override
   Widget build(BuildContext context) {
+    final formKey = GlobalKey<FormState>();
     var showpass = true.obs;
     void isHidden() {
       showpass.value = !showpass.value;
@@ -56,61 +57,63 @@ class AdminLogin extends StatelessWidget {
                     fit: BoxFit.contain,
                   ),
                 ),
-                const Text(
+                Text(
                   'Admin Login',
-                  style: TextStyle(
-                      fontSize: 30,
-                      fontWeight: FontWeight.bold,
-                      color: Colors.black),
+                  style: largeTextStyle(context, size: 0.04),
                 ),
                 SizedBox(
                   height: getHeight(context, height: 0.05),
                 ),
-                TextFieldWidget(
-                  hint: 'Số điện thoại',
-                  type: TextInputType.phone,
-                  errorText: "Hãy nhập số điện thoại",
-                  numberOfLetter: 10,
-                  errorPass: "Yêu cầu nhập đủ 10 số điện thoại",
-                  minLetter: 10,
-                ),
-                SizedBox(
-                  height: getHeight(context, height: 0.03),
-                ),
-                Obx(
-                  () => TextFieldWidget(
-                    hint: 'Mật khẩu',
-                    isPass: showpass.value,
-                    icon: IconButton(
-                      onPressed: () {
-                        isHidden();
-                      },
-                      icon: Obx(
-                        () => Icon(
-                          showpass.value
-                              ? FontAwesomeIcons.eyeSlash
-                              : FontAwesomeIcons.eye,
-                          color: Colors.black,
+                Form(
+                  key: formKey,
+                  child: Column(
+                    children: [
+                      TextFieldWidget(
+                        hint: 'Số điện thoại',
+                        type: TextInputType.phone,
+                        errorText: "Hãy nhập số điện thoại",
+                        numberOfLetter: 10,
+                        errorPass: "Yêu cầu nhập đủ 10 số điện thoại",
+                        minLetter: 10,
+                      ),
+                      SizedBox(
+                        height: getHeight(context, height: 0.03),
+                      ),
+                      Obx(
+                        () => TextFieldWidget(
+                          hint: 'Mật khẩu',
+                          isPass: showpass.value,
+                          icon: IconButton(
+                            onPressed: () {
+                              isHidden();
+                            },
+                            icon: Obx(
+                              () => Icon(
+                                showpass.value
+                                    ? FontAwesomeIcons.eyeSlash
+                                    : FontAwesomeIcons.eye,
+                                color: Colors.black,
+                              ),
+                            ),
+                          ),
+                          minLetter: 8,
+                          errorText: "Hãy nhập mật khẩu",
+                          errorPass: "Nhập đủ 8 ký tự",
                         ),
                       ),
-                    ),
-                    minLetter: 8,
-                    errorPass: "Nhập đủ 8 ký tự",
+                    ],
                   ),
                 ),
                 SizedBox(
                   height: getHeight(context, height: 0.01),
                 ),
-                const Row(
+                Row(
                   children: [
                     CheckboxExample(),
                     Expanded(
                       child: Text(
                         'Ghi nhớ tài khoản',
-                        style: TextStyle(
-                            color: Colors.black,
-                            fontSize: 15,
-                            fontWeight: FontWeight.bold),
+                        style: smallTextStyle(context, size: 0.025),
                       ),
                     )
                   ],
@@ -119,7 +122,11 @@ class AdminLogin extends StatelessWidget {
                   height: getHeight(context, height: 0.01),
                 ),
                 InkWell(
-                  onTap: () {},
+                  onTap: () {
+                    if (formKey.currentState!.validate()) {
+                      return;
+                    }
+                  },
                   child: Ink(
                     child: Container(
                       height: getHeight(context, height: 0.09),
@@ -127,13 +134,11 @@ class AdminLogin extends StatelessWidget {
                         borderRadius: BorderRadius.circular(25),
                         color: const Color.fromARGB(255, 141, 51, 186),
                       ),
-                      child: const Center(
+                      child: Center(
                         child: Text(
                           'Xác nhận',
-                          style: TextStyle(
-                              fontSize: 20,
-                              fontWeight: FontWeight.bold,
-                              color: Colors.white),
+                          style: mediumTextStyle(context,
+                              color: Colors.white, size: 0.03),
                         ),
                       ),
                     ),

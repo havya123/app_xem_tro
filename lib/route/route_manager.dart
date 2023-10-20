@@ -63,11 +63,11 @@ class RouteManager {
       page: () => const ProfileScreen(),
     ),
     GetPage(
-      name: "/splashadminRoute",
+      name: "/splashAdminRoute",
       page: () => const SplashScreenAdmin(),
     ),
     GetPage(
-      name: "/adminloginRoute",
+      name: "/adminLoginRoute",
       page: () => const AdminLogin(),
     ),
   ];

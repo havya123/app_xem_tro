@@ -14,7 +14,7 @@ class _AppXemTroState extends State<AppXemTro> {
   @override
   Widget build(BuildContext context) {
     return GetMaterialApp(
-      initialRoute: Routes.adminloginRoute,
+      initialRoute: Routes.adminLoginRoute,
       debugShowCheckedModeBanner: false,
       getPages: RouteManager.routeManager,
       unknownRoute: RouteManager.notFound,
