@@ -24,31 +24,24 @@ class SplashScreenAdmin extends StatelessWidget {
           ),
           spaceHeight(context, height: 0.02),
           Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 20),
+            padding: EdgeInsets.symmetric(
+                horizontal: getHeight(context, height: 0.05)),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                const Text(
-                  'Welcome to ',
-                  style: TextStyle(
-                    fontSize: 35,
-                  ),
-                ),
+                Text('Welcome to ', style: largeTextStyle(context, size: 0.05)),
                 spaceHeight(context, height: 0.01),
-                const Text(
+                Text(
                   'Admin',
-                  style: TextStyle(fontSize: 50, fontWeight: FontWeight.bold),
+                  style: largeTextStyle(context, size: 0.05),
                 ),
                 spaceHeight(context, height: 0.03),
-                const Text(
-                  'Find the tenant, list your property in just a simple stepts, in your hand.',
-                  style: TextStyle(fontSize: 15),
-                ),
+                Text(
+                    'Find the tenant, list your property in just a simple stepts, in your hand.',
+                    style: smallTextStyle(context, size: 0.02)),
                 spaceHeight(context, height: 0.03),
-                const Text(
-                  'You are one step away.',
-                  style: TextStyle(fontSize: 15),
-                ),
+                Text('You are one step away.',
+                    style: smallTextStyle(context, size: 0.02)),
                 spaceHeight(context, height: 0.10),
                 ButtonWidget(
                   function: () {
