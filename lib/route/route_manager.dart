@@ -3,6 +3,7 @@ import 'package:app_xem_tro/screen/error_screen/error_screen.dart';
 import 'package:app_xem_tro/screen/forget_password_screen/forget_password_screen.dart';
 import 'package:app_xem_tro/screen/forget_password_screen/reset_password.dart';
 import 'package:app_xem_tro/screen/login_screen/login_screen.dart';
+import 'package:app_xem_tro/screen/search_screen/search_screen.dart';
 import 'package:app_xem_tro/screen/signup_screen/second_signup.dart';
 import 'package:app_xem_tro/screen/navigation_screen.dart/navigation_screen.dart';
 import 'package:app_xem_tro/screen/profile_screen/profile_screen.dart';
@@ -59,6 +60,10 @@ class RouteManager {
     GetPage(
       name: "/profileRoute",
       page: () => const ProfileScreen(),
+    ),
+    GetPage(
+      name: "/searchRoute",
+      page: () => const SearchScreen(),
     ),
   ];
 

@@ -1,6 +1,7 @@
 import 'package:app_xem_tro/config/size_config.dart';
 import 'package:app_xem_tro/config/widget/button.dart';
-import 'package:app_xem_tro/config/widget/checkbox.dart';
+import 'package:app_xem_tro/config/widget/check_box.dart';
+
 import 'package:app_xem_tro/config/widget/text_field.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
