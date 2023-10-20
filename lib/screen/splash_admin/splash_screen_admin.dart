@@ -52,7 +52,7 @@ class SplashScreenAdmin extends StatelessWidget {
                 spaceHeight(context, height: 0.10),
                 ButtonWidget(
                   function: () {
-                    Get.toNamed(Routes.splash_adminRoute);
+                    Get.toNamed(Routes.splashadminRoute);
                   },
                   textButton: "Get Started",
                 ),

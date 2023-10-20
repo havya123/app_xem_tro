@@ -10,6 +10,6 @@ class Routes {
   static const String forgetRoute = "/forgetRoute";
   static const String secondSignup = "/secondSignupRoute";
   static const String navigationRoute = "/navigationRoute";
-  static const String splash_adminRoute = "/splash_adminRoute";
-  static const String admin_login = "/admin_loginRoute";
+  static const String splashadminRoute = "/splash_adminRoute";
+  static const String adminlogin = "/admin_loginRoute";
 }
