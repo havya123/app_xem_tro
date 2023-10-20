@@ -192,15 +192,39 @@ class _SearchScreenState extends State<SearchScreen> {
                       size: 0.023, color: Colors.grey.shade600),
                 ),
                 spaceHeight(context, height: 0.023),
-                SizedBox(
-                    width: double.infinity,
-                    height: getHeight(context, height: 0.07),
-                    child: TextFieldWidget(hint: "Tối thiểu")),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    SizedBox(
+                        width: getWidth(context, width: 0.45),
+                        height: getHeight(context, height: 0.07),
+                        child: TextFieldWidget(
+                          hint: "Tối thiểu",
+                          type: TextInputType.number,
+                        )),
+                    Text(
+                      "VND",
+                      style: mediumTextStyle(context),
+                    )
+                  ],
+                ),
                 spaceHeight(context),
-                SizedBox(
-                    width: double.infinity,
-                    height: getHeight(context, height: 0.07),
-                    child: TextFieldWidget(hint: "Tối đa")),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    SizedBox(
+                        width: getWidth(context, width: 0.45),
+                        height: getHeight(context, height: 0.07),
+                        child: TextFieldWidget(
+                          hint: "Tối đa",
+                          type: TextInputType.number,
+                        )),
+                    Text(
+                      "VND",
+                      style: mediumTextStyle(context),
+                    )
+                  ],
+                ),
                 spaceHeight(context, height: 0.023),
                 const Divider(
                   color: Colors.black,
