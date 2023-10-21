@@ -1,5 +1,4 @@
 import 'package:app_xem_tro/config/size_config.dart';
-import 'package:app_xem_tro/config/widget/item.dart';
 import 'package:flutter/material.dart';
 
 class HomeScreen extends StatelessWidget {
@@ -16,7 +15,10 @@ class HomeScreen extends StatelessWidget {
               Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
             Text(
               "Vị trí hiện tại",
-              style: mediumTextStyle(context),
+              style: TextStyle(
+                  color: Colors.grey.shade500,
+                  fontSize: 15,
+                  fontWeight: FontWeight.w500),
             ),
             spaceHeight(context, height: 0.02),
             Row(
@@ -25,12 +27,18 @@ class HomeScreen extends StatelessWidget {
                   height: getHeight(context, height: 0.06),
                   width: getWidth(context, width: 0.06),
                   child: Image.asset(
-                    "assets/images/home_img/location.png",
+                    "assets/images/splash_img/splash_icon.png",
                     fit: BoxFit.contain,
                   ),
                 ),
                 spaceWidth(context),
-                Text("Bành chính", style: largeTextStyle(context))
+                const Text(
+                  "Bành chính",
+                  style: TextStyle(
+                      fontWeight: FontWeight.bold,
+                      fontSize: 25,
+                      color: Colors.black),
+                )
               ],
             ),
             spaceHeight(context, height: 0.02),
@@ -56,35 +64,55 @@ class HomeScreen extends StatelessWidget {
                         ),
                       ),
                       spaceWidth(context, width: 0.04),
-                      Text(
+                      const Text(
                         "Tìm địa điểm",
-                        style: mediumTextStyle(context),
+                        style: TextStyle(color: Colors.grey, fontSize: 16),
                       )
                     ]),
               ),
             ),
             spaceHeight(context),
-            Text("Welcome to ...", style: largeTextStyle(context)),
+            const Text(
+              "Welcome to ...",
+              style: TextStyle(
+                  color: Colors.black,
+                  fontSize: 25,
+                  fontWeight: FontWeight.bold),
+            ),
             spaceHeight(context),
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                Text("Gần bạn", style: largeTextStyle(context)),
+                const Text(
+                  "Gần bạn",
+                  style: TextStyle(
+                      color: Colors.black,
+                      fontWeight: FontWeight.bold,
+                      fontSize: 25),
+                ),
                 TextButton(
                     onPressed: () {},
-                    child: Text(
-                      "Xem tất cả",
-                      style: mediumTextStyle(context, color: Colors.blue),
+                    child: const Text(
+                      "See all",
+                      style: TextStyle(color: Colors.blue, fontSize: 18),
                     ))
               ],
             ),
             spaceHeight(context, height: 0.02),
             SizedBox(
-              height: getHeight(context, height: 0.2),
+              height: getHeight(context, height: 0.4),
               child: ListView.separated(
                   scrollDirection: Axis.horizontal,
                   itemBuilder: (context, index) {
-                    return const Item();
+                    return AspectRatio(
+                      aspectRatio: 1,
+                      child: Container(
+                        decoration: BoxDecoration(
+                            color: Colors.yellow,
+                            borderRadius:
+                                BorderRadius.circular(borderRadius(context))),
+                      ),
+                    );
                   },
                   separatorBuilder: (context, index) {
                     return spaceWidth(context);
@@ -95,25 +123,36 @@ class HomeScreen extends StatelessWidget {
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                Text(
+                const Text(
                   "Top đánh giá ",
-                  style: largeTextStyle(context),
+                  style: TextStyle(
+                      color: Colors.black,
+                      fontWeight: FontWeight.bold,
+                      fontSize: 25),
                 ),
                 TextButton(
                     onPressed: () {},
-                    child: Text(
-                      "Xem tất cả",
-                      style: mediumTextStyle(context, color: Colors.blue),
+                    child: const Text(
+                      "See all",
+                      style: TextStyle(color: Colors.blue, fontSize: 18),
                     ))
               ],
             ),
             spaceHeight(context, height: 0.02),
             SizedBox(
-              height: getHeight(context, height: 0.2),
+              height: getHeight(context, height: 0.4),
               child: ListView.separated(
                   scrollDirection: Axis.horizontal,
                   itemBuilder: (context, index) {
-                    return const Item();
+                    return AspectRatio(
+                      aspectRatio: 1,
+                      child: Container(
+                        decoration: BoxDecoration(
+                            color: Colors.yellow,
+                            borderRadius:
+                                BorderRadius.circular(borderRadius(context))),
+                      ),
+                    );
                   },
                   separatorBuilder: (context, index) {
                     return spaceWidth(context);

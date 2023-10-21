@@ -1,26 +1,22 @@
+// ignore_for_file: must_be_immutable
+
 import 'package:app_xem_tro/config/size_config.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-class ButtonWidget extends StatelessWidget {
-  ButtonWidget({
-    required this.function,
-    super.key,
-    this.textButton = "",
-  });
+class Button extends StatelessWidget {
+  Button(
+      {required this.function,
+      super.key,
+      this.textButton = "",
+      required this.isLoading});
   VoidCallback function;
   String textButton;
+  RxBool isLoading;
   @override
   Widget build(BuildContext context) {
-    var isLoading = false.obs;
     return InkWell(
-      onTap: () async {
-        if (isLoading.value) return;
-        isLoading.value = !isLoading.value;
-        await Future.delayed(const Duration(seconds: 2));
-        isLoading.value = !isLoading.value;
-        function();
-      },
+      onTap: function,
       child: Ink(
         child: Container(
           width: double.infinity,

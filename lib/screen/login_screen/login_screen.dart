@@ -1,3 +1,5 @@
+// ignore_for_file: use_build_context_synchronously
+
 import 'package:app_xem_tro/config/size_config.dart';
 import 'package:app_xem_tro/config/widget/button.dart';
 import 'package:app_xem_tro/config/widget/checkbox.dart';
@@ -17,6 +19,8 @@ class LoginScreen extends StatelessWidget {
       showpass.value = !showpass.value;
     }
 
+    var isLoading = false.obs;
+
     return Scaffold(
       body: Padding(
         padding: EdgeInsets.symmetric(
@@ -35,38 +39,32 @@ class LoginScreen extends StatelessWidget {
                 ),
               ),
               const Text(
-                'Đăng nhập',
+                'Login',
                 style: TextStyle(fontSize: 30, fontWeight: FontWeight.bold),
               ),
-              spaceHeight(context, height: 0.04),
+              spaceHeight(context),
               TextFieldWidget(
                 hint: 'Số điện thoại',
                 type: TextInputType.phone,
-                errorText: "Hãy nhập số điện thoại",
-                numberOfLetter: 10,
-                errorPass: "Yêu cầu nhập đủ 10 chữ số điện thoại",
-                minLetter: 10,
+                maxLength: 10,
               ),
               spaceHeight(context, height: 0.02),
               Obx(
                 () => TextFieldWidget(
-                  hint: 'Mật khẩu',
-                  isPass: showpass.value,
-                  icon: IconButton(
-                      onPressed: () {
-                        isHidden();
-                      },
-                      icon: Obx(
-                        () => Icon(
-                          showpass.value
-                              ? FontAwesomeIcons.eyeSlash
-                              : FontAwesomeIcons.eye,
-                          color: Colors.black,
-                        ),
-                      )),
-                  minLetter: 8,
-                  errorPass: "Nhập đủ 8 ký tự",
-                ),
+                    hint: 'Mật khẩu',
+                    isPass: showpass.value,
+                    icon: IconButton(
+                        onPressed: () {
+                          isHidden();
+                        },
+                        icon: Obx(
+                          () => Icon(
+                            showpass.value
+                                ? FontAwesomeIcons.eyeSlash
+                                : FontAwesomeIcons.eye,
+                            color: Colors.black,
+                          ),
+                        ))),
               ),
               spaceHeight(context),
               Row(
@@ -85,28 +83,27 @@ class LoginScreen extends StatelessWidget {
                   Expanded(
                     child: TextButton(
                       onPressed: () {},
-                      child: TextButton(
-                        onPressed: () {
-                          Get.toNamed(Routes.forgetRoute);
-                        },
-                        child: const Text(
-                          'Quên mật khẩu ?',
-                          style: TextStyle(
-                              color: Colors.black,
-                              fontSize: 17,
-                              fontWeight: FontWeight.bold),
-                        ),
+                      child: const Text(
+                        'Quên mật khẩu ?',
+                        style: TextStyle(
+                            color: Colors.black,
+                            fontSize: 17,
+                            fontWeight: FontWeight.bold),
                       ),
                     ),
                   ),
                 ],
               ),
               spaceHeight(context, height: 0.02),
-              ButtonWidget(
-                function: () {
-                  Get.offAllNamed(Routes.navigationRoute);
+              Button(
+                function: () async {
+                  if (isLoading.value) return;
+                  isLoading.value = !isLoading.value;
+                  await Future.delayed(const Duration(seconds: 2));
+                  Navigator.pushReplacementNamed(context, Routes.proflieRoute);
                 },
                 textButton: "Đăng nhập",
+                isLoading: isLoading,
               ),
               spaceHeight(context),
               Row(
@@ -118,7 +115,7 @@ class LoginScreen extends StatelessWidget {
                   ),
                   TextButton(
                       onPressed: () {
-                        Get.toNamed(Routes.signupRoute);
+                        Navigator.pushNamed(context, Routes.signupRoute);
                       },
                       child: Text(
                         'Đăng ký',
