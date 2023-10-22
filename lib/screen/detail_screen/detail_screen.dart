@@ -1,5 +1,10 @@
 import 'package:app_xem_tro/config/size_config.dart';
+import 'package:app_xem_tro/config/widget/button.dart';
 import 'package:app_xem_tro/config/widget/services.dart';
+import 'package:app_xem_tro/screen/detail_screen/widget/confirm_form.dart';
+import 'package:app_xem_tro/screen/detail_screen/widget/desciption.dart';
+import 'package:app_xem_tro/screen/detail_screen/widget/list_services.dart';
+import 'package:app_xem_tro/screen/detail_screen/widget/map.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
@@ -117,6 +122,35 @@ class _DetailScreenState extends State<DetailScreen> {
                             color: Colors.yellow),
                       ))
                     ],
+                  ),
+                  spaceHeight(context),
+                  Text(
+                    "Dịch vụ",
+                    style: largeTextStyle(context),
+                  ),
+                  spaceHeight(context),
+                  const ListServicesWidget(),
+                  spaceHeight(context),
+                  const MapWidget(),
+                  spaceHeight(context),
+                  Text(
+                    "Mô tả chi tiết",
+                    style: largeTextStyle(context),
+                  ),
+                  spaceHeight(context, height: 0.02),
+                  const DescriptionWidget(),
+                  spaceHeight(context),
+                  ButtonWidget(
+                    function: () {
+                      showModalBottomSheet(
+                        backgroundColor: Colors.transparent,
+                        context: context,
+                        builder: (context) {
+                          return const ConfirmFormWidget();
+                        },
+                      );
+                    },
+                    textButton: "Đặt lịch hẹn",
                   )
                 ],
               ),

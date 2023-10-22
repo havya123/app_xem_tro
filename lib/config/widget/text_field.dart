@@ -16,6 +16,8 @@ class TextFieldWidget extends StatelessWidget {
       this.controller,
       this.isPass1 = false,
       this.isConfirmPass = false,
+      this.removeBorder = false,
+      this.hintText = "",
       super.key});
   String hint;
   Widget? icon;
@@ -28,7 +30,8 @@ class TextFieldWidget extends StatelessWidget {
   TextEditingController? controller;
   bool isPass1;
   bool isConfirmPass;
-
+  bool removeBorder;
+  String hintText;
   @override
   Widget build(BuildContext context) {
     return TextFormField(
@@ -51,20 +54,29 @@ class TextFieldWidget extends StatelessWidget {
       keyboardType: type,
       obscureText: isPass,
       decoration: InputDecoration(
+        hintText: hintText,
         labelText: hint,
         labelStyle: const TextStyle(color: Colors.black),
-        focusedErrorBorder: const OutlineInputBorder(
-            borderSide: BorderSide(color: Colors.black),
-            borderRadius: BorderRadius.all(Radius.circular(10))),
-        errorBorder: const OutlineInputBorder(
-            borderSide: BorderSide(color: Colors.black),
-            borderRadius: BorderRadius.all(Radius.circular(10))),
-        enabledBorder: const OutlineInputBorder(
-            borderSide: BorderSide(color: Colors.black),
-            borderRadius: BorderRadius.all(Radius.circular(10))),
-        focusedBorder: const OutlineInputBorder(
-            borderSide: BorderSide(color: Colors.black),
-            borderRadius: BorderRadius.all(Radius.circular(10))),
+        focusedErrorBorder: OutlineInputBorder(
+            borderSide: !removeBorder
+                ? const BorderSide(color: Colors.black)
+                : BorderSide.none,
+            borderRadius: const BorderRadius.all(Radius.circular(10))),
+        errorBorder: OutlineInputBorder(
+            borderSide: !removeBorder
+                ? const BorderSide(color: Colors.black)
+                : BorderSide.none,
+            borderRadius: const BorderRadius.all(Radius.circular(10))),
+        enabledBorder: OutlineInputBorder(
+            borderSide: !removeBorder
+                ? const BorderSide(color: Colors.black)
+                : BorderSide.none,
+            borderRadius: const BorderRadius.all(Radius.circular(10))),
+        focusedBorder: OutlineInputBorder(
+            borderSide: !removeBorder
+                ? const BorderSide(color: Colors.black)
+                : BorderSide.none,
+            borderRadius: const BorderRadius.all(Radius.circular(10))),
         suffixIcon: icon,
       ),
     );

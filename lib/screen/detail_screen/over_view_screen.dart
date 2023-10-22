@@ -1,6 +1,7 @@
 import 'package:app_xem_tro/config/size_config.dart';
 import 'package:app_xem_tro/config/widget/button.dart';
 import 'package:app_xem_tro/config/widget/review.dart';
+import 'package:app_xem_tro/route/routes.dart';
 import 'package:flutter/material.dart';
 
 class OverViewScreen extends StatefulWidget {
@@ -39,7 +40,9 @@ class _DetailScreenState extends State<OverViewScreen> {
                       function: () {}, textButton: "Xem toan bo hinh anh"),
                   spaceHeight(context),
                   ButtonWidget(
-                    function: () {},
+                    function: () {
+                      Navigator.pushNamed(context, Routes.detailRoute);
+                    },
                     textButton: "Xem chi tiet",
                   ),
                   spaceHeight(context),
