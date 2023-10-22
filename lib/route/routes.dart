@@ -17,4 +17,6 @@ class Routes {
   static const String splashadminRoute = "/splashAdminRoute";
   static const String adminLoginRoute = "/adminLoginRoute";
   static const String detailProfileRoute = "/detailProfileRoute";
+  static const String detailRoute = "/detailRoute";
+  static const String overviewRote = "/overviewRoute";
 }

@@ -45,6 +45,7 @@ dependencies:
   community_material_icon: ^5.9.55
   fl_chart: ^0.64.0
   syncfusion_flutter_charts: ^23.1.41
+  read_more_text: ^0.0.5
 dev_dependencies:
   flutter_test:
     sdk: flutter

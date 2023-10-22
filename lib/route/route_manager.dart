@@ -3,6 +3,8 @@ import 'package:app_xem_tro/screen/admin_screen/admin_approve_screen.dart';
 import 'package:app_xem_tro/screen/admin_screen/admin_booking_screen.dart';
 import 'package:app_xem_tro/screen/admin_screen/admin_screen.dart';
 import 'package:app_xem_tro/screen/chat_screen/chat_screen.dart';
+import 'package:app_xem_tro/screen/detail_screen/detail_screen.dart';
+import 'package:app_xem_tro/screen/detail_screen/over_view_screen.dart';
 import 'package:app_xem_tro/screen/error_screen/error_screen.dart';
 import 'package:app_xem_tro/screen/forget_password_screen/forget_password_screen.dart';
 import 'package:app_xem_tro/screen/forget_password_screen/reset_password.dart';
@@ -99,6 +101,14 @@ class RouteManager {
     GetPage(
       name: "/adminApproveRoute",
       page: () => const AdminApproveScreen(),
+    ),
+    GetPage(
+      name: "/detailRoute",
+      page: () => const DetailScreen(),
+    ),
+    GetPage(
+      name: "/overviewRoute",
+      page: () => const OverViewScreen(),
     )
   ];
 
