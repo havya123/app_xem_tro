@@ -8,14 +8,12 @@ import 'package:app_xem_tro/screen/profile_screen/detail_profile_screen.dart';
 import 'package:community_material_icon/community_material_icon.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:get/get.dart';
 
-class Profile extends StatelessWidget {
-  const Profile({super.key});
+class ProfileScreen extends StatelessWidget {
+  const ProfileScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
-    var isLoading = false.obs;
     return Scaffold(
       body: SingleChildScrollView(
         child: Container(
@@ -69,12 +67,11 @@ class Profile extends StatelessWidget {
             spaceHeight(context),
             const Divider(color: Colors.black87),
             spaceHeight(context),
-            Button(
+            ButtonWidget(
               function: () async {
                 Navigator.pushReplacementNamed(context, Routes.loginRoute);
               },
               textButton: "Đăng xuất",
-              isLoading: isLoading,
             ),
           ]),
         ),

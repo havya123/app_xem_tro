@@ -1,9 +1,8 @@
 import 'package:app_xem_tro/config/size_config.dart';
 import 'package:app_xem_tro/screen/chat_screen/chat_screen.dart';
 import 'package:app_xem_tro/screen/home_screen/home_screen.dart';
-import 'package:app_xem_tro/screen/profile_screen/profile_screen.dart';
+import 'package:app_xem_tro/screen/profile_screen/profie_screen.dart';
 import 'package:app_xem_tro/screen/save_screen/save_screen.dart';
-import 'package:app_xem_tro/screen/search_screen/search_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:persistent_bottom_nav_bar/persistent_tab_view.dart';

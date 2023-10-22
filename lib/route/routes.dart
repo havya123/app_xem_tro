@@ -1,6 +1,9 @@
-import 'package:app_xem_tro/screen/forget_password_screen/forget_password_screen.dart';
-
 class Routes {
+  static const String adminRoute = "/adminRoute";
+  static const String adminAccountRoute = "/adminAccountRoute";
+  static const String adminBookingRoute = "/adminBookingRoute";
+  static const String adminApproveRoute = "/adminApproveRoute";
+
   static const String splashRoute = "/";
   static const String loginRoute = "/loginRoute";
   static const String notFoundRoute = "/notFoundRoute";
@@ -13,4 +16,5 @@ class Routes {
   static const String searchRoute = "/searchRoute";
   static const String splashadminRoute = "/splashAdminRoute";
   static const String adminLoginRoute = "/adminLoginRoute";
+  static const String detailProfileRoute = "/detailProfileRoute";
 }

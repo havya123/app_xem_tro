@@ -88,9 +88,10 @@ class _SwitchState extends State<Switchs> {
                 widget.isSwitch = value;
               });
               widget.isSwitch != false
-                  ? Navigator.pushReplacementNamed(context, Routes.adminRoute)
+                  ? Navigator.of(context, rootNavigator: true)
+                      .pushReplacementNamed(Routes.adminRoute)
                   : Navigator.pushReplacementNamed(
-                      context, Routes.detailproflieRoute);
+                      context, Routes.detailProfileRoute);
             },
           ),
           title: Text(

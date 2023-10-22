@@ -71,12 +71,11 @@ class _DetailProfileScreenState extends State<DetailProfileScreen> {
                 isSwitch: false,
               ),
               spaceHeight(context),
-              Button(
+              ButtonWidget(
                 function: () async {
                   Navigator.pushReplacementNamed(context, Routes.loginRoute);
                 },
                 textButton: "Đăng xuất",
-                isLoading: isLoading,
               ),
             ],
           ),
@@ -106,20 +105,19 @@ class _DetailProfileScreenState extends State<DetailProfileScreen> {
               children: [
                 TextFieldWidget(
                   type: type,
+                  hint: "",
                 ),
                 spaceHeight(context),
-                Button(
+                ButtonWidget(
                   function: () {},
                   textButton: "Save",
-                  isLoading: isLoading,
                 ),
                 spaceHeight(context, height: 0.01),
-                Button(
+                ButtonWidget(
                   function: () async {
                     Navigator.pop(context);
                   },
                   textButton: "Exit",
-                  isLoading: isLoading,
                 ),
               ],
             ),
