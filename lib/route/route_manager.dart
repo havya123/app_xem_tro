@@ -102,6 +102,8 @@ class RouteManager {
     )
   ];
 
-  static GetPage notFound =
-      GetPage(name: "/notFoundRoute", page: () => const ErrorScreen());
+  static GetPage notFound = GetPage(
+    name: "/notFoundRoute",
+    page: () => const ErrorScreen(),
+  );
 }
