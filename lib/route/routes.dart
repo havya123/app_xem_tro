@@ -19,4 +19,6 @@ class Routes {
   static const String detailProfileRoute = "/detailProfileRoute";
   static const String detailRoute = "/detailRoute";
   static const String overviewRote = "/overviewRoute";
+  static const String houseRegistrationRoute = "/houseRegistrationRoute";
+  static const String roomRegistrationRoute = "/roomRegistrationRoute";
 }
