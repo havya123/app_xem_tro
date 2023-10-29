@@ -35,6 +35,7 @@ class TextFieldWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return TextFormField(
+      maxLines: 10,
       controller: controller,
       inputFormatters: [
         LengthLimitingTextInputFormatter(numberOfLetter),

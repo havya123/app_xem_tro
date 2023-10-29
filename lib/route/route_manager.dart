@@ -11,6 +11,7 @@ import 'package:app_xem_tro/screen/forget_password_screen/reset_password.dart';
 import 'package:app_xem_tro/screen/login_screen/login_screen.dart';
 import 'package:app_xem_tro/screen/profile_screen/detail_profile_screen.dart';
 import 'package:app_xem_tro/screen/profile_screen/profie_screen.dart';
+import 'package:app_xem_tro/screen/review_screen/review_screen.dart';
 import 'package:app_xem_tro/screen/search_screen/search_screen.dart';
 import 'package:app_xem_tro/screen/signup_screen/second_signup.dart';
 import 'package:app_xem_tro/screen/navigation_screen.dart/navigation_screen.dart';
@@ -109,7 +110,8 @@ class RouteManager {
     GetPage(
       name: "/overviewRoute",
       page: () => const OverViewScreen(),
-    )
+    ),
+    GetPage(name: "/reviewRoute", page: () => const ReviewScreen())
   ];
 
   static GetPage notFound = GetPage(
