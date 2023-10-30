@@ -113,7 +113,10 @@ class RouteManager {
       name: "/overviewRoute",
       page: () => const OverViewScreen(),
     ),
-    GetPage(name: "/reviewRoute", page: () => const ReviewScreen()),
+    GetPage(
+      name: "/reviewRoute",
+      page: () => const ReviewScreen(),
+    ),
     GetPage(
       name: "/houseRegistrationRoute",
       page: () => const HouseRegistration(),
