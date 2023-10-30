@@ -80,6 +80,8 @@ flutter:
     - assets\images\splash_img\splash_icon.png
     - assets/images/splash_img/splash_icon.png
     - assets/images/home_img/
+    - assets/images/map_img/
+    - assets/images/camera_img/
   #   - images/a_dot_ham.jpeg
   #   - images/abc.jpeg
 
