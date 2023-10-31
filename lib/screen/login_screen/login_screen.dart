@@ -40,7 +40,7 @@ class LoginScreen extends StatelessWidget {
                 style: TextStyle(fontSize: 30, fontWeight: FontWeight.bold),
               ),
               spaceHeight(context, height: 0.04),
-              TextFieldWidget(
+              const TextFieldWidget(
                 hint: 'Số điện thoại',
                 type: TextInputType.phone,
                 errorText: "Hãy nhập số điện thoại",

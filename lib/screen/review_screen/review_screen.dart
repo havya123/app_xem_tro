@@ -78,9 +78,7 @@ class ReviewScreen extends StatelessWidget {
                             Icons.star,
                             color: Colors.amber,
                           ),
-                          onRatingUpdate: (rating) {
-                            print(rating);
-                          },
+                          onRatingUpdate: (rating) {},
                         )),
                   ],
                 ),
@@ -110,9 +108,7 @@ class ReviewScreen extends StatelessWidget {
                             Icons.star,
                             color: Colors.amber,
                           ),
-                          onRatingUpdate: (rating) {
-                            print(rating);
-                          },
+                          onRatingUpdate: (rating) {},
                         )),
                   ],
                 ),
@@ -126,17 +122,17 @@ class ReviewScreen extends StatelessWidget {
                   width: double.infinity,
                   height: getHeight(context, height: 0.5),
                   color: Colors.grey.shade300,
-                  child: Column(
+                  child: const Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      const Padding(
+                      Padding(
                         padding:
                             EdgeInsets.symmetric(horizontal: 10, vertical: 10),
                         child: Expanded(
                             flex: 1,
                             child: Text("Hãy để lại đánh giá của bạn!")),
                       ),
-                      const Divider(
+                      Divider(
                         thickness: 1,
                         color: Colors.grey,
                       ),

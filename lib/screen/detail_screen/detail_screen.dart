@@ -79,7 +79,7 @@ class _DetailScreenState extends State<DetailScreen> {
                             childAspectRatio: 5,
                             crossAxisSpacing: getWidth(context),
                             mainAxisSpacing: getHeight(context)),
-                        itemBuilder: (context, index) => ServiceWidget(
+                        itemBuilder: (context, index) => const ServiceWidget(
                             icon: FontAwesomeIcons.star,
                             detail: "4.1 (66 reviews)"),
                       )

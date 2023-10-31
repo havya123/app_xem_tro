@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "875098261589",
+    "project_id": "xemtro",
+    "storage_bucket": "xemtro.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:875098261589:android:a0a10d3b79e81d823cecdc",
+        "android_client_info": {
+          "package_name": "com.example.app_xem_tro"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBSdYdMiOSLF4w55Ks7E1-CZ-5iJlsXmE8"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

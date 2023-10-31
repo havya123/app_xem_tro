@@ -38,7 +38,7 @@ class SignupScreen extends StatelessWidget {
                   key: formKey,
                   child: Column(
                     children: [
-                      TextFieldWidget(
+                      const TextFieldWidget(
                         hint: 'Nhập số điện thoại',
                         type: TextInputType.phone,
                         errorText: "Hãy nhập số điện thoại",
@@ -50,7 +50,7 @@ class SignupScreen extends StatelessWidget {
                       Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
-                          Expanded(
+                          const Expanded(
                               child: TextFieldWidget(
                             hint: 'Nhập mã OTP',
                             type: TextInputType.number,

@@ -52,7 +52,7 @@ class RoomRegistration extends StatelessWidget {
                 style: TextStyle(fontSize: 35, fontWeight: FontWeight.w900),
               ),
               spaceHeight(context),
-              TextFieldWidget(
+              const TextFieldWidget(
                 hint: "Mã phòng",
               ),
               spaceHeight(context),
@@ -108,7 +108,7 @@ class RoomRegistration extends StatelessWidget {
                   SizedBox(
                       width: getWidth(context, width: 0.45),
                       height: getHeight(context, height: 0.07),
-                      child: TextFieldWidget(
+                      child: const TextFieldWidget(
                         hint: "Diện tích",
                         type: TextInputType.number,
                       )),
@@ -168,19 +168,17 @@ class RoomRegistration extends StatelessWidget {
     );
   }
 
-  Container checkBoxCombo(BuildContext context, IconData logo, String label) {
-    return Container(
-      child: Row(
-        children: [
-          const CheckboxExample(),
-          Icon(logo),
-          spaceWidth(context),
-          Text(
-            label,
-            style: mediumTextStyle(context),
-          )
-        ],
-      ),
+  Row checkBoxCombo(BuildContext context, IconData logo, String label) {
+    return Row(
+      children: [
+        const CheckboxExample(),
+        Icon(logo),
+        spaceWidth(context),
+        Text(
+          label,
+          style: mediumTextStyle(context),
+        )
+      ],
     );
   }
 

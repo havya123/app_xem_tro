@@ -53,7 +53,7 @@ class ForgetPasswordScreen extends StatelessWidget {
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   children: [
-                    Expanded(
+                    const Expanded(
                       child: TextFieldWidget(hint: 'Số điện thoại'),
                     ),
                     spaceWidth(
@@ -86,7 +86,7 @@ class ForgetPasswordScreen extends StatelessWidget {
                 SizedBox(
                   height: getHeight(context, height: 0.08),
                 ),
-                TextFieldWidget(hint: 'Nhập mã OTP'),
+                const TextFieldWidget(hint: 'Nhập mã OTP'),
                 SizedBox(
                   height: getHeight(context, height: 0.15),
                 ),

@@ -55,16 +55,16 @@ class HouseRegistration extends StatelessWidget {
                 style: TextStyle(fontSize: 35, fontWeight: FontWeight.w900),
               ),
               spaceHeight(context),
-              TextFieldWidget(hint: 'Họ và tên'),
+              const TextFieldWidget(hint: 'Họ và tên'),
               spaceHeight(context, height: 0.03),
-              TextFieldWidget(
+              const TextFieldWidget(
                 hint: "Số điện thoại",
                 type: TextInputType.number,
               ),
               spaceHeight(context, height: 0.03),
-              TextFieldWidget(
+              const TextFieldWidget(
                 hint: "Địa chỉ hiện tại",
-                icon: const Icon(FontAwesomeIcons.mapLocationDot),
+                icon: Icon(FontAwesomeIcons.mapLocationDot),
               ),
               spaceHeight(context, height: 0.03),
               Row(
@@ -199,19 +199,17 @@ class HouseRegistration extends StatelessWidget {
     );
   }
 
-  Container checkBoxCombo(BuildContext context, IconData logo, String label) {
-    return Container(
-      child: Row(
-        children: [
-          const CheckboxExample(),
-          Icon(logo),
-          spaceWidth(context),
-          Text(
-            label,
-            style: mediumTextStyle(context),
-          )
-        ],
-      ),
+  Row checkBoxCombo(BuildContext context, IconData logo, String label) {
+    return Row(
+      children: [
+        const CheckboxExample(),
+        Icon(logo),
+        spaceWidth(context),
+        Text(
+          label,
+          style: mediumTextStyle(context),
+        )
+      ],
     );
   }
 

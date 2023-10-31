@@ -3,13 +3,13 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 class ButtonWidget extends StatelessWidget {
-  ButtonWidget({
+  const ButtonWidget({
     required this.function,
     super.key,
     this.textButton = "",
   });
-  VoidCallback function;
-  String textButton;
+  final VoidCallback function;
+  final String textButton;
   @override
   Widget build(BuildContext context) {
     var isLoading = false.obs;

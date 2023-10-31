@@ -1,6 +1,3 @@
-import 'dart:developer';
-
-import 'package:app_xem_tro/config/size_config.dart';
 import 'package:app_xem_tro/config/widget/services.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
@@ -16,7 +13,7 @@ class ListServicesWidget extends StatelessWidget {
       gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
           crossAxisCount: 2, crossAxisSpacing: 2, childAspectRatio: 1 / 0.5),
       itemBuilder: (context, index) {
-        return ServiceWidget(
+        return const ServiceWidget(
           detail: "bếp",
           icon: FontAwesomeIcons.kitchenSet,
         );

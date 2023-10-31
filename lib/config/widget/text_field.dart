@@ -1,10 +1,9 @@
 import 'package:app_xem_tro/config/extension/email_valid_extension.dart';
-import 'package:email_validator/email_validator.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
 class TextFieldWidget extends StatelessWidget {
-  TextFieldWidget(
+  const TextFieldWidget(
       {required this.hint,
       this.icon,
       this.isPass = false,
@@ -19,19 +18,19 @@ class TextFieldWidget extends StatelessWidget {
       this.removeBorder = false,
       this.hintText = "",
       super.key});
-  String hint;
-  Widget? icon;
-  bool isPass;
-  TextInputType type;
-  String? errorText;
-  int? numberOfLetter;
-  String? errorPass;
-  int? minLetter;
-  TextEditingController? controller;
-  bool isPass1;
-  bool isConfirmPass;
-  bool removeBorder;
-  String hintText;
+  final String hint;
+  final Widget? icon;
+  final bool isPass;
+  final TextInputType type;
+  final String? errorText;
+  final int? numberOfLetter;
+  final String? errorPass;
+  final int? minLetter;
+  final TextEditingController? controller;
+  final bool isPass1;
+  final bool isConfirmPass;
+  final bool removeBorder;
+  final String hintText;
   @override
   Widget build(BuildContext context) {
     return TextFormField(
