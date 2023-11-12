@@ -198,7 +198,7 @@ class _SearchScreenState extends State<SearchScreen> {
                     SizedBox(
                         width: getWidth(context, width: 0.45),
                         height: getHeight(context, height: 0.07),
-                        child: const TextFieldWidget(
+                        child: TextFieldWidget(
                           hint: "Tối thiểu",
                           type: TextInputType.number,
                         )),
@@ -215,7 +215,7 @@ class _SearchScreenState extends State<SearchScreen> {
                     SizedBox(
                         width: getWidth(context, width: 0.45),
                         height: getHeight(context, height: 0.07),
-                        child: const TextFieldWidget(
+                        child: TextFieldWidget(
                           hint: "Tối đa",
                           type: TextInputType.number,
                         )),

@@ -55,16 +55,16 @@ class HouseRegistration extends StatelessWidget {
                 style: TextStyle(fontSize: 35, fontWeight: FontWeight.w900),
               ),
               spaceHeight(context),
-              const TextFieldWidget(hint: 'Họ và tên'),
+              TextFieldWidget(hint: 'Họ và tên'),
               spaceHeight(context, height: 0.03),
-              const TextFieldWidget(
+              TextFieldWidget(
                 hint: "Số điện thoại",
                 type: TextInputType.number,
               ),
               spaceHeight(context, height: 0.03),
-              const TextFieldWidget(
+              TextFieldWidget(
                 hint: "Địa chỉ hiện tại",
-                icon: Icon(FontAwesomeIcons.mapLocationDot),
+                icon: const Icon(FontAwesomeIcons.mapLocationDot),
               ),
               spaceHeight(context, height: 0.03),
               Row(

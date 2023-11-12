@@ -52,7 +52,7 @@ class RoomRegistration extends StatelessWidget {
                 style: TextStyle(fontSize: 35, fontWeight: FontWeight.w900),
               ),
               spaceHeight(context),
-              const TextFieldWidget(
+              TextFieldWidget(
                 hint: "Mã phòng",
               ),
               spaceHeight(context),
@@ -108,7 +108,7 @@ class RoomRegistration extends StatelessWidget {
                   SizedBox(
                       width: getWidth(context, width: 0.45),
                       height: getHeight(context, height: 0.07),
-                      child: const TextFieldWidget(
+                      child: TextFieldWidget(
                         hint: "Diện tích",
                         type: TextInputType.number,
                       )),

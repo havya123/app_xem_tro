@@ -1,7 +1,10 @@
+import 'package:app_xem_tro/provider/user_login_provider.dart';
+import 'package:app_xem_tro/provider/user_provider.dart';
 import 'package:app_xem_tro/route/route_manager.dart';
 import 'package:app_xem_tro/route/routes.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get_navigation/get_navigation.dart';
+import 'package:provider/provider.dart';
 
 class AppXemTro extends StatefulWidget {
   const AppXemTro({super.key});
@@ -13,11 +16,19 @@ class AppXemTro extends StatefulWidget {
 class _AppXemTroState extends State<AppXemTro> {
   @override
   Widget build(BuildContext context) {
-    return GetMaterialApp(
-      debugShowCheckedModeBanner: false,
-      initialRoute: Routes.reviewRoute,
-      getPages: RouteManager.routeManager,
-      unknownRoute: RouteManager.notFound,
+    return MultiProvider(
+      providers: [
+        ChangeNotifierProvider(create: (context) => UserProvider()),
+        ChangeNotifierProvider(create: (context) => UserLoginProvider()),
+      ],
+      builder: (context, child) {
+        return GetMaterialApp(
+          debugShowCheckedModeBanner: false,
+          initialRoute: Routes.loginRoute,
+          getPages: RouteManager.routeManager,
+          unknownRoute: RouteManager.notFound,
+        );
+      },
     );
   }
 }

@@ -1,20 +1,28 @@
 import 'package:app_xem_tro/config/size_config.dart';
 import 'package:app_xem_tro/config/widget/button.dart';
 import 'package:app_xem_tro/config/widget/text_field.dart';
+import 'package:app_xem_tro/provider/user_provider.dart';
 import 'package:app_xem_tro/route/routes.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get/get.dart';
 import 'package:app_xem_tro/config/extension/date_dropdown.dart';
+import 'package:provider/provider.dart';
 
 class SecondSignup extends StatelessWidget {
   const SecondSignup({super.key});
 
   @override
   Widget build(BuildContext context) {
+    var data = Get.arguments;
     final formKey = GlobalKey<FormState>();
     var showpass = true.obs;
     var showpass2 = true.obs;
+    String? day;
+    String? month;
+    String? year;
+    String? date;
+
     void isHidden() {
       showpass.value = !showpass.value;
     }
@@ -40,6 +48,9 @@ class SecondSignup extends StatelessWidget {
       return true;
     }
 
+    String phoneNumber = Get.arguments as String;
+
+    print(data);
     return Scaffold(
       body: Padding(
         padding: EdgeInsets.symmetric(
@@ -121,15 +132,19 @@ class SecondSignup extends StatelessWidget {
                         dayFlex: 2,
                         yearFlex: 3,
                         hintTextStyle: const TextStyle(fontSize: 15),
-                        // selectedDay: 14, // optional
-                        selectedMonth: 1, // optional
-                        selectedDay: 1,
-                        selectedYear: 2020, // optional
-                        onChangedDay: (value) => print('onChangedDay: $value'),
-                        onChangedMonth: (value) =>
-                            print('onChangedMonth: $value'),
-                        onChangedYear: (value) =>
-                            print('onChangedYear: $value'),
+                        // selectedDay: 14,/ optional
+                        onChangedDay: (value) {
+                          print('onChangedDay: $value');
+                          day = value;
+                        },
+                        onChangedMonth: (value) {
+                          print('onChangedMonth: $value');
+                          month = value;
+                        },
+                        onChangedYear: (value) {
+                          print('onChangedYear: $value');
+                          year = value;
+                        },
                       ),
                       spaceHeight(context, height: 0.015),
                       TextFieldWidget(
@@ -197,14 +212,24 @@ class SecondSignup extends StatelessWidget {
               spaceHeight(context, height: 0.05),
               ButtonWidget(
                 function: () {
-                  if (checkConfirm()) {
-                    if (formKey.currentState!.validate()) {
-                      Get.toNamed(Routes.loginRoute);
-                    }
-                  } else {
-                    formKey.currentState!.validate();
-                    return;
-                  }
+                  // if (checkConfirm()) {
+                  //   if (formKey.currentState!.validate()) {
+                  Get.offAllNamed(Routes.loginRoute,
+                      arguments: [data, passController.text]);
+                  //     date = "$day / $month / $year";
+                  //     context.read<UserProvider>().signUp(
+                  //         phoneNumber,
+                  //         passController.text,
+                  //         nameController.text,
+                  //         emailController.text,
+                  //         date as String,
+                  //         addressController.text,
+                  //         "");
+                  //   }
+                  // } else {
+                  //   formKey.currentState!.validate();
+                  //   return;
+                  // }
                 },
                 textButton: "Xác nhận",
               ),

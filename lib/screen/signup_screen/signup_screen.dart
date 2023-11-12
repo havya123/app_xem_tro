@@ -1,16 +1,25 @@
 import 'package:app_xem_tro/config/size_config.dart';
 import 'package:app_xem_tro/config/widget/button.dart';
 import 'package:app_xem_tro/config/widget/text_field.dart';
+import 'package:app_xem_tro/provider/user_provider.dart';
 import 'package:app_xem_tro/route/routes.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:firebase_core/firebase_core.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:provider/provider.dart';
 
 class SignupScreen extends StatelessWidget {
   const SignupScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
+    String verifyID = "";
+    TextEditingController phoneController = TextEditingController();
+    TextEditingController otpController = TextEditingController();
     final formKey = GlobalKey<FormState>();
+    final phonekey = GlobalKey<FormState>();
+
     return Scaffold(
       body: Padding(
         padding: EdgeInsets.symmetric(
@@ -38,19 +47,23 @@ class SignupScreen extends StatelessWidget {
                   key: formKey,
                   child: Column(
                     children: [
-                      const TextFieldWidget(
-                        hint: 'Nhập số điện thoại',
-                        type: TextInputType.phone,
-                        errorText: "Hãy nhập số điện thoại",
-                        numberOfLetter: 10,
-                        errorPass: "Yêu cầu nhập đủ 10 chữ số điện thoại",
-                        minLetter: 10,
+                      Form(
+                        key: phonekey,
+                        child: TextFieldWidget(
+                          hint: 'Nhập số điện thoại',
+                          type: TextInputType.phone,
+                          errorText: "Hãy nhập số điện thoại",
+                          numberOfLetter: 10,
+                          errorPass: "Yêu cầu nhập đủ 10 chữ số điện thoại",
+                          minLetter: 10,
+                          controller: phoneController,
+                        ),
                       ),
                       spaceHeight(context, height: 0.015),
                       Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
-                          const Expanded(
+                          Expanded(
                               child: TextFieldWidget(
                             hint: 'Nhập mã OTP',
                             type: TextInputType.number,
@@ -58,22 +71,95 @@ class SignupScreen extends StatelessWidget {
                             numberOfLetter: 6,
                             errorPass: "Mã OTP gồm 6 số",
                             minLetter: 6,
+                            controller: otpController,
                           )),
                           spaceWidth(context),
                           Expanded(
-                              child: Container(
-                            width: double.infinity,
-                            height: getHeight(context, height: 0.075),
-                            decoration: BoxDecoration(
-                                color: const Color(0xff315EE7),
-                                borderRadius: BorderRadius.circular(10)),
-                            child: const Center(
-                              child: Text(
-                                'Lấy mã OTP',
-                                style: TextStyle(
-                                    color: Colors.white,
-                                    fontSize: 20,
-                                    fontWeight: FontWeight.bold),
+                              child: InkWell(
+                            onTap: () async {
+                              if (phonekey.currentState!.validate()) {
+                                // bool existsPhoneNumber = await context
+                                //     .read<UserProvider>()
+                                //     .checkingNumberPhone(phoneController.text);
+                                // if (existsPhoneNumber) {
+                                //   await FirebaseAuth.instance.verifyPhoneNumber(
+                                //     phoneNumber: "+84${phoneController.text}",
+                                //     timeout: const Duration(seconds: 60),
+                                //     verificationCompleted:
+                                //         (PhoneAuthCredential credential) {},
+                                //     verificationFailed:
+                                //         (FirebaseAuthException e) {},
+                                //     codeSent: (String verificationId,
+                                //         int? resendToken) {
+                                //       verifyID = verificationId;
+                                //     },
+                                //     codeAutoRetrievalTimeout:
+                                //         (String verificationId) {},
+                                //   );
+                                //   AlertDialog(
+                                //     title: const Center(
+                                //         child: Text('Gửi mã OTP thành công')),
+                                //     content: const SingleChildScrollView(
+                                //       child: ListBody(
+                                //         children: <Widget>[
+                                //           Text(
+                                //               'Mã OTP đã được gửi vào số điện thoại của bạn'),
+                                //         ],
+                                //       ),
+                                //     ),
+                                //     actions: <Widget>[
+                                //       TextButton(
+                                //         child: const Text('OK'),
+                                //         onPressed: () {
+                                //           Navigator.of(context).pop();
+                                //         },
+                                //       ),
+                                //     ],
+                                //   );
+                                // } else {
+                                //   return showDialog(
+                                //     context: context,
+                                //     builder: (context) {
+                                //       return AlertDialog(
+                                //         title: const Center(
+                                //             child: Text(
+                                //                 'Số điện thoại không hợp lệ')),
+                                //         content: const SingleChildScrollView(
+                                //           child: ListBody(
+                                //             children: <Widget>[
+                                //               Text(
+                                //                   'Số điện thoại này đã được tạo'),
+                                //             ],
+                                //           ),
+                                //         ),
+                                //         actions: <Widget>[
+                                //           TextButton(
+                                //             child: const Text('OK'),
+                                //             onPressed: () {
+                                //               Navigator.of(context).pop();
+                                //             },
+                                //           ),
+                                //         ],
+                                //       );
+                                //     },
+                                //   );
+                                // }
+                              }
+                            },
+                            child: Container(
+                              width: double.infinity,
+                              height: getHeight(context, height: 0.075),
+                              decoration: BoxDecoration(
+                                  color: const Color(0xff315EE7),
+                                  borderRadius: BorderRadius.circular(10)),
+                              child: const Center(
+                                child: Text(
+                                  'Lấy mã OTP',
+                                  style: TextStyle(
+                                      color: Colors.white,
+                                      fontSize: 20,
+                                      fontWeight: FontWeight.bold),
+                                ),
                               ),
                             ),
                           ))
@@ -83,17 +169,67 @@ class SignupScreen extends StatelessWidget {
                   )),
               spaceHeight(context),
               ButtonWidget(
-                function: () {
-                  if (formKey.currentState!.validate()) {
-                    Get.toNamed(Routes.secondSignup);
-                  }
+                function: () async {
+                  // if (formKey.currentState!.validate()) {
+                  //   try {
+                  //     PhoneAuthCredential credential =
+                  //         PhoneAuthProvider.credential(
+                  //       verificationId: verifyID,
+                  //       smsCode: otpController.text,
+                  //     );
+
+                  //     // Sign in with the credential
+                  //     UserCredential userCredential = await FirebaseAuth
+                  //         .instance
+                  //         .signInWithCredential(credential);
+
+                  //     if (userCredential.user != null) {
+                  //       // SMS code verification is successful
+                  Get.toNamed(
+                    Routes.secondSignup,
+                    arguments: phoneController.text,
+                  );
+                  //     } else {
+                  //       // Verification failed
+                  //     }
+                  //   } catch (e) {
+                  //     return showDialog<void>(
+                  //       context: context,
+                  //       barrierDismissible: false, // user must tap button!
+                  //       builder: (BuildContext context) {
+                  //         return AlertDialog(
+                  //           title: const Center(child: Text('Sai mã OTP')),
+                  //           content: const SingleChildScrollView(
+                  //             child: ListBody(
+                  //               children: <Widget>[
+                  //                 Text(
+                  //                     'Bạn đã nhập sai mã OTP. Hãy kiểm tra mã OTP và nhập lại'),
+                  //               ],
+                  //             ),
+                  //           ),
+                  //           actions: <Widget>[
+                  //             TextButton(
+                  //               child: const Text('OK'),
+                  //               onPressed: () {
+                  //                 Navigator.of(context).pop();
+                  //               },
+                  //             ),
+                  //           ],
+                  //         );
+                  //       },
+                  //     );
+                  //   }
+                  // } else {
+                  //   formKey.currentState!.validate();
+                  //   return;
+                  // }
                 },
                 textButton: "Xác nhận",
               ),
               spaceHeight(context, height: 0.015),
               TextButton(
                   onPressed: () {
-                    Navigator.pop(context, Routes.loginRoute);
+                    Get.back();
                   },
                   child: const Text(
                     '← Trở về đăng nhập',
