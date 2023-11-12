@@ -57,10 +57,6 @@ class LoginScreen extends StatelessWidget {
       }
     }
 
-    var data = Get.arguments;
-    print(data[0]);
-    print(data[1]);
-
     return Scaffold(
       body: Padding(
         padding: EdgeInsets.symmetric(
@@ -175,7 +171,15 @@ class LoginScreen extends StatelessWidget {
                   ),
                   TextButton(
                       onPressed: () {
-                        Get.toNamed(Routes.signupRoute);
+                        Get.toNamed(Routes.signupRoute)!.then((value) {
+                          if (value is List) {
+                            if (value.isNotEmpty) {
+                              phoneController.text = value[0];
+                              passController.text = value[1];
+                            }
+                            return;
+                          }
+                        });
                       },
                       child: Text(
                         'Đăng ký',

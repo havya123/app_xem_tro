@@ -212,24 +212,23 @@ class SecondSignup extends StatelessWidget {
               spaceHeight(context, height: 0.05),
               ButtonWidget(
                 function: () {
-                  // if (checkConfirm()) {
-                  //   if (formKey.currentState!.validate()) {
-                  Get.offAllNamed(Routes.loginRoute,
-                      arguments: [data, passController.text]);
-                  //     date = "$day / $month / $year";
-                  //     context.read<UserProvider>().signUp(
-                  //         phoneNumber,
-                  //         passController.text,
-                  //         nameController.text,
-                  //         emailController.text,
-                  //         date as String,
-                  //         addressController.text,
-                  //         "");
-                  //   }
-                  // } else {
-                  //   formKey.currentState!.validate();
-                  //   return;
-                  // }
+                  if (checkConfirm()) {
+                    if (formKey.currentState!.validate()) {
+                      Get.back(result: [data, passController.text]);
+                      date = "$day / $month / $year";
+                      context.read<UserProvider>().signUp(
+                          phoneNumber,
+                          passController.text,
+                          nameController.text,
+                          emailController.text,
+                          date as String,
+                          addressController.text,
+                          "");
+                    }
+                  } else {
+                    formKey.currentState!.validate();
+                    return;
+                  }
                 },
                 textButton: "Xác nhận",
               ),
