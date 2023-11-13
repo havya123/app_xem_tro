@@ -116,14 +116,14 @@ class ReviewScreen extends StatelessWidget {
       width: double.infinity,
       height: getHeight(context, height: 0.5),
       color: Colors.grey.shade300,
-      child: const Column(
+      child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Padding(
+          const Padding(
             padding: EdgeInsets.symmetric(horizontal: 10, vertical: 10),
             child: Text("Hãy để lại đánh giá của bạn!"),
           ),
-          Divider(
+          const Divider(
             thickness: 1,
             color: Colors.grey,
           ),
@@ -132,6 +132,7 @@ class ReviewScreen extends StatelessWidget {
             child: TextFieldWidget(
               hint: "",
               removeBorder: true,
+              maxline: 10,
             ),
           ),
         ],

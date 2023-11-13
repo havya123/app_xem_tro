@@ -53,14 +53,14 @@ class ForgetPasswordScreen extends StatelessWidget {
                 SizedBox(
                     height: getHeight(context, height: 0.09),
                     width: double.infinity,
-                    child: const TextFieldWidget(hint: 'Số điện thoại')),
+                    child: TextFieldWidget(hint: 'Số điện thoại')),
                 SizedBox(
                   height: getHeight(context, height: 0.06),
                 ),
                 Row(
                   children: [
                     Expanded(
-                      child: Container(
+                      child: SizedBox(
                           height: getHeight(context, height: 0.09),
                           child: TextFieldWidget(hint: 'Nhập mã OTP')),
                     ),
@@ -85,6 +85,10 @@ class ForgetPasswordScreen extends StatelessWidget {
                     )
                   ],
                 ),
+                SizedBox(
+                  height: getHeight(context, height: 0.08),
+                ),
+                TextFieldWidget(hint: 'Nhập mã OTP'),
                 SizedBox(
                   height: getHeight(context, height: 0.15),
                 ),

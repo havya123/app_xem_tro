@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
 class TextFieldWidget extends StatelessWidget {
-  const TextFieldWidget(
+  TextFieldWidget(
       {required this.hint,
       this.icon,
       this.isPass = false,
@@ -17,6 +17,7 @@ class TextFieldWidget extends StatelessWidget {
       this.isConfirmPass = false,
       this.removeBorder = false,
       this.hintText = "",
+      this.maxline = 1,
       super.key});
   final String hint;
   final Widget? icon;
@@ -31,10 +32,11 @@ class TextFieldWidget extends StatelessWidget {
   final bool isConfirmPass;
   final bool removeBorder;
   final String hintText;
+  int maxline;
   @override
   Widget build(BuildContext context) {
     return TextFormField(
-      maxLines: 10,
+      maxLines: maxline,
       controller: controller,
       inputFormatters: [
         LengthLimitingTextInputFormatter(numberOfLetter),
