@@ -49,12 +49,15 @@ class _ChatScreenState extends State<ChatScreen> {
           ),
         ),
       ),
-      body: SingleChildScrollView(
+      body: SafeArea(
         child: Container(
           padding: EdgeInsets.all(padding(context)),
-          child: const Column(
+          child: Column(
             children: [
-              chatInput(),
+              Expanded(
+                child: Container(),
+              ),
+              const chatInput(),
             ],
           ),
         ),
