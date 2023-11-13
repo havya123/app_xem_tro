@@ -70,7 +70,7 @@ class ForgetPasswordScreen extends StatelessWidget {
                         height: getHeight(context, height: 0.09),
                         decoration: BoxDecoration(
                           borderRadius: BorderRadius.circular(
-                              borderRadius(context, border: 0.5)),
+                              borderRadius(context, border: 0.03)),
                           gradient: const LinearGradient(colors: [
                             Color(0xff363ff5),
                             Color(0xff6357CC),
