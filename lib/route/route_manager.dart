@@ -2,12 +2,11 @@ import 'package:app_xem_tro/screen/admin_screen/admin_account_screen.dart';
 import 'package:app_xem_tro/screen/admin_screen/admin_approve_screen.dart';
 import 'package:app_xem_tro/screen/admin_screen/admin_booking_screen.dart';
 import 'package:app_xem_tro/screen/admin_screen/admin_screen.dart';
-import 'package:app_xem_tro/screen/chat_screen/chat_screen.dart';
-import 'package:app_xem_tro/screen/detail_screen/detail_screen.dart';
+import 'package:app_xem_tro/screen/chat_screen/list_chat_screen.dart';
 import 'package:app_xem_tro/screen/detail_screen/over_view_screen.dart';
 import 'package:app_xem_tro/screen/error_screen/error_screen.dart';
 import 'package:app_xem_tro/screen/forget_password_screen/forget_password_screen.dart';
-import 'package:app_xem_tro/screen/forget_password_screen/reset_password.dart';
+import 'package:app_xem_tro/screen/home_screen/home_screen.dart';
 import 'package:app_xem_tro/screen/house_registration/house_registration.dart';
 import 'package:app_xem_tro/screen/house_registration/room_registration.dart';
 import 'package:app_xem_tro/screen/login_screen/login_screen.dart';
@@ -19,12 +18,8 @@ import 'package:app_xem_tro/screen/signup_screen/second_signup.dart';
 import 'package:app_xem_tro/screen/navigation_screen.dart/navigation_screen.dart';
 import 'package:app_xem_tro/screen/save_screen/save_screen.dart';
 import 'package:app_xem_tro/screen/signup_screen/signup_screen.dart';
-import 'package:app_xem_tro/screen/admin_screen/admin_login_screen.dart';
-import 'package:app_xem_tro/screen/splash_admin/splash_admin_screen.dart';
 import 'package:app_xem_tro/screen/splash_screen/splash_screen.dart';
 import 'package:get/get.dart';
-
-import '../screen/home_screen/home_screen.dart';
 
 class RouteManager {
   static List<GetPage> routeManager = [
@@ -35,14 +30,12 @@ class RouteManager {
     GetPage(
       name: "/loginRoute",
       page: () => const LoginScreen(),
+      transition: Transition.leftToRight,
+      transitionDuration: const Duration(milliseconds: 500),
     ),
     GetPage(
       name: "/signupRoute",
       page: () => const SignupScreen(),
-    ),
-    GetPage(
-      name: "/notFoundRoute",
-      page: () => const ErrorScreen(),
     ),
     GetPage(
       name: "/forgetRoute",
@@ -52,43 +45,17 @@ class RouteManager {
       name: "/homeRoute",
       page: () => const HomeScreen(),
     ),
-    GetPage(
-      name: "/resetRoute",
-      page: () => const ResetPassword(),
-    ),
-    GetPage(name: "/secondSignupRoute", page: () => const SecondSignup()),
-    GetPage(
-      name: "/navigationRoute",
-      page: () => const NavigationScreen(),
-    ),
-    GetPage(
-      name: "/saveRoute",
-      page: () => const SaveScreen(),
-    ),
-    GetPage(
-      name: "/chatRoute",
-      page: () => const ChatScreen(),
-    ),
+
+    // PROFILE
     GetPage(
       name: "/profileRoute",
       page: () => const ProfileScreen(),
     ),
     GetPage(
-      name: "/searchRoute",
-      page: () => const SearchScreen(),
-    ),
-    GetPage(
-      name: "/splashAdminRoute",
-      page: () => const SplashScreenAdmin(),
-    ),
-    GetPage(
-      name: "/adminLoginRoute",
-      page: () => const AdminLogin(),
-    ),
-    GetPage(
-      name: "/detailProfileRoute",
+      name: "/detailprofileRoute",
       page: () => const DetailProfileScreen(),
     ),
+    // ADMIN
     GetPage(
       name: "/adminRoute",
       page: () => const AdminScreen(),
@@ -105,10 +72,13 @@ class RouteManager {
       name: "/adminApproveRoute",
       page: () => const AdminApproveScreen(),
     ),
+    // CHAT
     GetPage(
-      name: "/detailRoute",
-      page: () => const DetailScreen(),
+      name: "/listchatRoute",
+      page: () => const ListChatScreen(),
     ),
+
+    //ERROR
     GetPage(
       name: "/overviewRoute",
       page: () => const OverViewScreen(),
@@ -128,7 +98,7 @@ class RouteManager {
   ];
 
   static GetPage notFound = GetPage(
-    name: "/notFoundRoute",
+    name: "/notFound",
     page: () => const ErrorScreen(),
   );
 }
