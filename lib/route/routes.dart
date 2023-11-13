@@ -28,4 +28,8 @@ class Routes {
   //Chat
   static const String listchatRoute = "/listchatRoute";
   static const String chatRoute = "/chatRoute";
+  static const String listHouseRoute = "/listHouseRoute";
+  static const String navigationListHouseRoute = "/navigationListHouseRoute";
+  static const String listRoomRoute = "/listRoomRoute";
+  static const String navigationListRoomRoute = "/navigationListRoomRoute";
 }
