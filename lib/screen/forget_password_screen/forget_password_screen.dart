@@ -53,7 +53,7 @@ class ForgetPasswordScreen extends StatelessWidget {
                 SizedBox(
                     height: getHeight(context, height: 0.09),
                     width: double.infinity,
-                    child: const TextFieldWidget(hint: 'Số điện thoại')),
+                    child: TextFieldWidget(hint: 'Số điện thoại')),
                 SizedBox(
                   height: getHeight(context, height: 0.06),
                 ),
