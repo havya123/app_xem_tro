@@ -1,6 +1,8 @@
 import 'package:app_xem_tro/config/extension/email_valid_extension.dart';
+import 'package:app_xem_tro/provider/google_map_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:provider/provider.dart';
 
 class TextFieldWidget extends StatelessWidget {
   TextFieldWidget(
@@ -18,6 +20,7 @@ class TextFieldWidget extends StatelessWidget {
       this.removeBorder = false,
       this.hintText = "",
       this.maxline = 1,
+      this.function,
       super.key});
   final String hint;
   final Widget? icon;
@@ -32,10 +35,12 @@ class TextFieldWidget extends StatelessWidget {
   final bool isConfirmPass;
   final bool removeBorder;
   final String hintText;
+  final Function(String?)? function;
   int maxline;
   @override
   Widget build(BuildContext context) {
     return TextFormField(
+      onFieldSubmitted: function,
       maxLines: maxline,
       controller: controller,
       inputFormatters: [

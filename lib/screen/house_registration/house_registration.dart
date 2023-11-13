@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:app_xem_tro/config/size_config.dart';
 import 'package:app_xem_tro/config/widget/button.dart';
 import 'package:app_xem_tro/config/widget/check_box.dart';
@@ -6,8 +8,11 @@ import 'package:app_xem_tro/models/district.dart';
 import 'package:app_xem_tro/models/province.dart';
 import 'package:app_xem_tro/models/ward.dart';
 import 'package:app_xem_tro/provider/google_map_provider.dart';
+import 'package:app_xem_tro/route/routes.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:get/get.dart';
+import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:provider/provider.dart';
 
 class HouseRegistration extends StatefulWidget {
@@ -17,12 +22,22 @@ class HouseRegistration extends StatefulWidget {
   State<HouseRegistration> createState() => _HouseRegistrationState();
 }
 
-class _HouseRegistrationState extends State<HouseRegistration> {
+class _HouseRegistrationState extends State<HouseRegistration>
+    with TickerProviderStateMixin {
   @override
   void initState() {
     context.read<GoogleMapProvider>().getListProvince();
     super.initState();
   }
+
+  final Completer<GoogleMapController> _controller =
+      Completer<GoogleMapController>();
+
+  String province = "";
+  String district = "";
+  String ward = "";
+
+  TextEditingController streetController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -85,6 +100,7 @@ class _HouseRegistrationState extends State<HouseRegistration> {
                   value.listProvince,
                   "Tỉnh/TP",
                   (p0) {
+                    province = p0 as String;
                     int code = value.listProvince
                         .firstWhere((province) => province.name == p0)
                         .code;
@@ -100,6 +116,7 @@ class _HouseRegistrationState extends State<HouseRegistration> {
                   value.listDistrict,
                   "Quận/Huyện",
                   (p0) {
+                    district = p0 as String;
                     int code = value.listDistrict
                         .firstWhere((listDistrict) => listDistrict.name == p0)
                         .code;
@@ -113,19 +130,57 @@ class _HouseRegistrationState extends State<HouseRegistration> {
                   context,
                   value.listWard,
                   "Phường/Xã",
-                  (p0) {},
+                  (p0) {
+                    ward = p0 as String;
+                  },
                 );
               }),
+              spaceHeight(context, height: 0.03),
+              TextFieldWidget(
+                hint: "Đường",
+                controller: streetController,
+                function: (p0) async {
+                  await context
+                      .read<GoogleMapProvider>()
+                      .searchPlace("$province $district $ward $p0");
+                  context.read<GoogleMapProvider>().goToPlace(_controller);
+                },
+              ),
               spaceHeight(context),
-              Container(
-                width: double.infinity,
-                height: 200,
-                decoration: const BoxDecoration(
-                    color: Colors.grey,
-                    borderRadius: BorderRadius.all(Radius.circular(20))),
-                child: Image.asset(
-                  "assets/images/map_img/map.png",
-                ),
+              Stack(
+                children: [
+                  Container(
+                    width: double.infinity,
+                    height: 200,
+                    decoration: const BoxDecoration(
+                      color: Colors.grey,
+                      borderRadius: BorderRadius.all(Radius.circular(20)),
+                    ),
+                    child: Consumer<GoogleMapProvider>(
+                        builder: (context, value, child) {
+                      print(value.latLng);
+                      return GoogleMap(
+                        mapType: MapType.normal,
+                        markers: {value.marker},
+                        initialCameraPosition:
+                            CameraPosition(target: value.latLng, zoom: 24),
+                        onMapCreated: (GoogleMapController controller) {
+                          _controller.complete(controller);
+                        },
+                      );
+                    }),
+                  ),
+                  Positioned(
+                    right: 0,
+                    top: 0,
+                    child: IconButton(
+                      onPressed: () {
+                        Get.toNamed(Routes.mapRoute, arguments: _controller);
+                      },
+                      icon: const Icon(FontAwesomeIcons.expand),
+                    ),
+                  ),
+                ],
               ),
               spaceHeight(
                 context,

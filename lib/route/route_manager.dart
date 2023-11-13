@@ -1,3 +1,4 @@
+import 'package:app_xem_tro/route/routes.dart';
 import 'package:app_xem_tro/screen/admin_screen/admin_account_screen.dart';
 import 'package:app_xem_tro/screen/admin_screen/admin_approve_screen.dart';
 import 'package:app_xem_tro/screen/admin_screen/admin_booking_screen.dart';
@@ -11,6 +12,7 @@ import 'package:app_xem_tro/screen/forget_password_screen/reset_password.dart';
 import 'package:app_xem_tro/screen/house_registration/house_registration.dart';
 import 'package:app_xem_tro/screen/house_registration/room_registration.dart';
 import 'package:app_xem_tro/screen/login_screen/login_screen.dart';
+import 'package:app_xem_tro/screen/map_screen/fullmap_screen.dart';
 import 'package:app_xem_tro/screen/profile_screen/detail_profile_screen.dart';
 import 'package:app_xem_tro/screen/profile_screen/profie_screen.dart';
 import 'package:app_xem_tro/screen/review_screen/review_screen.dart';
@@ -124,7 +126,11 @@ class RouteManager {
     GetPage(
       name: "/roomRegistrationRoute",
       page: () => const RoomRegistration(),
-    )
+    ),
+    GetPage(
+      name: "/mapRoute",
+      page: () => const FullMapScreen(),
+    ),
   ];
 
   static GetPage notFound = GetPage(

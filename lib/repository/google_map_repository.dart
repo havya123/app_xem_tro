@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:app_xem_tro/models/district.dart';
+import 'package:app_xem_tro/models/place.dart';
 import 'package:app_xem_tro/models/province.dart';
 import 'package:app_xem_tro/models/ward.dart';
 import 'package:http/http.dart' as http;
@@ -42,8 +43,6 @@ class GoogleMapRepo {
     var response = await http.get(uri);
     var data = jsonDecode(utf8.decode(response.bodyBytes));
 
-    print(data);
-
     List listData = data['wards'];
 
     List<Ward> listDistrict =
@@ -53,17 +52,22 @@ class GoogleMapRepo {
     return listDistrict;
   }
 
-  // Future<List<Province>> getListProvince() async {
-  //   String url = "https://provinces.open-api.vn/api/?depth=1";
-  //   final uri = Uri.parse(url);
+  Future<Place> getPlace(String keyword) async {
+    final String url =
+        "https://maps.googleapis.com/maps/api/place/textsearch/json?v=3.exp&key=AIzaSyB4_YEO01z38PgfL8IaX7OBJPdm6OQz6mo&language=vi&region=VN&query=${Uri.encodeQueryComponent(keyword)}";
 
-  //   var response = await http.get(uri);
-  //   List data = jsonDecode(utf8.decode(response.bodyBytes));
+    final uri = Uri.parse(url);
 
-  //   List<Province> listProvince =
-  //       List<Province>.from(data.map((e) => Province.fromJson(jsonEncode(e))))
-  //           .toList();
+    var response = await http.get(uri);
+    Map<String, dynamic> data = jsonDecode(response.body);
+    List location = data['results'];
+    Map<String, dynamic> dataLocation = location[0];
+    Place place = Place(
+        name: dataLocation['name'],
+        address: dataLocation['formatted_address'],
+        lat: dataLocation['geometry']['location']['lat'],
+        lng: dataLocation['geometry']['location']['lng']);
 
-  //   return listProvince;
-  // }
+    return place;
+  }
 }
