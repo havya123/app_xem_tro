@@ -2,18 +2,30 @@ import 'package:app_xem_tro/config/size_config.dart';
 import 'package:app_xem_tro/config/widget/button.dart';
 import 'package:app_xem_tro/config/widget/check_box.dart';
 import 'package:app_xem_tro/config/widget/text_field.dart';
+import 'package:app_xem_tro/models/district.dart';
+import 'package:app_xem_tro/models/province.dart';
+import 'package:app_xem_tro/models/ward.dart';
+import 'package:app_xem_tro/provider/google_map_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:provider/provider.dart';
 
-class HouseRegistration extends StatelessWidget {
+class HouseRegistration extends StatefulWidget {
   const HouseRegistration({super.key});
 
   @override
+  State<HouseRegistration> createState() => _HouseRegistrationState();
+}
+
+class _HouseRegistrationState extends State<HouseRegistration> {
+  @override
+  void initState() {
+    context.read<GoogleMapProvider>().getListProvince();
+    super.initState();
+  }
+
+  @override
   Widget build(BuildContext context) {
-    List<String> city = <String>["TPHCM", "Hà Nội", "Nha Trang", "Hải Phòng"];
-    List<String> district = ["1", "2", "3", "4"];
-    List<String> ward = ["1", "2", "3", "4"];
-    List<String> street = ["1", "2", "3", "4"];
     return Scaffold(
       body: Padding(
         padding: EdgeInsets.symmetric(
@@ -67,21 +79,43 @@ class HouseRegistration extends StatelessWidget {
                 icon: const Icon(FontAwesomeIcons.mapLocationDot),
               ),
               spaceHeight(context, height: 0.03),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  dropDownWidget(context, city, "Thành phố/Tỉnh"),
-                  dropDownWidget(context, district, "Quận/Huyện")
-                ],
-              ),
+              Consumer<GoogleMapProvider>(builder: (context, value, child) {
+                return dropDownProvince(
+                  context,
+                  value.listProvince,
+                  "Tỉnh/TP",
+                  (p0) {
+                    int code = value.listProvince
+                        .firstWhere((province) => province.name == p0)
+                        .code;
+
+                    context.read<GoogleMapProvider>().getListDistrict(code);
+                  },
+                );
+              }),
               spaceHeight(context, height: 0.03),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  dropDownWidget(context, ward, "Phường/Xã"),
-                  dropDownWidget(context, street, "Đường")
-                ],
-              ),
+              Consumer<GoogleMapProvider>(builder: (context, value, child) {
+                return dropDownDistrict(
+                  context,
+                  value.listDistrict,
+                  "Quận/Huyện",
+                  (p0) {
+                    int code = value.listDistrict
+                        .firstWhere((listDistrict) => listDistrict.name == p0)
+                        .code;
+                    context.read<GoogleMapProvider>().getListWard(code);
+                  },
+                );
+              }),
+              spaceHeight(context, height: 0.03),
+              Consumer<GoogleMapProvider>(builder: (context, value, child) {
+                return dropDownWard(
+                  context,
+                  value.listWard,
+                  "Phường/Xã",
+                  (p0) {},
+                );
+              }),
               spaceHeight(context),
               Container(
                 width: double.infinity,
@@ -213,17 +247,54 @@ class HouseRegistration extends StatelessWidget {
     );
   }
 
-  DropdownMenu<String> dropDownWidget(
-      context, List<String> location, String hint) {
+  DropdownMenu<String> dropDownProvince(context, List<Province> province,
+      String hint, Function(String?)? onSelected) {
     return DropdownMenu(
-      width: getWidth(context, width: 0.4),
+      width: getWidth(context, width: 0.9),
       hintText: hint,
-      onSelected: (String? value) {},
+      onSelected: (String? value) {
+        onSelected!(value);
+      },
       dropdownMenuEntries:
-          location.map<DropdownMenuEntry<String>>((String value) {
+          province.map<DropdownMenuEntry<String>>((Province province) {
         return DropdownMenuEntry<String>(
-          value: value,
-          label: value,
+          value: province.name,
+          label: province.name,
+        );
+      }).toList(),
+    );
+  }
+
+  DropdownMenu<String> dropDownDistrict(context, List<District> district,
+      String hint, Function(String?)? onSelected) {
+    return DropdownMenu(
+      width: getWidth(context, width: 0.9),
+      hintText: hint,
+      onSelected: (String? value) {
+        onSelected!(value);
+      },
+      dropdownMenuEntries:
+          district.map<DropdownMenuEntry<String>>((District district) {
+        return DropdownMenuEntry<String>(
+          value: district.name,
+          label: district.name,
+        );
+      }).toList(),
+    );
+  }
+
+  DropdownMenu<String> dropDownWard(
+      context, List<Ward> ward, String hint, Function(String?)? onSelected) {
+    return DropdownMenu(
+      width: getWidth(context, width: 0.9),
+      hintText: hint,
+      onSelected: (String? value) {
+        onSelected!(value);
+      },
+      dropdownMenuEntries: ward.map<DropdownMenuEntry<String>>((Ward ward) {
+        return DropdownMenuEntry<String>(
+          value: ward.name,
+          label: ward.name,
         );
       }).toList(),
     );
