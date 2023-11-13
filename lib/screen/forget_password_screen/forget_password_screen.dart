@@ -49,44 +49,46 @@ class ForgetPasswordScreen extends StatelessWidget {
                     ),
                   ],
                 ),
-                spaceHeight(context, height: 0.1),
+                spaceHeight(context),
+                SizedBox(
+                    height: getHeight(context, height: 0.09),
+                    width: double.infinity,
+                    child: const TextFieldWidget(hint: 'Số điện thoại')),
+                SizedBox(
+                  height: getHeight(context, height: 0.06),
+                ),
                 Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   children: [
                     Expanded(
-                      child: TextFieldWidget(hint: 'Số điện thoại'),
+                      child: SizedBox(
+                          height: getHeight(context, height: 0.09),
+                          child: TextFieldWidget(hint: 'Nhập mã OTP')),
                     ),
-                    spaceWidth(
-                      context,
-                    ),
+                    spaceWidth(context, width: 0.02),
                     Expanded(
-                      child: InkWell(
-                        onTap: () {},
-                        child: Ink(
-                          child: Container(
-                            height: getHeight(context, height: 0.09),
-                            decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(15.0),
-                                color: Colors.blue),
-                            child: const Center(
-                              child: Text(
-                                'Xác nhận',
-                                style: TextStyle(
-                                    fontSize: 20,
-                                    fontWeight: FontWeight.bold,
-                                    color: Colors.white),
-                              ),
-                            ),
-                          ),
+                      child: Container(
+                        height: getHeight(context, height: 0.09),
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(
+                              borderRadius(context, border: 0.03)),
+                          gradient: const LinearGradient(colors: [
+                            Color(0xff363ff5),
+                            Color(0xff6357CC),
+                          ]),
                         ),
+                        child: Center(
+                            child: Text(
+                          'Lấy mã xác nhận',
+                          style: mediumTextStyle(context, color: Colors.white),
+                        )),
                       ),
-                    ),
+                    )
                   ],
                 ),
                 SizedBox(
                   height: getHeight(context, height: 0.08),
                 ),
-                TextFieldWidget(hint: 'Nhập mã OTP'),
+                const TextFieldWidget(hint: 'Nhập mã OTP'),
                 SizedBox(
                   height: getHeight(context, height: 0.15),
                 ),
