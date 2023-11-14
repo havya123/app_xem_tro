@@ -3,6 +3,8 @@
         android:label="app_xem_tro"
         android:name="${applicationName}"
         android:icon="@mipmap/ic_launcher">
+        <meta-data android:name="com.google.android.geo.API_KEY"
+               android:value="AIzaSyB4_YEO01z38PgfL8IaX7OBJPdm6OQz6mo"/>
         <activity
             android:name=".MainActivity"
             android:exported="true"

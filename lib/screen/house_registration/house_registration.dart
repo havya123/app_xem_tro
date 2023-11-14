@@ -1,19 +1,66 @@
+import 'dart:async';
+
 import 'package:app_xem_tro/config/size_config.dart';
 import 'package:app_xem_tro/config/widget/button.dart';
 import 'package:app_xem_tro/config/widget/check_box.dart';
 import 'package:app_xem_tro/config/widget/text_field.dart';
+import 'package:app_xem_tro/models/district.dart';
+import 'package:app_xem_tro/models/province.dart';
+import 'package:app_xem_tro/models/ward.dart';
+import 'package:app_xem_tro/provider/google_map_provider.dart';
+import 'package:app_xem_tro/route/routes.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:get/get.dart';
+import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'package:provider/provider.dart';
 
-class HouseRegistration extends StatelessWidget {
+class HouseRegistration extends StatefulWidget {
   const HouseRegistration({super.key});
 
   @override
+  State<HouseRegistration> createState() => _HouseRegistrationState();
+}
+
+class _HouseRegistrationState extends State<HouseRegistration>
+    with TickerProviderStateMixin {
+  @override
+  void initState() {
+    context.read<GoogleMapProvider>().getListProvince();
+    super.initState();
+  }
+
+  final Completer<GoogleMapController> _controller =
+      Completer<GoogleMapController>();
+
+  String province = "";
+  String district = "";
+  String ward = "";
+
+  TextEditingController streetController = TextEditingController();
+
+  void showErrorDialog() {
+    showDialog(
+      context: context,
+      builder: (context) {
+        return AlertDialog(
+          title: const Text("Không tìm thấy địa điểm của bạn"),
+          content: const Text(
+              "Không tìm thấy địa điểm của bạn, xin vui lòng thử lại"),
+          actions: [
+            TextButton(
+                onPressed: () {
+                  Get.back();
+                },
+                child: const Text("Ok"))
+          ],
+        );
+      },
+    );
+  }
+
+  @override
   Widget build(BuildContext context) {
-    List<String> city = <String>["TPHCM", "Hà Nội", "Nha Trang", "Hải Phòng"];
-    List<String> district = ["1", "2", "3", "4"];
-    List<String> ward = ["1", "2", "3", "4"];
-    List<String> street = ["1", "2", "3", "4"];
     return Scaffold(
       body: Padding(
         padding: EdgeInsets.symmetric(
@@ -62,36 +109,100 @@ class HouseRegistration extends StatelessWidget {
                 type: TextInputType.number,
               ),
               spaceHeight(context, height: 0.03),
+              const Align(
+                alignment: Alignment.topLeft,
+                child: Text(
+                  "Địa chỉ",
+                  style: TextStyle(fontSize: 18),
+                ),
+              ),
+              spaceHeight(context, height: 0.01),
+              Consumer<GoogleMapProvider>(builder: (context, value, child) {
+                return dropDownProvince(
+                  context,
+                  value.listProvince,
+                  "Tỉnh/TP",
+                  (p0) {
+                    province = p0 as String;
+                    int code = value.listProvince
+                        .firstWhere((province) => province.name == p0)
+                        .code;
+
+                    context.read<GoogleMapProvider>().getListDistrict(code);
+                  },
+                );
+              }),
+              spaceHeight(context, height: 0.03),
+              Consumer<GoogleMapProvider>(builder: (context, value, child) {
+                return dropDownDistrict(
+                  context,
+                  value.listDistrict,
+                  "Quận/Huyện",
+                  (p0) {
+                    district = p0 as String;
+                    int code = value.listDistrict
+                        .firstWhere((listDistrict) => listDistrict.name == p0)
+                        .code;
+                    context.read<GoogleMapProvider>().getListWard(code);
+                  },
+                );
+              }),
+              spaceHeight(context, height: 0.03),
+              Consumer<GoogleMapProvider>(builder: (context, value, child) {
+                return dropDownWard(
+                  context,
+                  value.listWard,
+                  "Phường/Xã",
+                  (p0) {
+                    ward = p0 as String;
+                  },
+                );
+              }),
+              spaceHeight(context, height: 0.03),
               TextFieldWidget(
-                hint: "Địa chỉ hiện tại",
-                icon: const Icon(FontAwesomeIcons.mapLocationDot),
-              ),
-              spaceHeight(context, height: 0.03),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  dropDownWidget(context, city, "Thành phố/Tỉnh"),
-                  dropDownWidget(context, district, "Quận/Huyện")
-                ],
-              ),
-              spaceHeight(context, height: 0.03),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  dropDownWidget(context, ward, "Phường/Xã"),
-                  dropDownWidget(context, street, "Đường")
-                ],
+                hint: "Đường",
+                controller: streetController,
+                function: (p0) async {
+                  await context.read<GoogleMapProvider>().searchPlace(
+                      "$province $district $ward $p0", showErrorDialog);
+                  context.read<GoogleMapProvider>().goToPlace(_controller);
+                },
               ),
               spaceHeight(context),
-              Container(
-                width: double.infinity,
-                height: 200,
-                decoration: const BoxDecoration(
-                    color: Colors.grey,
-                    borderRadius: BorderRadius.all(Radius.circular(20))),
-                child: Image.asset(
-                  "assets/images/map_img/map.png",
-                ),
+              Stack(
+                children: [
+                  Container(
+                    width: double.infinity,
+                    height: 200,
+                    decoration: const BoxDecoration(
+                      color: Colors.grey,
+                      borderRadius: BorderRadius.all(Radius.circular(20)),
+                    ),
+                    child: Consumer<GoogleMapProvider>(
+                        builder: (context, value, child) {
+                      print(value.latLng);
+                      return GoogleMap(
+                        mapType: MapType.normal,
+                        markers: {value.marker},
+                        initialCameraPosition:
+                            CameraPosition(target: value.latLng, zoom: 24),
+                        onMapCreated: (GoogleMapController controller) {
+                          _controller.complete(controller);
+                        },
+                      );
+                    }),
+                  ),
+                  Positioned(
+                    right: 0,
+                    top: 0,
+                    child: IconButton(
+                      onPressed: () {
+                        Get.toNamed(Routes.mapRoute, arguments: _controller);
+                      },
+                      icon: const Icon(FontAwesomeIcons.expand),
+                    ),
+                  ),
+                ],
               ),
               spaceHeight(
                 context,
@@ -213,17 +324,54 @@ class HouseRegistration extends StatelessWidget {
     );
   }
 
-  DropdownMenu<String> dropDownWidget(
-      context, List<String> location, String hint) {
+  DropdownMenu<String> dropDownProvince(context, List<Province> province,
+      String hint, Function(String?)? onSelected) {
     return DropdownMenu(
-      width: getWidth(context, width: 0.4),
+      width: getWidth(context, width: 0.9),
       hintText: hint,
-      onSelected: (String? value) {},
+      onSelected: (String? value) {
+        onSelected!(value);
+      },
       dropdownMenuEntries:
-          location.map<DropdownMenuEntry<String>>((String value) {
+          province.map<DropdownMenuEntry<String>>((Province province) {
         return DropdownMenuEntry<String>(
-          value: value,
-          label: value,
+          value: province.name,
+          label: province.name,
+        );
+      }).toList(),
+    );
+  }
+
+  DropdownMenu<String> dropDownDistrict(context, List<District> district,
+      String hint, Function(String?)? onSelected) {
+    return DropdownMenu(
+      width: getWidth(context, width: 0.9),
+      hintText: hint,
+      onSelected: (String? value) {
+        onSelected!(value);
+      },
+      dropdownMenuEntries:
+          district.map<DropdownMenuEntry<String>>((District district) {
+        return DropdownMenuEntry<String>(
+          value: district.name,
+          label: district.name,
+        );
+      }).toList(),
+    );
+  }
+
+  DropdownMenu<String> dropDownWard(
+      context, List<Ward> ward, String hint, Function(String?)? onSelected) {
+    return DropdownMenu(
+      width: getWidth(context, width: 0.9),
+      hintText: hint,
+      onSelected: (String? value) {
+        onSelected!(value);
+      },
+      dropdownMenuEntries: ward.map<DropdownMenuEntry<String>>((Ward ward) {
+        return DropdownMenuEntry<String>(
+          value: ward.name,
+          label: ward.name,
         );
       }).toList(),
     );

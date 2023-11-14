@@ -102,24 +102,9 @@ class RoomRegistration extends StatelessWidget {
                 ],
               ),
               spaceHeight(context, height: 0.03),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  SizedBox(
-                      width: getWidth(context, width: 0.45),
-                      height: getHeight(context, height: 0.07),
-                      child: TextFieldWidget(
-                        hint: "Diện tích",
-                        type: TextInputType.number,
-                      )),
-                  spaceWidth(
-                    context,
-                  ),
-                  Text(
-                    "m2",
-                    style: mediumTextStyle(context),
-                  )
-                ],
+              TextFieldWidget(
+                hint: "Diện tích m2",
+                type: TextInputType.number,
               ),
               spaceHeight(context),
               Align(
