@@ -52,7 +52,7 @@ class GoogleMapRepo {
     return listDistrict;
   }
 
-  Future<Place> getPlace(String keyword) async {
+  Future<Place?> getPlace(String keyword) async {
     final String url =
         "https://maps.googleapis.com/maps/api/place/textsearch/json?v=3.exp&key=AIzaSyB4_YEO01z38PgfL8IaX7OBJPdm6OQz6mo&language=vi&region=VN&query=${Uri.encodeQueryComponent(keyword)}";
 
@@ -61,6 +61,9 @@ class GoogleMapRepo {
     var response = await http.get(uri);
     Map<String, dynamic> data = jsonDecode(response.body);
     List location = data['results'];
+    if (location.isEmpty) {
+      return null;
+    }
     Map<String, dynamic> dataLocation = location[0];
     Place place = Place(
         name: dataLocation['name'],

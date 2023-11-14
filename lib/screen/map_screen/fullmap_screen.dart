@@ -36,7 +36,7 @@ class _FullMapScreenState extends State<FullMapScreen> {
                   },
                   markers: {value.marker},
                   initialCameraPosition:
-                      CameraPosition(target: value.latLng, zoom: 16),
+                      CameraPosition(target: value.latLng, zoom: 24),
                   onMapCreated: (controller) {
                     completer.complete(controller);
                   },

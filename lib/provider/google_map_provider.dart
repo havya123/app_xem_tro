@@ -31,9 +31,13 @@ class GoogleMapProvider extends ChangeNotifier {
     notifyListeners();
   }
 
-  Future<void> searchPlace(String keyword) async {
-    Place place = await GoogleMapRepo().getPlace(keyword);
-    setMaker(LatLng(place.lat, place.lng));
+  Future<void> searchPlace(String keyword, Function function) async {
+    Place? place = await GoogleMapRepo().getPlace(keyword);
+    if (place != null) {
+      setMaker(LatLng(place.lat, place.lng));
+    } else {
+      function();
+    }
   }
 
   Marker marker = const Marker(markerId: MarkerId("Marker1"));
@@ -49,6 +53,6 @@ class GoogleMapProvider extends ChangeNotifier {
   Future<void> goToPlace(Completer<GoogleMapController> completer) async {
     final GoogleMapController controller = await completer.future;
     controller.animateCamera(CameraUpdate.newCameraPosition(
-        CameraPosition(target: latLng, zoom: 16)));
+        CameraPosition(target: latLng, zoom: 24)));
   }
 }

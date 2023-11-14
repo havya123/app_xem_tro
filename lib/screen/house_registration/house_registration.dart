@@ -39,6 +39,26 @@ class _HouseRegistrationState extends State<HouseRegistration>
 
   TextEditingController streetController = TextEditingController();
 
+  void showErrorDialog() {
+    showDialog(
+      context: context,
+      builder: (context) {
+        return AlertDialog(
+          title: const Text("Không tìm thấy địa điểm của bạn"),
+          content: const Text(
+              "Không tìm thấy địa điểm của bạn, xin vui lòng thử lại"),
+          actions: [
+            TextButton(
+                onPressed: () {
+                  Get.back();
+                },
+                child: const Text("Ok"))
+          ],
+        );
+      },
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -89,11 +109,14 @@ class _HouseRegistrationState extends State<HouseRegistration>
                 type: TextInputType.number,
               ),
               spaceHeight(context, height: 0.03),
-              TextFieldWidget(
-                hint: "Địa chỉ hiện tại",
-                icon: const Icon(FontAwesomeIcons.mapLocationDot),
+              const Align(
+                alignment: Alignment.topLeft,
+                child: Text(
+                  "Địa chỉ",
+                  style: TextStyle(fontSize: 18),
+                ),
               ),
-              spaceHeight(context, height: 0.03),
+              spaceHeight(context, height: 0.01),
               Consumer<GoogleMapProvider>(builder: (context, value, child) {
                 return dropDownProvince(
                   context,
@@ -140,9 +163,8 @@ class _HouseRegistrationState extends State<HouseRegistration>
                 hint: "Đường",
                 controller: streetController,
                 function: (p0) async {
-                  await context
-                      .read<GoogleMapProvider>()
-                      .searchPlace("$province $district $ward $p0");
+                  await context.read<GoogleMapProvider>().searchPlace(
+                      "$province $district $ward $p0", showErrorDialog);
                   context.read<GoogleMapProvider>().goToPlace(_controller);
                 },
               ),
