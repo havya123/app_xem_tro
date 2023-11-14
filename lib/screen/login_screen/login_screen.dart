@@ -29,7 +29,7 @@ class LoginScreen extends StatelessWidget {
       bool checking =
           await context.read<UserLoginProvider>().login(phoneNumber, password);
       if (checking) {
-        Navigator.pushReplacementNamed(context, Routes.navigationRoute);
+        Get.toNamed(Routes.navigationRoute);
       } else {
         showDialog(
           context: context,

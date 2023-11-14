@@ -1,4 +1,3 @@
-import 'package:app_xem_tro/route/routes.dart';
 import 'package:app_xem_tro/screen/admin_screen/admin_account_screen.dart';
 import 'package:app_xem_tro/screen/admin_screen/admin_approve_screen.dart';
 import 'package:app_xem_tro/screen/admin_screen/admin_booking_screen.dart';
@@ -13,16 +12,13 @@ import 'package:app_xem_tro/screen/house_registration/room_registration.dart';
 import 'package:app_xem_tro/screen/listhouse_screen/listhouse_screen.dart';
 import 'package:app_xem_tro/screen/listroom_screen/listroom_screen.dart';
 import 'package:app_xem_tro/screen/login_screen/login_screen.dart';
+import 'package:app_xem_tro/screen/navigation_screen.dart/navigation_screen.dart';
 import 'package:app_xem_tro/screen/navigationlisthouse_screen/navigationlisthouse.dart';
 import 'package:app_xem_tro/screen/navigationroom_screen/navigationroom_screen.dart';
 import 'package:app_xem_tro/screen/map_screen/fullmap_screen.dart';
 import 'package:app_xem_tro/screen/profile_screen/detail_profile_screen.dart';
 import 'package:app_xem_tro/screen/profile_screen/profie_screen.dart';
 import 'package:app_xem_tro/screen/review_screen/review_screen.dart';
-import 'package:app_xem_tro/screen/search_screen/search_screen.dart';
-import 'package:app_xem_tro/screen/signup_screen/second_signup.dart';
-import 'package:app_xem_tro/screen/navigation_screen.dart/navigation_screen.dart';
-import 'package:app_xem_tro/screen/save_screen/save_screen.dart';
 import 'package:app_xem_tro/screen/signup_screen/signup_screen.dart';
 import 'package:app_xem_tro/screen/splash_screen/splash_screen.dart';
 import 'package:get/get.dart';
@@ -47,6 +43,7 @@ class RouteManager {
       name: "/forgetRoute",
       page: () => const ForgetPasswordScreen(),
     ),
+    GetPage(name: "/navigationRoute", page: () => const NavigationScreen()),
     GetPage(
       name: "/homeRoute",
       page: () => const HomeScreen(),

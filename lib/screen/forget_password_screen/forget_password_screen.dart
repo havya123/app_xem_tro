@@ -94,7 +94,7 @@ class ForgetPasswordScreen extends StatelessWidget {
                 ),
                 ButtonWidget(
                   function: () {
-                    Get.toNamed(Routes.resetRoute);
+                    Get.toNamed(Routes.forgetRoute);
                   },
                   textButton: "Xác nhận",
                 ),

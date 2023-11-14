@@ -26,7 +26,7 @@ class _AppXemTroState extends State<AppXemTro> {
       builder: (context, child) {
         return GetMaterialApp(
           debugShowCheckedModeBanner: false,
-          initialRoute: Routes.signupRoute,
+          initialRoute: Routes.splashRoute,
           getPages: RouteManager.routeManager,
           unknownRoute: RouteManager.notFound,
         );
