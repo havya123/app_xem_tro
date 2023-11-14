@@ -54,7 +54,7 @@ class GoogleMapRepo {
 
   Future<Place?> getPlace(String keyword) async {
     final String url =
-        "https://maps.googleapis.com/maps/api/place/textsearch/json?v=3.exp&key=AIzaSyB4_YEO01z38PgfL8IaX7OBJPdm6OQz6mo&language=vi&region=VN&query=${Uri.encodeQueryComponent(keyword)}";
+        "https://maps.googleapis.com/maps/api/place/textsearch/json?v=3.exp&key=AIzaSyB4_YEO01z38PgfL8IaX7OBJPdm6OQz6mo&language=vi&region=VN&query=$keyword";
 
     final uri = Uri.parse(url);
 
@@ -67,6 +67,29 @@ class GoogleMapRepo {
     Map<String, dynamic> dataLocation = location[0];
     Place place = Place(
         name: dataLocation['name'],
+        address: dataLocation['formatted_address'],
+        lat: dataLocation['geometry']['location']['lat'],
+        lng: dataLocation['geometry']['location']['lng']);
+
+    return place;
+  }
+
+  Future<Place?> getPlaceByAttitude(String keyword) async {
+    final String url =
+        "https://maps.googleapis.com/maps/api/geocode/json?latlng=$keyword&key=AIzaSyB4_YEO01z38PgfL8IaX7OBJPdm6OQz6mo";
+    // AIzaSyB4_YEO01z38PgfL8IaX7OBJPdm6OQz6mo
+    // &language=vi&region=VN&query=$keyword";
+
+    final uri = Uri.parse(url);
+    var response = await http.get(uri);
+    Map<String, dynamic> data = jsonDecode(response.body);
+    List location = data['results'];
+    if (location.isEmpty) {
+      return null;
+    }
+    Map<String, dynamic> dataLocation = location[0];
+    Place place = Place(
+        name: "",
         address: dataLocation['formatted_address'],
         lat: dataLocation['geometry']['location']['lat'],
         lng: dataLocation['geometry']['location']['lng']);

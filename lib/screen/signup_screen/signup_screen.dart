@@ -5,7 +5,6 @@ import 'package:app_xem_tro/provider/user_provider.dart';
 import 'package:app_xem_tro/route/routes.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:provider/provider.dart';
 
@@ -95,12 +94,10 @@ class SignupScreen extends StatelessWidget {
                                               title: const Center(
                                                   child: Text(
                                                       'Gửi mã OTP thất bại')),
-                                              content:
-                                                  const SingleChildScrollView(
+                                              content: SingleChildScrollView(
                                                 child: ListBody(
                                                   children: <Widget>[
-                                                    Text(
-                                                        'Gửi mã OTP thất bại. Số điện thoại không hợp lệ'),
+                                                    Text(e.code.toString()),
                                                   ],
                                                 ),
                                               ),

@@ -1,6 +1,8 @@
 import 'package:app_xem_tro/config/size_config.dart';
 import 'package:app_xem_tro/config/widget/item.dart';
+import 'package:app_xem_tro/provider/google_map_provider.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 class HomeScreen extends StatelessWidget {
   const HomeScreen({super.key});
@@ -15,10 +17,12 @@ class HomeScreen extends StatelessWidget {
           child: SingleChildScrollView(
             child:
                 Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-              Text(
-                "Vị trí hiện tại",
-                style: mediumTextStyle(context),
-              ),
+              Consumer<GoogleMapProvider>(builder: (context, value, child) {
+                return Text(
+                  value.currentPlace,
+                  style: mediumTextStyle(context),
+                );
+              }),
               spaceHeight(context, height: 0.02),
               Row(
                 children: [
