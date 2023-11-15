@@ -17,12 +17,6 @@ class HomeScreen extends StatelessWidget {
           child: SingleChildScrollView(
             child:
                 Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-              Consumer<GoogleMapProvider>(builder: (context, value, child) {
-                return Text(
-                  value.currentPlace,
-                  style: mediumTextStyle(context),
-                );
-              }),
               spaceHeight(context, height: 0.02),
               Row(
                 children: [
@@ -35,7 +29,15 @@ class HomeScreen extends StatelessWidget {
                     ),
                   ),
                   spaceWidth(context),
-                  Text("Bành chính", style: largeTextStyle(context))
+                  Expanded(
+                    child: Consumer<GoogleMapProvider>(
+                        builder: (context, value, child) {
+                      return Text(
+                        "Vị trí của bạn là: ${value.currentPlace}",
+                        style: smallTextStyle(context),
+                      );
+                    }),
+                  ),
                 ],
               ),
               spaceHeight(context, height: 0.02),

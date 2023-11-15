@@ -77,8 +77,6 @@ class GoogleMapRepo {
   Future<Place?> getPlaceByAttitude(String keyword) async {
     final String url =
         "https://maps.googleapis.com/maps/api/geocode/json?latlng=$keyword&key=AIzaSyB4_YEO01z38PgfL8IaX7OBJPdm6OQz6mo";
-    // AIzaSyB4_YEO01z38PgfL8IaX7OBJPdm6OQz6mo
-    // &language=vi&region=VN&query=$keyword";
 
     final uri = Uri.parse(url);
     var response = await http.get(uri);

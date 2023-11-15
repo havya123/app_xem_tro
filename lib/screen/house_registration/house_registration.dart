@@ -278,6 +278,7 @@ class _HouseRegistrationState extends State<HouseRegistration>
                   width: getWidth(context, width: 0.5),
                   height: getHeight(context, height: 0.2),
                   decoration: BoxDecoration(
+                      color: Colors.white,
                       border: Border.all(color: Colors.black),
                       borderRadius: BorderRadius.circular(20)),
                   child: Column(

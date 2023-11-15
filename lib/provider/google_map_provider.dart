@@ -16,7 +16,7 @@ class GoogleMapProvider extends ChangeNotifier {
   List<Ward> listWard = [];
 
   LatLng? currentPosition;
-  String currentPlace = "Vị trí của bạn là: ";
+  String currentPlace = "";
 
   LatLng latLng = const LatLng(10.775213008184023, 106.62146058976832);
 
@@ -90,5 +90,10 @@ class GoogleMapProvider extends ChangeNotifier {
     }
     var position = await Geolocator.getCurrentPosition();
     currentPosition = LatLng(position.latitude, position.longitude);
+  }
+
+  Future<void> initPosition() async {
+    Place? place = await GoogleMapRepo().getPlaceByAttitude(
+        "${currentPosition!.latitude},${currentPosition!.longitude}");
   }
 }

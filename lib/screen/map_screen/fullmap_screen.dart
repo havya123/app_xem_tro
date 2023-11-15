@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:app_xem_tro/provider/google_map_provider.dart';
 import 'package:flutter/material.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get/get.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:provider/provider.dart';
@@ -53,7 +54,23 @@ class _FullMapScreenState extends State<FullMapScreen> {
                     Get.back();
                   },
                   icon: const Icon(Icons.arrow_back_ios_new)),
-            )
+            ),
+            Positioned(
+                right: 0,
+                top: 0,
+                child: Row(
+                  children: [
+                    const Text("Lấy vị trị của bạn"),
+                    IconButton(
+                      icon: const Icon(FontAwesomeIcons.locationDot),
+                      onPressed: () async {
+                        await context
+                            .read<GoogleMapProvider>()
+                            .getCurrentPosition();
+                      },
+                    ),
+                  ],
+                ))
           ],
         ),
       ),

@@ -1,7 +1,6 @@
 import 'package:app_xem_tro/config/size_config.dart';
 import 'package:app_xem_tro/config/widget/item.dart';
 import 'package:app_xem_tro/route/routes.dart';
-import 'package:app_xem_tro/screen/navigationlisthouse_screen/navigationlisthouse.dart';
 import 'package:flutter/material.dart';
 
 class ListHouse extends StatelessWidget {
