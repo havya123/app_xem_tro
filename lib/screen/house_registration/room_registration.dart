@@ -1,9 +1,14 @@
+import 'dart:io';
+
 import 'package:app_xem_tro/config/size_config.dart';
 import 'package:app_xem_tro/config/widget/button.dart';
 import 'package:app_xem_tro/config/widget/check_box.dart';
+import 'package:app_xem_tro/config/widget/image_room_selected.dart';
 import 'package:app_xem_tro/config/widget/text_field.dart';
+import 'package:app_xem_tro/provider/house_register_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:provider/provider.dart';
 
 class RoomRegistration extends StatelessWidget {
   const RoomRegistration({super.key});
@@ -114,31 +119,86 @@ class RoomRegistration extends StatelessWidget {
                   style: mediumTextStyle(context),
                 ),
               ),
-              spaceHeight(context, height: 0.03),
+              Row(
+                children: [
+                  GestureDetector(
+                    onTap: () {
+                      showModalBottomSheet(
+                          context: context,
+                          builder: (context) {
+                            return const ImageRoomSelected();
+                          });
+                    },
+                    child: Container(
+                      width: getWidth(context, width: 0.5),
+                      height: getHeight(context, height: 0.2),
+                      decoration: BoxDecoration(
+                          color: Colors.white,
+                          border: Border.all(color: Colors.black),
+                          borderRadius: BorderRadius.circular(20)),
+                      child: Column(
+                        children: [
+                          SizedBox(
+                              width: getWidth(context, width: 0.5),
+                              height: getHeight(context, height: 0.15),
+                              child: Image.asset(
+                                "assets/images/camera_img/camera_img.png",
+                                fit: BoxFit.fitHeight,
+                              )),
+                          Text(
+                            "Thêm ảnh",
+                            style: mediumTextStyle(context),
+                          )
+                        ],
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+              spaceHeight(context),
               Align(
                 alignment: Alignment.centerLeft,
-                child: Container(
-                  width: getWidth(context, width: 0.5),
-                  height: getHeight(context, height: 0.2),
-                  decoration: BoxDecoration(
-                      border: Border.all(color: Colors.black),
-                      borderRadius: BorderRadius.circular(20)),
-                  child: Column(
-                    children: [
-                      SizedBox(
-                          width: getWidth(context, width: 0.5),
-                          height: getHeight(context, height: 0.15),
-                          child: Image.asset(
-                            "assets/images/camera_img/camera_img.png",
-                            fit: BoxFit.fitHeight,
-                          )),
-                      Text(
-                        "Thêm ảnh",
-                        style: mediumTextStyle(context),
-                      )
-                    ],
-                  ),
-                ),
+                child: Consumer<HouseRegisterProvider>(
+                    builder: (context, value, child) {
+                  if (value.selectedImageRoom.isEmpty) {
+                    return const SizedBox();
+                  }
+                  return SizedBox(
+                    height: getHeight(context, height: 0.2),
+                    child: ListView.separated(
+                        scrollDirection: Axis.horizontal,
+                        shrinkWrap: true,
+                        itemBuilder: (context, index) {
+                          return Stack(
+                            children: [
+                              Container(
+                                width: getWidth(context, width: 0.5),
+                                clipBehavior: Clip.hardEdge,
+                                decoration: BoxDecoration(
+                                    borderRadius: BorderRadius.circular(20)),
+                                child: Image.file(
+                                  File(value.selectedImageRoom[index]!.path),
+                                  fit: BoxFit.cover,
+                                ),
+                              ),
+                              Positioned(
+                                  right: 0,
+                                  top: 0,
+                                  child: IconButton(
+                                      onPressed: () {
+                                        context
+                                            .read<HouseRegisterProvider>()
+                                            .deleteImageRoom(index);
+                                      },
+                                      icon: const Icon(FontAwesomeIcons.xmark)))
+                            ],
+                          );
+                        },
+                        separatorBuilder: (context, index) =>
+                            spaceWidth(context),
+                        itemCount: value.selectedImageRoom.length),
+                  );
+                }),
               ),
               spaceHeight(context),
               const Divider(
