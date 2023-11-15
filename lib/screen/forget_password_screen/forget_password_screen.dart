@@ -21,7 +21,7 @@ class ForgetPasswordScreen extends StatelessWidget {
     final formKey = GlobalKey<FormState>();
     final phonekey = GlobalKey<FormState>();
 
-    var data = Get.arguments;
+    Function data = Get.arguments as Function;
 
     return Scaffold(
       body: SafeArea(
@@ -210,9 +210,7 @@ class ForgetPasswordScreen extends StatelessWidget {
                     //       // SMS code verification is successful
                     Get.toNamed(
                       Routes.resetRoute,
-                      arguments: [
-                        phoneController.text,
-                      ],
+                      arguments: [phoneController.text, data],
                     )!
                         .then((value) => Get.back(result: value ?? []));
                     //     } else {

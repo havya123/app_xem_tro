@@ -58,6 +58,14 @@ class LoginScreen extends StatelessWidget {
       }
     }
 
+    void showToast() => Fluttertoast.showToast(
+        msg: "Đổi mật khẩu thành công",
+        toastLength: Toast.LENGTH_LONG,
+        gravity: ToastGravity.TOP,
+        backgroundColor: Colors.green,
+        textColor: Colors.white,
+        fontSize: 16.0);
+
     return Scaffold(
       body: Padding(
         padding: EdgeInsets.symmetric(
@@ -135,9 +143,7 @@ class LoginScreen extends StatelessWidget {
                   Expanded(
                     child: TextButton(
                       onPressed: () {
-                        Get.toNamed(
-                          Routes.forgetRoute,
-                        )!
+                        Get.toNamed(Routes.forgetRoute, arguments: showToast)!
                             .then((value) {
                           if (value is List) {
                             if (value.isNotEmpty) {

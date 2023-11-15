@@ -42,6 +42,7 @@ class ResetPassword extends StatelessWidget {
 
     List dynamic = Get.arguments;
     var phoneNumber = dynamic[0];
+    Function function = dynamic[1];
 
     return Scaffold(
       body: Padding(
@@ -111,15 +112,9 @@ class ResetPassword extends StatelessWidget {
                     if (formKey.currentState!.validate()) {
                       context.read<UserProvider>().changeNewPass(
                           phoneNumber, confirmpassController.text);
+                      function();
                       Get.back(
                           result: [phoneNumber, confirmpassController.text]);
-                      Fluttertoast.showToast(
-                          msg: "Đổi mật khẩu thành công",
-                          toastLength: Toast.LENGTH_LONG,
-                          gravity: ToastGravity.TOP,
-                          backgroundColor: Colors.green,
-                          textColor: Colors.white,
-                          fontSize: 16.0);
                     }
                   } else {
                     formKey.currentState!.validate();
