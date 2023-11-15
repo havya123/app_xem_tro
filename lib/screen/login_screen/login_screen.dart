@@ -6,6 +6,7 @@ import 'package:app_xem_tro/config/widget/text_field.dart';
 import 'package:app_xem_tro/provider/user_login_provider.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get/get.dart';
 import 'package:app_xem_tro/route/routes.dart';
@@ -133,18 +134,26 @@ class LoginScreen extends StatelessWidget {
                   ),
                   Expanded(
                     child: TextButton(
-                      onPressed: () {},
-                      child: TextButton(
-                        onPressed: () {
-                          Get.toNamed(Routes.forgetRoute);
-                        },
-                        child: const Text(
-                          'Quên mật khẩu ?',
-                          style: TextStyle(
-                              color: Colors.black,
-                              fontSize: 17,
-                              fontWeight: FontWeight.bold),
-                        ),
+                      onPressed: () {
+                        Get.toNamed(
+                          Routes.forgetRoute,
+                        )!
+                            .then((value) {
+                          if (value is List) {
+                            if (value.isNotEmpty) {
+                              phoneController.text = value[0];
+                              passController.text = value[1];
+                            }
+                            return;
+                          }
+                        });
+                      },
+                      child: const Text(
+                        'Quên mật khẩu ?',
+                        style: TextStyle(
+                            color: Colors.black,
+                            fontSize: 17,
+                            fontWeight: FontWeight.bold),
                       ),
                     ),
                   ),

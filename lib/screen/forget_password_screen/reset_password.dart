@@ -1,13 +1,17 @@
 import 'package:app_xem_tro/config/size_config.dart';
 import 'package:app_xem_tro/config/widget/button.dart';
 import 'package:app_xem_tro/config/widget/text_field.dart';
+import 'package:app_xem_tro/provider/user_provider.dart';
 import 'package:app_xem_tro/route/routes.dart';
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get/get.dart';
+import 'package:provider/provider.dart';
 
 class ResetPassword extends StatelessWidget {
   const ResetPassword({super.key});
+
   @override
   Widget build(BuildContext context) {
     RxBool showpass = true.obs;
@@ -20,6 +24,24 @@ class ResetPassword extends StatelessWidget {
     void isHidden2() {
       showpass2.value = !showpass2.value;
     }
+
+    TextEditingController passController = TextEditingController();
+    TextEditingController confirmpassController = TextEditingController();
+    final formKey = GlobalKey<FormState>();
+
+    bool checkConfirm() {
+      if (passController.text != confirmpassController.text) {
+        confirmpassController.clear();
+        return false;
+      }
+      if (passController.text == "" && confirmpassController.text == "") {
+        return true;
+      }
+      return true;
+    }
+
+    List dynamic = Get.arguments;
+    var phoneNumber = dynamic[0];
 
     return Scaffold(
       body: Padding(
@@ -34,42 +56,75 @@ class ResetPassword extends StatelessWidget {
                 style: TextStyle(fontSize: 40, fontWeight: FontWeight.bold),
               ),
               spaceHeight(context, height: 0.1),
-              Obx(
-                () => TextFieldWidget(
-                  isPass: showpass.value,
-                  hint: 'Nhập mật khẩu mới',
-                  icon: IconButton(
-                      onPressed: () {
-                        isHidden();
-                      },
-                      icon: Obx(
-                        () => showpass.value
-                            ? const Icon(FontAwesomeIcons.eyeSlash)
-                            : const Icon(FontAwesomeIcons.eye),
-                      )),
-                ),
-              ),
-              spaceHeight(context, height: 0.1),
-              Obx(
-                () => TextFieldWidget(
-                  isPass: showpass2.value,
-                  hint: 'Nhập mật khẩu mới',
-                  icon: IconButton(
-                    onPressed: () {
-                      isHidden2();
-                    },
-                    icon: showpass2.value
-                        ? const Icon(FontAwesomeIcons.eyeSlash)
-                        : const Icon(FontAwesomeIcons.eye),
-                  ),
-                ),
-              ),
+              Form(
+                  key: formKey,
+                  child: Column(
+                    children: [
+                      Obx(
+                        () => TextFieldWidget(
+                          isPass: showpass.value,
+                          hint: 'Nhập mật khẩu mới',
+                          icon: IconButton(
+                              onPressed: () {
+                                isHidden();
+                              },
+                              icon: Obx(
+                                () => showpass.value
+                                    ? const Icon(FontAwesomeIcons.eyeSlash)
+                                    : const Icon(FontAwesomeIcons.eye),
+                              )),
+                          errorText: "Hãy nhập mật khẩu",
+                          errorPass: "Yêu cầu ít nhất 8 ký tự",
+                          minLetter: 8,
+                          controller: passController,
+                        ),
+                      ),
+                      spaceHeight(context, height: 0.05),
+                      Obx(
+                        () => TextFieldWidget(
+                          isPass: showpass2.value,
+                          hint: 'Nhập lại mật khẩu mới',
+                          icon: IconButton(
+                            onPressed: () {
+                              isHidden2();
+                            },
+                            icon: showpass2.value
+                                ? const Icon(FontAwesomeIcons.eyeSlash)
+                                : const Icon(FontAwesomeIcons.eye),
+                          ),
+                          errorText: checkConfirm()
+                              ? "Hãy xác nhận mật khẩu"
+                              : "Mật khẩu không trùng khớp",
+                          errorPass: "Yêu cầu ít nhất 8 ký tự",
+                          minLetter: 8,
+                          controller: confirmpassController,
+                        ),
+                      ),
+                    ],
+                  )),
               SizedBox(
-                height: getHeight(context, height: 0.17),
+                height: getHeight(context, height: 0.1),
               ),
               ButtonWidget(
-                function: () async {
-                  Get.offAllNamed(Routes.loginRoute);
+                function: () {
+                  if (checkConfirm()) {
+                    if (formKey.currentState!.validate()) {
+                      context.read<UserProvider>().changeNewPass(
+                          phoneNumber, confirmpassController.text);
+                      Get.back(
+                          result: [phoneNumber, confirmpassController.text]);
+                      Fluttertoast.showToast(
+                          msg: "Đổi mật khẩu thành công",
+                          toastLength: Toast.LENGTH_LONG,
+                          gravity: ToastGravity.TOP,
+                          backgroundColor: Colors.green,
+                          textColor: Colors.white,
+                          fontSize: 16.0);
+                    }
+                  } else {
+                    formKey.currentState!.validate();
+                    return;
+                  }
                 },
                 textButton: "Xác nhận",
               ),

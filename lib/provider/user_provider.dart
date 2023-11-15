@@ -14,4 +14,8 @@ class UserProvider extends ChangeNotifier {
     }
     return true;
   }
+
+  void changeNewPass(String phoneNumber, String newPass) async {
+    await UserRepo().changePass(phoneNumber, newPass);
+  }
 }
