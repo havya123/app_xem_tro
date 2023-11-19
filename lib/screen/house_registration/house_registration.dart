@@ -129,7 +129,7 @@ class HouseRegistration extends StatelessWidget {
               ),
               Row(
                 children: [
-                  const CheckboxExample(),
+                  // const CheckboxExample(),
                   Text(
                     "Khác...",
                     style: mediumTextStyle(context),
@@ -202,7 +202,7 @@ class HouseRegistration extends StatelessWidget {
   Row checkBoxCombo(BuildContext context, IconData logo, String label) {
     return Row(
       children: [
-        const CheckboxExample(),
+        // const CheckboxExample(),
         Icon(logo),
         spaceWidth(context),
         Text(

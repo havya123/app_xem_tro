@@ -75,6 +75,9 @@ class ForgetPasswordScreen extends StatelessWidget {
                                 child: TextFieldWidget(
                                   hint: 'Số điện thoại',
                                   controller: phoneController,
+                                  errorText: "Hãy nhập số điện thoại",
+                                  errorPass:
+                                      "Yêu cầu nhập đủ 10 chữ số điện thoại",
                                 ))),
                         SizedBox(
                           height: getHeight(context, height: 0.02),
@@ -93,77 +96,111 @@ class ForgetPasswordScreen extends StatelessWidget {
                             Expanded(
                               child: InkWell(
                                 onTap: () async {
-                                  // if (phonekey.currentState!.validate()) {
-                                  //   await FirebaseAuth.instance
-                                  //       .verifyPhoneNumber(
-                                  //     phoneNumber: "+84${phoneController.text}",
-                                  //     verificationCompleted:
-                                  //         (PhoneAuthCredential credential) {},
-                                  //     verificationFailed:
-                                  //         (FirebaseAuthException e) {
-                                  //       showDialog(
-                                  //           context: context,
-                                  //           builder: (BuildContext context) {
-                                  //             return AlertDialog(
-                                  //               title: const Center(
-                                  //                   child: Text(
-                                  //                       'Gửi mã OTP thất bại')),
-                                  //               content:
-                                  //                   const SingleChildScrollView(
-                                  //                 child: ListBody(
-                                  //                   children: <Widget>[
-                                  //                     Text(
-                                  //                         'Gửi mã OTP thất bại. Số điện thoại không hợp lệ'),
-                                  //                   ],
-                                  //                 ),
-                                  //               ),
-                                  //               actions: <Widget>[
-                                  //                 TextButton(
-                                  //                   child: const Text('OK'),
-                                  //                   onPressed: () {
-                                  //                     Navigator.of(context)
-                                  //                         .pop();
-                                  //                   },
-                                  //                 ),
-                                  //               ],
-                                  //             );
-                                  //           });
-                                  //     },
-                                  //     codeSent: (String verificationId,
-                                  //         int? resendToken) {
-                                  //       showDialog(
-                                  //           context: context,
-                                  //           builder: (BuildContext context) {
-                                  //             return AlertDialog(
-                                  //               title: const Center(
-                                  //                   child: Text(
-                                  //                       'Gửi mã OTP thành công')),
-                                  //               content:
-                                  //                   const SingleChildScrollView(
-                                  //                 child: ListBody(
-                                  //                   children: <Widget>[
-                                  //                     Text(
-                                  //                         'Mã OTP đã được gửi vào số điện thoại của bạn'),
-                                  //                   ],
-                                  //                 ),
-                                  //               ),
-                                  //               actions: <Widget>[
-                                  //                 TextButton(
-                                  //                   child: const Text('OK'),
-                                  //                   onPressed: () {
-                                  //                     Navigator.of(context)
-                                  //                         .pop();
-                                  //                   },
-                                  //                 ),
-                                  //               ],
-                                  //             );
-                                  //           });
-                                  //       verifyID = verificationId;
-                                  //     },
-                                  //     codeAutoRetrievalTimeout:
-                                  //         (String verificationId) {},
-                                  //   );
-                                  // }
+                                  bool existsPhoneNumber = await context
+                                      .read<UserProvider>()
+                                      .checkingNumberPhone(
+                                          phoneController.text);
+                                  if (!existsPhoneNumber) {
+                                    if (phonekey.currentState!.validate()) {
+                                      await FirebaseAuth.instance
+                                          .verifyPhoneNumber(
+                                        phoneNumber:
+                                            "+84${phoneController.text}",
+                                        verificationCompleted:
+                                            (PhoneAuthCredential credential) {},
+                                        verificationFailed:
+                                            (FirebaseAuthException e) {
+                                          showDialog(
+                                              context: context,
+                                              builder: (BuildContext context) {
+                                                return AlertDialog(
+                                                  title: const Center(
+                                                      child: Text(
+                                                          'Gửi mã OTP thất bại')),
+                                                  content:
+                                                      const SingleChildScrollView(
+                                                    child: ListBody(
+                                                      children: <Widget>[
+                                                        Text(
+                                                            'Gửi mã OTP thất bại. Số điện thoại không hợp lệ'),
+                                                      ],
+                                                    ),
+                                                  ),
+                                                  actions: <Widget>[
+                                                    TextButton(
+                                                      child: const Text('OK'),
+                                                      onPressed: () {
+                                                        Navigator.of(context)
+                                                            .pop();
+                                                      },
+                                                    ),
+                                                  ],
+                                                );
+                                              });
+                                        },
+                                        codeSent: (String verificationId,
+                                            int? resendToken) {
+                                          showDialog(
+                                              context: context,
+                                              builder: (BuildContext context) {
+                                                return AlertDialog(
+                                                  title: const Center(
+                                                      child: Text(
+                                                          'Gửi mã OTP thành công')),
+                                                  content:
+                                                      const SingleChildScrollView(
+                                                    child: ListBody(
+                                                      children: <Widget>[
+                                                        Text(
+                                                            'Mã OTP đã được gửi vào số điện thoại của bạn'),
+                                                      ],
+                                                    ),
+                                                  ),
+                                                  actions: <Widget>[
+                                                    TextButton(
+                                                      child: const Text('OK'),
+                                                      onPressed: () {
+                                                        Navigator.of(context)
+                                                            .pop();
+                                                      },
+                                                    ),
+                                                  ],
+                                                );
+                                              });
+                                          verifyID = verificationId;
+                                        },
+                                        codeAutoRetrievalTimeout:
+                                            (String verificationId) {},
+                                      );
+                                    }
+                                  } else {
+                                    return showDialog(
+                                      context: context,
+                                      builder: (context) {
+                                        return AlertDialog(
+                                          title: const Center(
+                                              child: Text(
+                                                  'Số điện thoại không hợp lệ')),
+                                          content: const SingleChildScrollView(
+                                            child: ListBody(
+                                              children: <Widget>[
+                                                Text(
+                                                    'Số điện thoại này chưa được tạo'),
+                                              ],
+                                            ),
+                                          ),
+                                          actions: <Widget>[
+                                            TextButton(
+                                              child: const Text('OK'),
+                                              onPressed: () {
+                                                Navigator.of(context).pop();
+                                              },
+                                            ),
+                                          ],
+                                        );
+                                      },
+                                    );
+                                  }
                                 },
                                 child: Container(
                                   height: getHeight(context, height: 0.09),
@@ -193,60 +230,60 @@ class ForgetPasswordScreen extends StatelessWidget {
                 ),
                 ButtonWidget(
                   function: () async {
-                    // if (formKey.currentState!.validate()) {
-                    //   try {
-                    //     PhoneAuthCredential credential =
-                    //         PhoneAuthProvider.credential(
-                    //       verificationId: verifyID,
-                    //       smsCode: otpController.text,
-                    //     );
+                    if (formKey.currentState!.validate()) {
+                      try {
+                        PhoneAuthCredential credential =
+                            PhoneAuthProvider.credential(
+                          verificationId: verifyID,
+                          smsCode: otpController.text,
+                        );
 
-                    //     // Sign in with the credential
-                    //     UserCredential userCredential = await FirebaseAuth
-                    //         .instance
-                    //         .signInWithCredential(credential);
+                        // Sign in with the credential
+                        UserCredential userCredential = await FirebaseAuth
+                            .instance
+                            .signInWithCredential(credential);
 
-                    //     if (userCredential.user != null) {
-                    //       // SMS code verification is successful
-                    Get.toNamed(
-                      Routes.resetRoute,
-                      arguments: [phoneController.text, data],
-                    )!
-                        .then((value) => Get.back(result: value ?? []));
-                    //     } else {
-                    //       // Verification failed
-                    //     }
-                    //   } catch (e) {
-                    //     return showDialog<void>(
-                    //       context: context,
-                    //       barrierDismissible: false, // user must tap button!
-                    //       builder: (BuildContext context) {
-                    //         return AlertDialog(
-                    //           title: const Center(child: Text('Sai mã OTP')),
-                    //           content: const SingleChildScrollView(
-                    //             child: ListBody(
-                    //               children: <Widget>[
-                    //                 Text(
-                    //                     'Bạn đã nhập sai mã OTP. Hãy kiểm tra mã OTP và nhập lại'),
-                    //               ],
-                    //             ),
-                    //           ),
-                    //           actions: <Widget>[
-                    //             TextButton(
-                    //               child: const Text('OK'),
-                    //               onPressed: () {
-                    //                 Navigator.of(context).pop();
-                    //               },
-                    //             ),
-                    //           ],
-                    //         );
-                    //       },
-                    //     );
-                    //   }
-                    // } else {
-                    //   formKey.currentState!.validate();
-                    //   return;
-                    // }
+                        if (userCredential.user != null) {
+                          // SMS code verification is successful
+                          Get.toNamed(
+                            Routes.resetRoute,
+                            arguments: [phoneController.text, data],
+                          )!
+                              .then((value) => Get.back(result: value ?? []));
+                        } else {
+                          // Verification failed
+                        }
+                      } catch (e) {
+                        return showDialog<void>(
+                          context: context,
+                          barrierDismissible: false, // user must tap button!
+                          builder: (BuildContext context) {
+                            return AlertDialog(
+                              title: const Center(child: Text('Sai mã OTP')),
+                              content: const SingleChildScrollView(
+                                child: ListBody(
+                                  children: <Widget>[
+                                    Text(
+                                        'Bạn đã nhập sai mã OTP. Hãy kiểm tra mã OTP và nhập lại'),
+                                  ],
+                                ),
+                              ),
+                              actions: <Widget>[
+                                TextButton(
+                                  child: const Text('OK'),
+                                  onPressed: () {
+                                    Navigator.of(context).pop();
+                                  },
+                                ),
+                              ],
+                            );
+                          },
+                        );
+                      }
+                    } else {
+                      formKey.currentState!.validate();
+                      return;
+                    }
                   },
                   textButton: "Xác nhận",
                 ),

@@ -12,9 +12,14 @@ import 'package:get/get.dart';
 import 'package:app_xem_tro/route/routes.dart';
 import 'package:provider/provider.dart';
 
-class LoginScreen extends StatelessWidget {
+class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});
 
+  @override
+  State<LoginScreen> createState() => _LoginScreenState();
+}
+
+class _LoginScreenState extends State<LoginScreen> {
   @override
   Widget build(BuildContext context) {
     final formKey = GlobalKey<FormState>();
@@ -59,13 +64,13 @@ class LoginScreen extends StatelessWidget {
     }
 
     void showToast() => Fluttertoast.showToast(
-        msg: "Đổi mật khẩu thành công",
+        msg: "Đổi mật khẩu thành công !",
         toastLength: Toast.LENGTH_LONG,
         gravity: ToastGravity.TOP,
-        backgroundColor: Colors.green,
+        backgroundColor: Colors.blue[300],
         textColor: Colors.white,
-        fontSize: 16.0);
-
+        fontSize: 20.0);
+    bool isChecked = false;
     return Scaffold(
       body: Padding(
         padding: EdgeInsets.symmetric(
@@ -130,7 +135,9 @@ class LoginScreen extends StatelessWidget {
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  const CheckboxExample(),
+                  CheckboxExample(
+                    isChecked: isChecked,
+                  ),
                   const Expanded(
                     child: Text(
                       'Nhớ tài khoản',
@@ -168,11 +175,12 @@ class LoginScreen extends StatelessWidget {
               spaceHeight(context, height: 0.02),
               ButtonWidget(
                 function: () {
-                  if (formKey.currentState!.validate()) {
-                    loginCheck(phoneController.text, passController.text);
-                  } else {
-                    return;
-                  }
+                  print(isChecked);
+                  // if (formKey.currentState!.validate()) {
+                  //   loginCheck(phoneController.text, passController.text);
+                  // } else {
+                  //   return;
+                  // }
                 },
                 textButton: "Đăng nhập",
               ),

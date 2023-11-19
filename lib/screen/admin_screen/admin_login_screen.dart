@@ -109,7 +109,7 @@ class AdminLogin extends StatelessWidget {
                 ),
                 Row(
                   children: [
-                    const CheckboxExample(),
+                    // const CheckboxExample(),
                     Expanded(
                       child: Text(
                         'Ghi nhớ tài khoản',

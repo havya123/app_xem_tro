@@ -302,7 +302,7 @@ class _SearchScreenState extends State<SearchScreen> {
                       style: smallTextStyle(context,
                           size: 0.023, color: Colors.grey.shade600),
                     ),
-                    const CheckboxExample()
+                    // const CheckboxExample()
                   ],
                 ),
                 spaceHeight(context, height: 0.05),

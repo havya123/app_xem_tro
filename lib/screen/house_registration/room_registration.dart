@@ -90,7 +90,7 @@ class RoomRegistration extends StatelessWidget {
                     "Ở ghép",
                     style: mediumTextStyle(context),
                   ),
-                  const CheckboxExample()
+                  // const CheckboxExample()
                 ],
               ),
               spaceHeight(context, height: 0.03),
@@ -171,7 +171,7 @@ class RoomRegistration extends StatelessWidget {
   Row checkBoxCombo(BuildContext context, IconData logo, String label) {
     return Row(
       children: [
-        const CheckboxExample(),
+        // const CheckboxExample(),
         Icon(logo),
         spaceWidth(context),
         Text(
