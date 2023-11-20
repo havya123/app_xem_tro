@@ -71,6 +71,10 @@ class _LoginScreenState extends State<LoginScreen> {
         textColor: Colors.white,
         fontSize: 20.0);
     bool isChecked = false;
+    void isChoosed(bool isCheck) {
+      isChecked = isCheck;
+    }
+
     return Scaffold(
       body: Padding(
         padding: EdgeInsets.symmetric(
@@ -136,7 +140,7 @@ class _LoginScreenState extends State<LoginScreen> {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   CheckboxExample(
-                    isChecked: isChecked,
+                    isChecked: (p0) => isChoosed(p0!),
                   ),
                   const Expanded(
                     child: Text(
