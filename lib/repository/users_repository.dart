@@ -3,6 +3,8 @@ import 'package:app_xem_tro/models/users.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
 class UserRepo {
+  String? get phoneNumber => null;
+
   void signUp(String phoneNumber, String password, String name, String email,
       String dob, String address, String? avatar) {
     FirebaseService.userRef.doc(phoneNumber).set(User(
@@ -31,5 +33,12 @@ class UserRepo {
         .get()
         .then((value) => value.data());
     return response?["phoneNumber"] ?? "";
+  }
+
+  Future<void> changePass(String phoneNumber, String newPass) async {
+    await FirebaseFirestore.instance
+        .collection('users')
+        .doc(phoneNumber)
+        .update({'password': newPass});
   }
 }

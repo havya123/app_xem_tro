@@ -43,14 +43,13 @@ class SecondSignup extends StatelessWidget {
         return false;
       }
       if (passController.text == "" && confirmpassController.text == "") {
-        return false;
+        return true;
       }
       return true;
     }
 
     String phoneNumber = Get.arguments as String;
 
-    print(data);
     return Scaffold(
       body: Padding(
         padding: EdgeInsets.symmetric(
