@@ -7,6 +7,7 @@ import 'package:app_xem_tro/screen/chat_screen/list_chat_screen.dart';
 import 'package:app_xem_tro/screen/detail_screen/over_view_screen.dart';
 import 'package:app_xem_tro/screen/error_screen/error_screen.dart';
 import 'package:app_xem_tro/screen/forget_password_screen/forget_password_screen.dart';
+import 'package:app_xem_tro/screen/forget_password_screen/reset_password.dart';
 import 'package:app_xem_tro/screen/home_screen/home_screen.dart';
 import 'package:app_xem_tro/screen/house_registration/house_registration.dart';
 import 'package:app_xem_tro/screen/house_registration/room_registration.dart';
@@ -135,6 +136,7 @@ class RouteManager {
       name: Routes.rootRoute,
       page: () => const RootScreen(),
     ),
+    GetPage(name: Routes.resetRoute, page: () => const ResetPassword())
   ];
 
   static GetPage notFound = GetPage(

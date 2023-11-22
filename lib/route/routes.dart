@@ -22,6 +22,7 @@ class Routes {
   static const String houseRegistrationRoute = "/houseRegistrationRoute";
   static const String roomRegistrationRoute = "/roomRegistrationRoute";
   static const String homeRoute = "/homeRoute";
+  static const String resetRoute = "/resetRoute";
   //Profile
   static const String proflieRoute = "/profileRoute";
   static const String detailproflieRoute = "/detailprofileRoute";
