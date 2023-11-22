@@ -23,6 +23,7 @@ class Routes {
   static const String houseRegistrationRoute = "/houseRegistrationRoute";
   static const String roomRegistrationRoute = "/roomRegistrationRoute";
   static const String homeRoute = "/homeRoute";
+  static const String resetRoute = "/resetRoute";
   //Profile
   static const String proflieRoute = "/profileRoute";
   static const String detailproflieRoute = "/detailprofileRoute";
@@ -34,4 +35,5 @@ class Routes {
   static const String listRoomRoute = "/listRoomRoute";
   static const String navigationListRoomRoute = "/navigationListRoomRoute";
   static const String mapRoute = "/mapRoute";
+  static const String rootRoute = "/rootRoute";
 }

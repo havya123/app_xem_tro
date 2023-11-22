@@ -2,6 +2,8 @@ import 'package:app_xem_tro/config/size_config.dart';
 import 'package:app_xem_tro/config/widget/item.dart';
 import 'package:app_xem_tro/route/routes.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:get/get_navigation/get_navigation.dart';
 
 class ListHouse extends StatelessWidget {
   const ListHouse({super.key});
@@ -36,7 +38,7 @@ class ListHouse extends StatelessWidget {
                   spaceWidth(context, width: 0.03),
                   InkWell(
                     onTap: () {
-                      Navigator.pushNamed(context, Routes.searchRoute);
+                      Get.toNamed(Routes.houseRegistrationRoute);
                     },
                     child: const Icon(
                       Icons.add_alarm,
@@ -74,7 +76,9 @@ class ListHouse extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.end,
                 children: [
                   TextButton(
-                      onPressed: () {},
+                      onPressed: () {
+                        Get.toNamed(Routes.listRoomRoute);
+                      },
                       child: Text(
                         "Xem tất cả phòng trọ ",
                         style: mediumTextStyle(context, color: Colors.blue),

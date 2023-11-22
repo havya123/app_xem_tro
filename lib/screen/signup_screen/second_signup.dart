@@ -216,13 +216,13 @@ class SecondSignup extends StatelessWidget {
                       Get.back(result: [data, passController.text]);
                       date = "$day / $month / $year";
                       context.read<UserProvider>().signUp(
-                          phoneNumber,
-                          passController.text,
-                          nameController.text,
-                          emailController.text,
-                          date as String,
-                          addressController.text,
-                          "");
+                            phoneNumber,
+                            passController.text,
+                            nameController.text,
+                            emailController.text,
+                            date as String,
+                            addressController.text,
+                          );
                     }
                   } else {
                     formKey.currentState!.validate();

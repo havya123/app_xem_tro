@@ -21,6 +21,8 @@ import 'package:app_xem_tro/screen/navigationroom_screen/navigationroom_screen.d
 import 'package:app_xem_tro/screen/profile_screen/detail_profile_screen.dart';
 import 'package:app_xem_tro/screen/profile_screen/profie_screen.dart';
 import 'package:app_xem_tro/screen/review_screen/review_screen.dart';
+import 'package:app_xem_tro/screen/root_screen/root_screen.dart';
+import 'package:app_xem_tro/screen/search_screen/search_screen.dart';
 import 'package:app_xem_tro/screen/signup_screen/second_signup.dart';
 import 'package:app_xem_tro/screen/signup_screen/signup_screen.dart';
 import 'package:app_xem_tro/screen/splash_screen/splash_screen.dart';
@@ -130,7 +132,12 @@ class RouteManager {
     GetPage(
       name: "/mapRoute",
       page: () => const FullMapScreen(),
-    )
+    ),
+    GetPage(
+      name: Routes.rootRoute,
+      page: () => const RootScreen(),
+    ),
+    GetPage(name: Routes.resetRoute, page: () => const ResetPassword())
   ];
 
   static GetPage notFound = GetPage(

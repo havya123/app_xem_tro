@@ -4,6 +4,7 @@ import 'package:app_xem_tro/config/widget/check_box.dart';
 
 import 'package:app_xem_tro/config/widget/text_field.dart';
 import 'package:app_xem_tro/provider/user_login_provider.dart';
+import 'package:app_xem_tro/provider/user_provider.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
@@ -179,12 +180,19 @@ class _LoginScreenState extends State<LoginScreen> {
               spaceHeight(context, height: 0.02),
               ButtonWidget(
                 function: () {
-                  print(isChecked);
-                  // if (formKey.currentState!.validate()) {
-                  //   loginCheck(phoneController.text, passController.text);
-                  // } else {
-                  //   return;
-                  // }
+                  if (isChecked == true) {
+                    context
+                        .read<UserLoginProvider>()
+                        .savePhoneNumber(phoneController.text);
+                    context
+                        .read<UserLoginProvider>()
+                        .saveToken(phoneController.text);
+                  }
+                  if (formKey.currentState!.validate()) {
+                    loginCheck(phoneController.text, passController.text);
+                  } else {
+                    return;
+                  }
                 },
                 textButton: "Đăng nhập",
               ),
