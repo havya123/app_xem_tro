@@ -7,16 +7,17 @@ import 'package:app_xem_tro/screen/chat_screen/list_chat_screen.dart';
 import 'package:app_xem_tro/screen/detail_screen/over_view_screen.dart';
 import 'package:app_xem_tro/screen/error_screen/error_screen.dart';
 import 'package:app_xem_tro/screen/forget_password_screen/forget_password_screen.dart';
+import 'package:app_xem_tro/screen/forget_password_screen/reset_password.dart';
 import 'package:app_xem_tro/screen/home_screen/home_screen.dart';
 import 'package:app_xem_tro/screen/house_registration/house_registration.dart';
 import 'package:app_xem_tro/screen/house_registration/room_registration.dart';
 import 'package:app_xem_tro/screen/listhouse_screen/listhouse_screen.dart';
 import 'package:app_xem_tro/screen/listroom_screen/listroom_screen.dart';
 import 'package:app_xem_tro/screen/login_screen/login_screen.dart';
+import 'package:app_xem_tro/screen/map_screen/fullmap_screen.dart';
 import 'package:app_xem_tro/screen/navigation_screen.dart/navigation_screen.dart';
 import 'package:app_xem_tro/screen/navigationlisthouse_screen/navigationlisthouse.dart';
 import 'package:app_xem_tro/screen/navigationroom_screen/navigationroom_screen.dart';
-import 'package:app_xem_tro/screen/map_screen/fullmap_screen.dart';
 import 'package:app_xem_tro/screen/profile_screen/detail_profile_screen.dart';
 import 'package:app_xem_tro/screen/profile_screen/profie_screen.dart';
 import 'package:app_xem_tro/screen/review_screen/review_screen.dart';
@@ -68,6 +69,7 @@ class RouteManager {
       name: "/detailprofileRoute",
       page: () => const DetailProfileScreen(),
     ),
+    GetPage(name: Routes.resetRoute, page: () => const ResetPassword()),
     // ADMIN
     GetPage(
       name: "/adminRoute",

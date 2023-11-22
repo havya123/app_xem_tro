@@ -10,6 +10,7 @@ class Routes {
   static const String notFoundRoute = "/notFound";
   static const String signupRoute = "/signupRoute";
   static const String forgetRoute = "/forgetRoute";
+  static const String resetRoute = "/resetRoute";
   static const String secondSignup = "/secondSignupRoute";
   static const String navigationRoute = "/navigationRoute";
   static const String searchRoute = "/searchRoute";
