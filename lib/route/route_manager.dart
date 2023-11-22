@@ -1,3 +1,4 @@
+import 'package:app_xem_tro/route/routes.dart';
 import 'package:app_xem_tro/screen/admin_screen/admin_account_screen.dart';
 import 'package:app_xem_tro/screen/admin_screen/admin_approve_screen.dart';
 import 'package:app_xem_tro/screen/admin_screen/admin_booking_screen.dart';
@@ -18,6 +19,7 @@ import 'package:app_xem_tro/screen/navigationroom_screen/navigationroom_screen.d
 import 'package:app_xem_tro/screen/profile_screen/detail_profile_screen.dart';
 import 'package:app_xem_tro/screen/profile_screen/profie_screen.dart';
 import 'package:app_xem_tro/screen/review_screen/review_screen.dart';
+import 'package:app_xem_tro/screen/root_screen/root_screen.dart';
 import 'package:app_xem_tro/screen/search_screen/search_screen.dart';
 import 'package:app_xem_tro/screen/signup_screen/second_signup.dart';
 import 'package:app_xem_tro/screen/navigation_screen.dart/navigation_screen.dart';
@@ -145,6 +147,7 @@ class RouteManager {
       name: "/navigationListRoomRoute",
       page: () => const NavigationListRoomScreen(),
     ),
+    GetPage(name: Routes.rootRoute, page: () => const RootScreen())
   ];
 
   static GetPage notFound = GetPage(

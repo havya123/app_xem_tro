@@ -9,6 +9,8 @@ class User {
   String email;
   String address;
   String? avatar;
+  String token;
+  int role;
 
   User({
     required this.password,
@@ -17,6 +19,8 @@ class User {
     required this.dob,
     required this.email,
     required this.address,
+    required this.token,
+    required this.role,
     this.avatar,
   });
 
@@ -29,19 +33,22 @@ class User {
       'email': email,
       'address': address,
       'avatar': avatar,
+      'token': token,
+      'role': role
     };
   }
 
   factory User.fromMap(Map<String, dynamic> map) {
     return User(
-      password: map['password'] ?? "",
-      name: map['name'] ?? "",
-      phoneNumber: map['phoneNumber'] ?? "",
-      dob: map['dob'] ?? "",
-      email: map['email'] ?? "",
-      address: map['address'] ?? "",
-      avatar: map['avatar'] != null ? map['avatar'] as String : null,
-    );
+        password: map['password'] ?? "",
+        name: map['name'] ?? "",
+        phoneNumber: map['phoneNumber'] ?? "",
+        dob: map['dob'] ?? "",
+        email: map['email'] ?? "",
+        address: map['address'] ?? "",
+        avatar: map['avatar'] != null ? map['avatar'] as String : null,
+        token: map['token'] ?? "",
+        role: map['role'] as int);
   }
 
   String toJson() => json.encode(toMap());
