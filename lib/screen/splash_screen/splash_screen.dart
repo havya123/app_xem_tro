@@ -1,12 +1,25 @@
 import 'package:app_xem_tro/config/widget/button.dart';
+import 'package:app_xem_tro/provider/user_login_provider.dart';
+import 'package:app_xem_tro/provider/user_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:app_xem_tro/route/routes.dart';
 import 'package:get/get.dart';
+import 'package:provider/provider.dart';
 
 import '../../config/size_config.dart';
 
-class SplashScreen extends StatelessWidget {
+class SplashScreen extends StatefulWidget {
   const SplashScreen({super.key});
+
+  @override
+  State<SplashScreen> createState() => _SplashScreenState();
+}
+
+class _SplashScreenState extends State<SplashScreen> {
+  @override
+  void initState() {
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -54,7 +67,7 @@ class SplashScreen extends StatelessWidget {
                 spaceHeight(context, height: 0.10),
                 ButtonWidget(
                   function: () {
-                    Get.toNamed(Routes.loginRoute);
+                    Get.toNamed(Routes.rootRoute);
                   },
                   textButton: "Get Started",
                 ),

@@ -33,4 +33,5 @@ class Routes {
   static const String listRoomRoute = "/listRoomRoute";
   static const String navigationListRoomRoute = "/navigationListRoomRoute";
   static const String mapRoute = "/mapRoute";
+  static const String rootRoute = "/rootRoute";
 }
