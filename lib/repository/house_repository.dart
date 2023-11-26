@@ -6,7 +6,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 
 class HouseRepo {
-  String createdAt = "";
+  static String createdAt = "";
   Future<void> houseRegistration(
     String userName,
     String userPhone,
@@ -20,10 +20,9 @@ class HouseRepo {
     String facilities,
     String? description,
   ) async {
-    // DateTime timeNow = DateTime.now();
-    // createdAt = timeNow.toString();
     currentDate();
     print(createdAt);
+
     FirebaseService.houseRef.doc().set(House(
         userName: userName,
         phoneNumber: phoneNumber,
