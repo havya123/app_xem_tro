@@ -30,7 +30,6 @@ class UserLoginProvider extends ChangeNotifier {
   Future<void> readPhoneNumber() async {
     final SharedPreferences prefs = await SharedPreferences.getInstance();
     final String phoneNumber = prefs.getString('phoneNumber') ?? "";
-    print(phoneNumber);
     userPhone = phoneNumber;
     notifyListeners();
   }

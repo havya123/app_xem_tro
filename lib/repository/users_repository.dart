@@ -3,6 +3,7 @@ import 'dart:ffi';
 import 'package:app_xem_tro/firebase_service/firebase.dart';
 import 'package:app_xem_tro/models/users.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_storage/firebase_storage.dart';
 
 class UserRepo {
   void signUp(

@@ -35,3 +35,9 @@ TextStyle largeTextStyle(context, {size = 0.035, color = Colors.black}) =>
         fontSize: MediaQuery.sizeOf(context).height * size,
         color: color,
         fontWeight: FontWeight.bold);
+
+TextStyle smallMediumTextStyle(context, {size = 0.02, color = Colors.black}) =>
+    TextStyle(
+        fontSize: MediaQuery.sizeOf(context).height * size,
+        color: color,
+        fontWeight: FontWeight.bold);

@@ -31,8 +31,12 @@ class _CheckboxExampleState extends State<CheckboxExample> {
       value: isChecked,
       onChanged: (bool? value) {
         setState(() {
-          isChecked = value!;
-          widget.isChecked!(isChecked);
+          if (widget.isChecked != null) {
+            isChecked = value!;
+            widget.isChecked!(isChecked);
+          } else {
+            isChecked = value!;
+          }
         });
       },
     );
