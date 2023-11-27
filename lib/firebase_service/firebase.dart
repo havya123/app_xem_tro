@@ -1,4 +1,5 @@
 import 'package:app_xem_tro/models/favourite.dart';
+import 'package:app_xem_tro/models/house.dart';
 import 'package:app_xem_tro/models/users.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
@@ -15,4 +16,9 @@ class FirebaseService {
         fromFirestore: (snapshot, _) => Favourite.fromMap(snapshot.data()!),
         toFirestore: (favourite, _) => favourite.toMap(),
       );
+  static final houseRef =
+      FirebaseFirestore.instance.collection('house').withConverter<House>(
+            fromFirestore: (snapshot, _) => House.fromMap(snapshot.data()!),
+            toFirestore: (user, _) => user.toMap(),
+          );
 }

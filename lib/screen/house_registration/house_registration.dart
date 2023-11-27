@@ -11,6 +11,7 @@ import 'package:app_xem_tro/models/province.dart';
 import 'package:app_xem_tro/models/ward.dart';
 import 'package:app_xem_tro/provider/google_map_provider.dart';
 import 'package:app_xem_tro/provider/house_register_provider.dart';
+import 'package:app_xem_tro/provider/user_login_provider.dart';
 import 'package:app_xem_tro/route/routes.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
@@ -25,8 +26,7 @@ class HouseRegistration extends StatefulWidget {
   State<HouseRegistration> createState() => _HouseRegistrationState();
 }
 
-class _HouseRegistrationState extends State<HouseRegistration>
-    with TickerProviderStateMixin {
+class _HouseRegistrationState extends State<HouseRegistration> {
   @override
   void initState() {
     context.read<GoogleMapProvider>().getListProvince();
@@ -60,6 +60,24 @@ class _HouseRegistrationState extends State<HouseRegistration>
         );
       },
     );
+  }
+
+  List logo = [
+    FontAwesomeIcons.cartShopping,
+    FontAwesomeIcons.store,
+    FontAwesomeIcons.mugSaucer,
+    FontAwesomeIcons.water
+  ];
+
+  List label = ["Chợ", "Cửa hàng", "Cafe", "Tiệm giặt"];
+
+  TextEditingController userNameController = TextEditingController();
+  TextEditingController phoneNumberController = TextEditingController();
+  List<String> getFacility = [];
+
+  bool isChecked = false;
+  void isChoosed(bool isCheck) {
+    isChecked = isCheck;
   }
 
   @override
@@ -105,11 +123,15 @@ class _HouseRegistrationState extends State<HouseRegistration>
                 style: TextStyle(fontSize: 35, fontWeight: FontWeight.w900),
               ),
               spaceHeight(context),
-              TextFieldWidget(hint: 'Họ và tên'),
+              TextFieldWidget(
+                hint: 'Họ và tên',
+                controller: userNameController,
+              ),
               spaceHeight(context, height: 0.03),
               TextFieldWidget(
                 hint: "Số điện thoại",
                 type: TextInputType.number,
+                controller: phoneNumberController,
               ),
               spaceHeight(context, height: 0.03),
               const Align(
@@ -219,28 +241,38 @@ class _HouseRegistrationState extends State<HouseRegistration>
                   ),
                 ),
               ),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      checkBoxCombo(
-                          context, FontAwesomeIcons.cartShopping, "Chợ"),
-                      checkBoxCombo(context, FontAwesomeIcons.store, "Cửa hàng")
-                    ],
-                  ),
-                  Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      checkBoxCombo(
-                          context, FontAwesomeIcons.mugSaucer, "Cafe"),
-                      checkBoxCombo(
-                          context, FontAwesomeIcons.water, "Tiệm giặt")
-                    ],
-                  )
-                ],
-              ),
+              // Row(
+              //   mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              //   children: [
+              //     Column(
+              //       crossAxisAlignment: CrossAxisAlignment.start,
+              //       children: [
+              //         checkBoxCombo(
+              //             context, FontAwesomeIcons.cartShopping, "Chợ"),
+              //         checkBoxCombo(context, FontAwesomeIcons.store, "Cửa hàng")
+              //       ],
+              //     ),
+              //     Column(
+              //       crossAxisAlignment: CrossAxisAlignment.start,
+              //       children: [
+              //         checkBoxCombo(
+              //             context, FontAwesomeIcons.mugSaucer, "Cafe"),
+              //         checkBoxCombo(
+              //             context, FontAwesomeIcons.water, "Tiệm giặt")
+              //       ],
+              //     )
+              //   ],
+              // ),
+
+              GridView.builder(
+                  shrinkWrap: true,
+                  physics: const NeverScrollableScrollPhysics(),
+                  gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                      crossAxisCount: 2, childAspectRatio: 2),
+                  itemCount: 4,
+                  itemBuilder: (context, index) {
+                    return checkBoxCombo(context, logo[index], label[index]);
+                  }),
               Row(
                 children: [
                   // const CheckboxExample(),
@@ -361,7 +393,41 @@ class _HouseRegistrationState extends State<HouseRegistration>
                 color: Colors.black,
               ),
               spaceHeight(context),
-              ButtonWidget(function: () {}, textButton: "Đăng ký"),
+              ButtonWidget(
+                  function: () async {
+                    String facilities = getFacility.join(' ,');
+                    print(facilities);
+                    await context
+                        .read<UserLoginProvider>()
+                        .readPhoneNumber()
+                        .then((value) async {
+                      String userPhone =
+                          context.read<UserLoginProvider>().userPhone;
+                      await context
+                          .read<HouseRegisterProvider>()
+                          .houseRegistration(
+                              userNameController.text,
+                              userPhone,
+                              phoneNumberController.text,
+                              province,
+                              district,
+                              ward,
+                              streetController.text,
+                              context.read<GoogleMapProvider>().latLng.latitude,
+                              context
+                                  .read<GoogleMapProvider>()
+                                  .latLng
+                                  .longitude,
+                              facilities,
+                              "")
+                          .then((value) async {
+                        await context
+                            .read<HouseRegisterProvider>()
+                            .uploadImg(userPhone);
+                      });
+                    });
+                  },
+                  textButton: "Đăng ký"),
             ],
           ),
         ),
@@ -372,12 +438,22 @@ class _HouseRegistrationState extends State<HouseRegistration>
   Row checkBoxCombo(BuildContext context, IconData logo, String label) {
     return Row(
       children: [
-        CheckboxExample(),
+        CheckboxExample(isChecked: (p0) {
+          isChoosed(p0!);
+          if (isChecked == true && !getFacility.contains(label)) {
+            getFacility.add(label);
+            return;
+          }
+          if (isChecked == false && getFacility.contains(label)) {
+            getFacility.remove(label);
+            return;
+          }
+        }),
         Icon(logo),
         spaceWidth(context),
         Text(
           label,
-          style: mediumTextStyle(context),
+          style: smallMediumTextStyle(context),
         )
       ],
     );
