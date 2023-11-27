@@ -18,4 +18,20 @@ class UserProvider extends ChangeNotifier {
   Future<void> changeNewPass(String phoneNumber, String newPass) async {
     await UserRepo().changePass(phoneNumber, newPass);
   }
+
+  Future<void> changeName(String phoneNumber, String newName) async {
+    await UserRepo().updateName(phoneNumber, newName);
+  }
+
+  Future<void> addPhone(String phoneNumber, String newPhone) async {
+    await UserRepo().addNewPhone(phoneNumber, newPhone);
+  }
+
+  Future<void> changeEmail(String phoneNumber, String newEmail) async {
+    await UserRepo().updateEmail(phoneNumber, newEmail);
+  }
+
+  Future<void> switchRole(String phoneNumber) async {
+    await UserRepo().switchRole(phoneNumber);
+  }
 }

@@ -50,6 +50,43 @@ class UserRepo {
         .update({'password': newPass});
   }
 
+  Future<void> updateName(String phoneNumber, String newName) async {
+    await FirebaseFirestore.instance
+        .collection('users')
+        .doc(phoneNumber)
+        .update({'name': newName});
+  }
+
+  Future<void> updateEmail(String phoneNumber, String newEmail) async {
+    await FirebaseFirestore.instance
+        .collection('users')
+        .doc(phoneNumber)
+        .update({'email': newEmail});
+  }
+
+  Future<void> addNewPhone(String phoneNumber, String newPhone) async {
+    Map<String, dynamic>? response = await FirebaseFirestore.instance
+        .collection('users')
+        .doc(phoneNumber)
+        .get()
+        .then((value) {
+      return value.data();
+    });
+    String phone = response?['phoneNumber'];
+    String addPhone = "$phone, $newPhone";
+    await FirebaseFirestore.instance
+        .collection('users')
+        .doc(phoneNumber)
+        .update({'phoneNumber': addPhone});
+  }
+
+  Future<void> switchRole(String phoneNumer) async {
+    await FirebaseFirestore.instance
+        .collection('users')
+        .doc(phoneNumer)
+        .update({'role': 1});
+  }
+
   Future<void> setToken(String phoneNumber, String token) async {
     await FirebaseFirestore.instance
         .collection('users')
@@ -74,4 +111,6 @@ class UserRepo {
         .then((value) => value.data());
     return response!['role'] ?? 0;
   }
+
+  Future<void> updateImage() async {}
 }

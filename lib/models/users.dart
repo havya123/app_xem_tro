@@ -46,7 +46,7 @@ class User {
         dob: map['dob'] ?? "",
         email: map['email'] ?? "",
         address: map['address'] ?? "",
-        avatar: map['avatar'] != null ? map['avatar'] as String : null,
+        avatar: map['avatar'] ?? "",
         token: map['token'] ?? "",
         role: map['role'] as int);
   }

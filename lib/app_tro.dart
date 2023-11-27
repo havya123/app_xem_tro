@@ -1,3 +1,5 @@
+import 'package:app_xem_tro/firebase_service/firebase.dart';
+import 'package:app_xem_tro/models/users.dart';
 import 'package:app_xem_tro/provider/google_map_provider.dart';
 import 'package:app_xem_tro/provider/house_register_provider.dart';
 import 'package:app_xem_tro/provider/user_login_provider.dart';
@@ -5,7 +7,6 @@ import 'package:app_xem_tro/provider/user_provider.dart';
 import 'package:app_xem_tro/route/route_manager.dart';
 import 'package:app_xem_tro/route/routes.dart';
 import 'package:flutter/material.dart';
-import 'package:fluttertoast/fluttertoast.dart';
 import 'package:get/get_navigation/get_navigation.dart';
 import 'package:provider/provider.dart';
 
@@ -22,17 +23,38 @@ class _AppXemTroState extends State<AppXemTro> {
     return MultiProvider(
       providers: [
         ChangeNotifierProvider(create: (context) => UserProvider()),
-        ChangeNotifierProvider(create: (context) => UserLoginProvider()),
+        ChangeNotifierProvider(
+            create: (context) => UserLoginProvider()..readPhoneNumber()),
         ChangeNotifierProvider(create: (context) => GoogleMapProvider()),
         ChangeNotifierProvider(create: (context) => HouseRegisterProvider())
       ],
       builder: (context, child) {
-        return GetMaterialApp(
-          debugShowCheckedModeBanner: false,
-          initialRoute: Routes.splashRoute,
-          getPages: RouteManager.routeManager,
-          unknownRoute: RouteManager.notFound,
-        );
+        return Consumer<UserLoginProvider>(builder: (context, value, chid) {
+          if (value.userPhone.isEmpty) {
+            return GetMaterialApp(
+              debugShowCheckedModeBanner: false,
+              initialRoute: Routes.splashRoute,
+              getPages: RouteManager.routeManager,
+              unknownRoute: RouteManager.notFound,
+            );
+          }
+          return StreamProvider<User?>.value(
+              initialData: null,
+              value: FirebaseService.userRef
+                  .doc(value.userPhone)
+                  .snapshots()
+                  .map((event) {
+                return event.data();
+              }),
+              builder: (contexts, snapshot) {
+                return GetMaterialApp(
+                  debugShowCheckedModeBanner: false,
+                  initialRoute: Routes.navigationRoute,
+                  getPages: RouteManager.routeManager,
+                  unknownRoute: RouteManager.notFound,
+                );
+              });
+        });
       },
     );
   }

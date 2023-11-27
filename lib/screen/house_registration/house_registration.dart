@@ -372,7 +372,7 @@ class _HouseRegistrationState extends State<HouseRegistration>
   Row checkBoxCombo(BuildContext context, IconData logo, String label) {
     return Row(
       children: [
-        // const CheckboxExample(),
+        CheckboxExample(),
         Icon(logo),
         spaceWidth(context),
         Text(

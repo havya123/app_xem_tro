@@ -65,10 +65,10 @@ class RouteManager {
     // PROFILE
     GetPage(
       name: "/profileRoute",
-      page: () => const ProfileScreen(),
+      page: () => ProfileScreen(),
     ),
     GetPage(
-      name: "/detailprofileRoute",
+      name: Routes.detailProfileRoute,
       page: () => const DetailProfileScreen(),
     ),
     GetPage(name: Routes.resetRoute, page: () => const ResetPassword()),
@@ -128,7 +128,7 @@ class RouteManager {
       name: "/navigationListRoomRoute",
       page: () => const NavigationListRoomScreen(),
     ),
-
+    GetPage(name: Routes.searchRoute, page: () => const SearchScreen()),
     GetPage(
       name: "/mapRoute",
       page: () => const FullMapScreen(),

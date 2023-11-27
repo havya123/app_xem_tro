@@ -1,7 +1,10 @@
 import 'package:app_xem_tro/config/size_config.dart';
 import 'package:app_xem_tro/config/widget/item.dart';
 import 'package:app_xem_tro/provider/google_map_provider.dart';
+import 'package:app_xem_tro/route/routes.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:get/get_navigation/get_navigation.dart';
 import 'package:provider/provider.dart';
 
 class HomeScreen extends StatelessWidget {
@@ -41,33 +44,38 @@ class HomeScreen extends StatelessWidget {
                 ],
               ),
               spaceHeight(context, height: 0.02),
-              Container(
-                width: double.infinity,
-                height: getHeight(context, height: 0.08),
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(
-                      borderRadius(context, border: 0.08)),
-                  color: const Color(0xffE3E3E7),
-                ),
-                child: Padding(
-                  padding: EdgeInsets.symmetric(horizontal: padding(context)),
-                  child: Row(
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      children: [
-                        SizedBox(
-                          height: getHeight(context, height: 0.05),
-                          width: getWidth(context, width: 0.05),
-                          child: Image.asset(
-                            "assets/images/home_img/search.png",
-                            fit: BoxFit.contain,
+              GestureDetector(
+                onTap: () {
+                  Get.toNamed(Routes.searchRoute);
+                },
+                child: Container(
+                  width: double.infinity,
+                  height: getHeight(context, height: 0.08),
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(
+                        borderRadius(context, border: 0.08)),
+                    color: const Color(0xffE3E3E7),
+                  ),
+                  child: Padding(
+                    padding: EdgeInsets.symmetric(horizontal: padding(context)),
+                    child: Row(
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        children: [
+                          SizedBox(
+                            height: getHeight(context, height: 0.05),
+                            width: getWidth(context, width: 0.05),
+                            child: Image.asset(
+                              "assets/images/home_img/search.png",
+                              fit: BoxFit.contain,
+                            ),
                           ),
-                        ),
-                        spaceWidth(context, width: 0.04),
-                        Text(
-                          "Tìm địa điểm",
-                          style: mediumTextStyle(context),
-                        )
-                      ]),
+                          spaceWidth(context, width: 0.04),
+                          Text(
+                            "Tìm địa điểm",
+                            style: mediumTextStyle(context),
+                          )
+                        ]),
+                  ),
                 ),
               ),
               spaceHeight(context),

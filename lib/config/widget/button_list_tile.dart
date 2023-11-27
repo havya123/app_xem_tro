@@ -1,9 +1,12 @@
 // ignore_for_file: must_be_immutable
 
 import 'package:app_xem_tro/config/size_config.dart';
+import 'package:app_xem_tro/provider/user_login_provider.dart';
+import 'package:app_xem_tro/provider/user_provider.dart';
 import 'package:app_xem_tro/route/routes.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:provider/provider.dart';
 
 class ButtonListTile extends StatefulWidget {
   const ButtonListTile({
@@ -87,11 +90,9 @@ class _SwitchState extends State<Switchs> {
               setState(() {
                 widget.isSwitch = value;
               });
-              widget.isSwitch != false
-                  ? Navigator.of(context, rootNavigator: true)
-                      .pushReplacementNamed(Routes.adminRoute)
-                  : Navigator.pushReplacementNamed(
-                      context, Routes.detailProfileRoute);
+              context
+                  .read<UserProvider>()
+                  .switchRole(context.read<UserLoginProvider>().userPhone);
             },
           ),
           title: Text(

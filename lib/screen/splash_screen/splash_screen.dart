@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:app_xem_tro/route/routes.dart';
 import 'package:get/get.dart';
 import 'package:provider/provider.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../config/size_config.dart';
 
@@ -67,7 +68,7 @@ class _SplashScreenState extends State<SplashScreen> {
                 spaceHeight(context, height: 0.10),
                 ButtonWidget(
                   function: () {
-                    Get.toNamed(Routes.rootRoute);
+                    Get.offNamed(Routes.rootRoute);
                   },
                   textButton: "Get Started",
                 ),

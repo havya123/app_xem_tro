@@ -13,7 +13,7 @@ class NavigationListRoomScreen extends StatelessWidget {
     List<Widget> widgets = [
       const ListRoom(),
       const ChatScreen(),
-      const ProfileScreen(),
+      ProfileScreen(),
     ];
     List<PersistentBottomNavBarItem> barlistRoomItem = [
       PersistentBottomNavBarItem(

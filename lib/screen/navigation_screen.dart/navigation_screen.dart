@@ -1,7 +1,11 @@
 import 'package:app_xem_tro/config/size_config.dart';
+import 'package:app_xem_tro/firebase_service/firebase.dart';
+import 'package:app_xem_tro/models/users.dart';
 import 'package:app_xem_tro/provider/google_map_provider.dart';
+import 'package:app_xem_tro/provider/user_login_provider.dart';
 import 'package:app_xem_tro/screen/chat_screen/chat_screen.dart';
 import 'package:app_xem_tro/screen/home_screen/home_screen.dart';
+import 'package:app_xem_tro/screen/login_screen/login_screen.dart';
 import 'package:app_xem_tro/screen/profile_screen/profie_screen.dart';
 import 'package:app_xem_tro/screen/save_screen/save_screen.dart';
 import 'package:flutter/material.dart';
@@ -25,11 +29,12 @@ class _NavigationScreenState extends State<NavigationScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final PersistentTabController controller = PersistentTabController();
     List<Widget> widgets = [
       const HomeScreen(),
       const SaveScreen(),
       const ChatScreen(),
-      const ProfileScreen(),
+      ProfileScreen(controller: controller),
     ];
 
     List<PersistentBottomNavBarItem> barItem = [
@@ -47,16 +52,24 @@ class _NavigationScreenState extends State<NavigationScreen> {
           icon: const Icon(Icons.person), inactiveColorPrimary: Colors.black),
     ];
 
-    return PersistentTabView(
-      context,
-      screens: widgets,
-      items: barItem,
-      decoration: NavBarDecoration(
-        border: Border.all(width: 1),
-        borderRadius: BorderRadius.circular(
-          borderRadius(context),
-        ),
-      ),
+    return Consumer<UserLoginProvider>(
+      builder: (context, value, child) {
+        if (value.userPhone.isEmpty) {
+          return const LoginScreen();
+        }
+        return PersistentTabView(
+          controller: controller,
+          context,
+          screens: widgets,
+          items: barItem,
+          decoration: NavBarDecoration(
+            border: Border.all(width: 1),
+            borderRadius: BorderRadius.circular(
+              borderRadius(context),
+            ),
+          ),
+        );
+      },
     );
   }
 }

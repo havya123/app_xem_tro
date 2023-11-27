@@ -1,9 +1,15 @@
 import 'package:app_xem_tro/repository/users_repository.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class UserLoginProvider extends ChangeNotifier {
   String userPhone = "";
+
+  Future<void> updatePhone(String phone) async {
+    userPhone = phone;
+    notifyListeners();
+  }
 
   Future<bool> login(String phoneNumber, String password) async {
     String response = await UserRepo().logIn(phoneNumber);
@@ -11,6 +17,7 @@ class UserLoginProvider extends ChangeNotifier {
       return false;
     }
     if (password == response) {
+      updatePhone(phoneNumber);
       return true;
     }
     return false;
@@ -22,15 +29,15 @@ class UserLoginProvider extends ChangeNotifier {
     await UserRepo().setToken(phoneNumber, token);
   }
 
-  void savePhoneNumber(String phoneNumber) async {
+  Future<void> savePhoneNumber(String phoneNumber) async {
     final SharedPreferences prefs = await SharedPreferences.getInstance();
     await prefs.setString('phoneNumber', phoneNumber);
+    updatePhone(phoneNumber);
   }
 
   Future<void> readPhoneNumber() async {
     final SharedPreferences prefs = await SharedPreferences.getInstance();
     final String phoneNumber = prefs.getString('phoneNumber') ?? "";
-    print(phoneNumber);
     userPhone = phoneNumber;
     notifyListeners();
   }
@@ -53,5 +60,12 @@ class UserLoginProvider extends ChangeNotifier {
   Future<int> checkRole() async {
     int role = await UserRepo().checkRole(userPhone);
     return role;
+  }
+
+  Future<void> logOut() async {
+    final prefs = await SharedPreferences.getInstance();
+    prefs.clear();
+    FirebaseAuth.instance.signOut();
+    updatePhone("");
   }
 }

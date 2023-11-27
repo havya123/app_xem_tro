@@ -1,7 +1,11 @@
 import 'package:app_xem_tro/config/size_config.dart';
+import 'package:app_xem_tro/provider/favourite_provider.dart';
+import 'package:app_xem_tro/provider/user_login_provider.dart';
 import 'package:app_xem_tro/route/routes.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:like_button/like_button.dart';
+import 'package:provider/provider.dart';
 
 class Item extends StatelessWidget {
   const Item({super.key});
@@ -112,12 +116,20 @@ class Item extends StatelessWidget {
                                       context,
                                     ),
                                   ),
-                                  IconButton(
-                                      onPressed: () {},
-                                      icon: Icon(
-                                        FontAwesomeIcons.heart,
-                                        size: getWidth(context, width: 0.05),
-                                      ))
+                                  // Consumer<FavouriteProvider>(
+                                  //     builder: (context, value, child) {
+                                  //   return LikeButton(
+                                  //     isLiked: value.isSaved(""),
+                                  //     onTap: (isLiked) async {
+                                  //       value.addFavouriteItem(
+                                  //           context
+                                  //               .read<UserLoginProvider>()
+                                  //               .userPhone,
+                                  //           "");
+                                  //       return !isLiked;
+                                  //     },
+                                  //   );
+                                  // })
                                 ],
                               ),
                             )

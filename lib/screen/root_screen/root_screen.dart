@@ -20,23 +20,27 @@ class _RootScreenState extends State<RootScreen> {
   }
 
   Future<void> fetchData() async {
-    context.read<UserLoginProvider>().readPhoneNumber().then((value) async {
-      bool tokenExpired =
-          await context.read<UserLoginProvider>().checkTokenExpired();
-      if (tokenExpired == false) {
-        Future.delayed(const Duration(seconds: 1), () {
-          Get.offNamed(Routes.loginRoute);
-        });
-        return;
-      }
-      if (await checkRole() == 0) {
-        Future.delayed(const Duration(seconds: 1), () {
-          Get.offNamed(Routes.navigationRoute);
-        });
-        return;
-      }
-      Get.offNamed(Routes.navigationListHouseRoute);
-    });
+    if (context.read<UserLoginProvider>().userPhone == "") {
+      Future.delayed(const Duration(seconds: 1), () {
+        Get.offAllNamed(Routes.loginRoute);
+      });
+      return;
+    }
+    bool tokenExpired =
+        await context.read<UserLoginProvider>().checkTokenExpired();
+    if (tokenExpired == false) {
+      Future.delayed(const Duration(seconds: 1), () {
+        Get.offNamed(Routes.loginRoute);
+      });
+      return;
+    }
+    if (await checkRole() == 0) {
+      Future.delayed(const Duration(seconds: 1), () {
+        Get.offNamed(Routes.navigationRoute);
+      });
+      return;
+    }
+    Get.offNamed(Routes.navigationListHouseRoute);
   }
 
   Future<int> checkRole() async {
