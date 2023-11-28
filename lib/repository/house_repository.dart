@@ -21,7 +21,6 @@ class HouseRepo {
     String? description,
   ) async {
     currentDate();
-    print(createdAt);
 
     FirebaseService.houseRef.doc().set(House(
         userName: userName,
@@ -46,7 +45,7 @@ class HouseRepo {
     try {
       Reference ref = FirebaseStorage.instance
           .ref()
-          .child('images/landlord/$userPhone/$fileName');
+          .child('images/landlord/$userPhone/house/$fileName');
 
       await ref.putFile(file);
 

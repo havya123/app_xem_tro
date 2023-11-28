@@ -41,6 +41,7 @@ class _HouseRegistrationState extends State<HouseRegistration> {
   String ward = "";
 
   TextEditingController streetController = TextEditingController();
+  final formKey = GlobalKey<FormState>();
 
   void showErrorDialog() {
     showDialog(
@@ -123,75 +124,88 @@ class _HouseRegistrationState extends State<HouseRegistration> {
                 style: TextStyle(fontSize: 35, fontWeight: FontWeight.w900),
               ),
               spaceHeight(context),
-              TextFieldWidget(
-                hint: 'Họ và tên',
-                controller: userNameController,
-              ),
-              spaceHeight(context, height: 0.03),
-              TextFieldWidget(
-                hint: "Số điện thoại",
-                type: TextInputType.number,
-                controller: phoneNumberController,
-              ),
-              spaceHeight(context, height: 0.03),
-              const Align(
-                alignment: Alignment.topLeft,
-                child: Text(
-                  "Địa chỉ",
-                  style: TextStyle(fontSize: 18),
-                ),
-              ),
-              spaceHeight(context, height: 0.01),
-              Consumer<GoogleMapProvider>(builder: (context, value, child) {
-                return dropDownProvince(
-                  context,
-                  value.listProvince,
-                  "Tỉnh/TP",
-                  (p0) {
-                    province = p0 as String;
-                    int code = value.listProvince
-                        .firstWhere((province) => province.name == p0)
-                        .code;
+              Column(
+                children: [
+                  Form(
+                      key: formKey,
+                      child: Column(
+                        children: [
+                          TextFieldWidget(
+                            hint: 'Họ và tên',
+                            controller: userNameController,
+                            errorText: "Hãy nhập họ và tên",
+                          ),
+                          spaceHeight(context, height: 0.03),
+                          TextFieldWidget(
+                            hint: "Số điện thoại",
+                            type: TextInputType.number,
+                            controller: phoneNumberController,
+                            errorText: "Hãy nhập số điện thoại",
+                          ),
+                        ],
+                      )),
+                  spaceHeight(context, height: 0.03),
+                  const Align(
+                    alignment: Alignment.topLeft,
+                    child: Text(
+                      "Địa chỉ",
+                      style: TextStyle(fontSize: 18),
+                    ),
+                  ),
+                  spaceHeight(context, height: 0.01),
+                  Consumer<GoogleMapProvider>(builder: (context, value, child) {
+                    return dropDownProvince(
+                      context,
+                      value.listProvince,
+                      "Tỉnh/TP",
+                      (p0) {
+                        province = p0 as String;
+                        int code = value.listProvince
+                            .firstWhere((province) => province.name == p0)
+                            .code;
 
-                    context.read<GoogleMapProvider>().getListDistrict(code);
-                  },
-                );
-              }),
-              spaceHeight(context, height: 0.03),
-              Consumer<GoogleMapProvider>(builder: (context, value, child) {
-                return dropDownDistrict(
-                  context,
-                  value.listDistrict,
-                  "Quận/Huyện",
-                  (p0) {
-                    district = p0 as String;
-                    int code = value.listDistrict
-                        .firstWhere((listDistrict) => listDistrict.name == p0)
-                        .code;
-                    context.read<GoogleMapProvider>().getListWard(code);
-                  },
-                );
-              }),
-              spaceHeight(context, height: 0.03),
-              Consumer<GoogleMapProvider>(builder: (context, value, child) {
-                return dropDownWard(
-                  context,
-                  value.listWard,
-                  "Phường/Xã",
-                  (p0) {
-                    ward = p0 as String;
-                  },
-                );
-              }),
-              spaceHeight(context, height: 0.03),
-              TextFieldWidget(
-                hint: "Đường",
-                controller: streetController,
-                function: (p0) async {
-                  await context.read<GoogleMapProvider>().searchPlace(
-                      "$province $district $ward $p0", showErrorDialog);
-                  context.read<GoogleMapProvider>().goToPlace(_controller);
-                },
+                        context.read<GoogleMapProvider>().getListDistrict(code);
+                      },
+                    );
+                  }),
+                  spaceHeight(context, height: 0.03),
+                  Consumer<GoogleMapProvider>(builder: (context, value, child) {
+                    return dropDownDistrict(
+                      context,
+                      value.listDistrict,
+                      "Quận/Huyện",
+                      (p0) {
+                        district = p0 as String;
+                        int code = value.listDistrict
+                            .firstWhere(
+                                (listDistrict) => listDistrict.name == p0)
+                            .code;
+                        context.read<GoogleMapProvider>().getListWard(code);
+                      },
+                    );
+                  }),
+                  spaceHeight(context, height: 0.03),
+                  Consumer<GoogleMapProvider>(builder: (context, value, child) {
+                    return dropDownWard(
+                      context,
+                      value.listWard,
+                      "Phường/Xã",
+                      (p0) {
+                        ward = p0 as String;
+                      },
+                    );
+                  }),
+                  spaceHeight(context, height: 0.03),
+                  TextFieldWidget(
+                    hint: "Đường",
+                    controller: streetController,
+                    function: (p0) async {
+                      await context.read<GoogleMapProvider>().searchPlace(
+                          "$province $district $ward $p0", showErrorDialog);
+                      context.read<GoogleMapProvider>().goToPlace(_controller);
+                    },
+                  ),
+                ],
               ),
               spaceHeight(context),
               Stack(
@@ -297,6 +311,15 @@ class _HouseRegistrationState extends State<HouseRegistration> {
                 decoration: BoxDecoration(
                     border: Border.all(color: Colors.black),
                     borderRadius: BorderRadius.circular(20)),
+                child: Padding(
+                    padding: EdgeInsets.all(padding(context, padding: 0.02)),
+                    child: TextFieldWidget(
+                      hint: "",
+                      minLetter: 50,
+                      errorText: "Hãy nhập thông tin mô tả",
+                      errorPass: "Nhập ít nhất 100 ký tự",
+                      removeBorder: true,
+                    )),
               ),
               spaceHeight(context),
               Align(
@@ -396,35 +419,39 @@ class _HouseRegistrationState extends State<HouseRegistration> {
               ButtonWidget(
                   function: () async {
                     String facilities = getFacility.join(' ,');
-                    print(facilities);
                     await context
                         .read<UserLoginProvider>()
                         .readPhoneNumber()
                         .then((value) async {
                       String userPhone =
                           context.read<UserLoginProvider>().userPhone;
-                      await context
-                          .read<HouseRegisterProvider>()
-                          .houseRegistration(
-                              userNameController.text,
-                              userPhone,
-                              phoneNumberController.text,
-                              province,
-                              district,
-                              ward,
-                              streetController.text,
-                              context.read<GoogleMapProvider>().latLng.latitude,
-                              context
-                                  .read<GoogleMapProvider>()
-                                  .latLng
-                                  .longitude,
-                              facilities,
-                              "")
-                          .then((value) async {
-                        await context
+                      if (formKey.currentState!.validate()) {
+                        context
                             .read<HouseRegisterProvider>()
-                            .uploadImg(userPhone);
-                      });
+                            .houseRegistration(
+                                userNameController.text,
+                                userPhone,
+                                phoneNumberController.text,
+                                province,
+                                district,
+                                ward,
+                                streetController.text,
+                                context
+                                    .read<GoogleMapProvider>()
+                                    .latLng
+                                    .latitude,
+                                context
+                                    .read<GoogleMapProvider>()
+                                    .latLng
+                                    .longitude,
+                                facilities,
+                                "")
+                            .then((value) async {
+                          await context
+                              .read<HouseRegisterProvider>()
+                              .uploadImg(userPhone);
+                        });
+                      }
                     });
                   },
                   textButton: "Đăng ký"),

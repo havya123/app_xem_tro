@@ -6,12 +6,42 @@ import 'package:app_xem_tro/config/widget/check_box.dart';
 import 'package:app_xem_tro/config/widget/image_room_selected.dart';
 import 'package:app_xem_tro/config/widget/text_field.dart';
 import 'package:app_xem_tro/provider/house_register_provider.dart';
+import 'package:app_xem_tro/provider/room_register_provider.dart';
+import 'package:app_xem_tro/provider/user_login_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:provider/provider.dart';
 
-class RoomRegistration extends StatelessWidget {
+class RoomRegistration extends StatefulWidget {
   const RoomRegistration({super.key});
+
+  @override
+  State<RoomRegistration> createState() => _RoomRegistrationState();
+}
+
+class _RoomRegistrationState extends State<RoomRegistration> {
+  final formKey = GlobalKey<FormState>();
+  bool isChecked = false;
+  void isChoosed(bool isCheck) {
+    isChecked = isCheck;
+  }
+
+  List<String> getFacility = [];
+
+  List logo = [
+    FontAwesomeIcons.fan,
+    FontAwesomeIcons.wifi,
+    FontAwesomeIcons.motorcycle,
+    FontAwesomeIcons.doorClosed
+  ];
+
+  List label = ["Máy lạnh", "Wifi", "Giữ xe", "Nội thất"];
+
+  TextEditingController numberPeopleController = TextEditingController();
+  TextEditingController numberFloorController = TextEditingController();
+  TextEditingController roomIdController = TextEditingController();
+  TextEditingController acreageController = TextEditingController();
+  TextEditingController priceController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -57,38 +87,56 @@ class RoomRegistration extends StatelessWidget {
                 style: TextStyle(fontSize: 35, fontWeight: FontWeight.w900),
               ),
               spaceHeight(context),
-              TextFieldWidget(
-                hint: "Mã phòng",
-              ),
-              spaceHeight(context),
-              Align(
-                  alignment: Alignment.centerLeft,
-                  child: Text(
-                    "Tiện ích",
-                    style: mediumTextStyle(context),
+              Form(
+                  key: formKey,
+                  child: Column(
+                    children: [
+                      TextFieldWidget(
+                        hint: "Mã phòng",
+                        controller: roomIdController,
+                        errorText: "Hãy nhập mã phòng",
+                      ),
+
+                      // Row(
+                      //   mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      //   children: [
+                      //     Column(
+                      //       crossAxisAlignment: CrossAxisAlignment.start,
+                      //       children: [
+                      //         checkBoxCombo(context, FontAwesomeIcons.fan, "Máy lạnh"),
+                      //         checkBoxCombo(
+                      //             context, FontAwesomeIcons.motorcycle, "Giữ xe")
+                      //       ],
+                      //     ),
+                      //     Column(
+                      //       crossAxisAlignment: CrossAxisAlignment.start,
+                      //       children: [
+                      //         checkBoxCombo(context, FontAwesomeIcons.wifi, "Wifi"),
+                      //         checkBoxCombo(
+                      //             context, FontAwesomeIcons.doorClosed, "Nội thất")
+                      //       ],
+                      //     )
+                      //   ],
+                      // ),
+
+                      spaceHeight(context, height: 0.03),
+
+                      TextFieldWidget(
+                        hint: "Diện tích (m2)",
+                        type: TextInputType.number,
+                        controller: acreageController,
+                        errorText: "Hãy nhập diện tích",
+                      ),
+                      spaceHeight(context, height: 0.03),
+                      TextFieldWidget(
+                        hint: "Giá",
+                        type: TextInputType.number,
+                        controller: priceController,
+                        errorText: "Hãy nhập giá tiền",
+                      ),
+                    ],
                   )),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      checkBoxCombo(context, FontAwesomeIcons.fan, "Máy lạnh"),
-                      checkBoxCombo(
-                          context, FontAwesomeIcons.motorcycle, "Giữ xe")
-                    ],
-                  ),
-                  Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      checkBoxCombo(context, FontAwesomeIcons.wifi, "Wifi"),
-                      checkBoxCombo(
-                          context, FontAwesomeIcons.doorClosed, "Nội thất")
-                    ],
-                  )
-                ],
-              ),
-              spaceHeight(context, height: 0.03),
+              spaceHeight(context),
               Row(
                 children: [
                   Text(
@@ -102,15 +150,28 @@ class RoomRegistration extends StatelessWidget {
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  dropDownWidget(context, number, "Số người"),
-                  dropDownWidget(context, number, "Số tầng")
+                  dropDownWidget(
+                      context, number, "Số người", numberPeopleController),
+                  dropDownWidget(
+                      context, number, "Số tầng", numberFloorController)
                 ],
               ),
-              spaceHeight(context, height: 0.03),
-              TextFieldWidget(
-                hint: "Diện tích m2",
-                type: TextInputType.number,
-              ),
+              spaceHeight(context),
+              Align(
+                  alignment: Alignment.centerLeft,
+                  child: Text(
+                    "Tiện ích",
+                    style: mediumTextStyle(context),
+                  )),
+              GridView.builder(
+                  shrinkWrap: true,
+                  physics: const NeverScrollableScrollPhysics(),
+                  gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                      crossAxisCount: 2, childAspectRatio: 2),
+                  itemCount: 4,
+                  itemBuilder: (context, index) {
+                    return checkBoxCombo(context, logo[index], label[index]);
+                  }),
               spaceHeight(context),
               Align(
                 alignment: Alignment.centerLeft,
@@ -158,7 +219,7 @@ class RoomRegistration extends StatelessWidget {
               spaceHeight(context),
               Align(
                 alignment: Alignment.centerLeft,
-                child: Consumer<HouseRegisterProvider>(
+                child: Consumer<RoomRegisterProvider>(
                     builder: (context, value, child) {
                   if (value.selectedImageRoom.isEmpty) {
                     return const SizedBox();
@@ -187,7 +248,7 @@ class RoomRegistration extends StatelessWidget {
                                   child: IconButton(
                                       onPressed: () {
                                         context
-                                            .read<HouseRegisterProvider>()
+                                            .read<RoomRegisterProvider>()
                                             .deleteImageRoom(index);
                                       },
                                       icon: const Icon(FontAwesomeIcons.xmark)))
@@ -205,7 +266,36 @@ class RoomRegistration extends StatelessWidget {
                 color: Colors.black,
               ),
               spaceHeight(context),
-              ButtonWidget(function: () {}, textButton: "Đăng ký"),
+              ButtonWidget(
+                  function: () async {
+                    String facilities = getFacility.join(' ,');
+                    await context
+                        .read<UserLoginProvider>()
+                        .readPhoneNumber()
+                        .then((value) async {
+                      String userPhone =
+                          context.read<UserLoginProvider>().userPhone;
+                      if (formKey.currentState!.validate()) {
+                        await context
+                            .read<RoomRegisterProvider>()
+                            .roomRegistration(
+                                roomIdController.text,
+                                userPhone,
+                                facilities,
+                                numberPeopleController.text,
+                                numberFloorController.text,
+                                acreageController.text,
+                                "",
+                                priceController.text)
+                            .then((value) async {
+                          await context
+                              .read<RoomRegisterProvider>()
+                              .uploadImg(userPhone);
+                        });
+                      }
+                    });
+                  },
+                  textButton: "Đăng ký"),
             ],
           ),
         ),
@@ -216,19 +306,29 @@ class RoomRegistration extends StatelessWidget {
   Row checkBoxCombo(BuildContext context, IconData logo, String label) {
     return Row(
       children: [
-        // const CheckboxExample(),
+        CheckboxExample(isChecked: (p0) {
+          isChoosed(p0!);
+          if (isChecked == true && !getFacility.contains(label)) {
+            getFacility.add(label);
+            return;
+          }
+          if (isChecked == false && getFacility.contains(label)) {
+            getFacility.remove(label);
+            return;
+          }
+        }),
         Icon(logo),
         spaceWidth(context),
         Text(
           label,
-          style: mediumTextStyle(context),
+          style: smallMediumTextStyle(context),
         )
       ],
     );
   }
 
-  DropdownMenu<String> dropDownWidget(
-      context, List<String> location, String hint) {
+  DropdownMenu<String> dropDownWidget(context, List<String> location,
+      String hint, TextEditingController controller) {
     return DropdownMenu(
       width: getWidth(context, width: 0.4),
       hintText: hint,

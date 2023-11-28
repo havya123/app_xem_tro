@@ -1,5 +1,6 @@
 import 'package:app_xem_tro/provider/google_map_provider.dart';
 import 'package:app_xem_tro/provider/house_register_provider.dart';
+import 'package:app_xem_tro/provider/room_register_provider.dart';
 import 'package:app_xem_tro/provider/user_login_provider.dart';
 import 'package:app_xem_tro/provider/user_provider.dart';
 import 'package:app_xem_tro/route/route_manager.dart';
@@ -24,12 +25,13 @@ class _AppXemTroState extends State<AppXemTro> {
         ChangeNotifierProvider(create: (context) => UserProvider()),
         ChangeNotifierProvider(create: (context) => UserLoginProvider()),
         ChangeNotifierProvider(create: (context) => GoogleMapProvider()),
-        ChangeNotifierProvider(create: (context) => HouseRegisterProvider())
+        ChangeNotifierProvider(create: (context) => HouseRegisterProvider()),
+        ChangeNotifierProvider(create: (context) => RoomRegisterProvider())
       ],
       builder: (context, child) {
         return GetMaterialApp(
           debugShowCheckedModeBanner: false,
-          initialRoute: Routes.houseRegistrationRoute,
+          initialRoute: Routes.roomRegistrationRoute,
           getPages: RouteManager.routeManager,
           unknownRoute: RouteManager.notFound,
         );

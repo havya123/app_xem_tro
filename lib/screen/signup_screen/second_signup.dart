@@ -133,15 +133,12 @@ class SecondSignup extends StatelessWidget {
                         hintTextStyle: const TextStyle(fontSize: 15),
                         // selectedDay: 14,/ optional
                         onChangedDay: (value) {
-                          print('onChangedDay: $value');
                           day = value;
                         },
                         onChangedMonth: (value) {
-                          print('onChangedMonth: $value');
                           month = value;
                         },
                         onChangedYear: (value) {
-                          print('onChangedYear: $value');
                           year = value;
                         },
                       ),
