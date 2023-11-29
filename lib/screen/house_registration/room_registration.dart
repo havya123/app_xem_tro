@@ -7,12 +7,44 @@ import 'package:app_xem_tro/config/widget/image_room_selected.dart';
 import 'package:app_xem_tro/config/widget/text_field.dart';
 import 'package:app_xem_tro/models/house.dart';
 import 'package:app_xem_tro/provider/house_register_provider.dart';
+import 'package:app_xem_tro/provider/room_register_provider.dart';
+import 'package:app_xem_tro/provider/user_login_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:provider/provider.dart';
 
-class RoomRegistration extends StatelessWidget {
-  const RoomRegistration({super.key});
+class RoomRegistration extends StatefulWidget {
+  RoomRegistration({required this.houseId, super.key});
+
+  String? houseId;
+
+  @override
+  State<RoomRegistration> createState() => _RoomRegistrationState();
+}
+
+class _RoomRegistrationState extends State<RoomRegistration> {
+  final formKey = GlobalKey<FormState>();
+  bool isChecked = false;
+  void isChoosed(bool isCheck) {
+    isChecked = isCheck;
+  }
+
+  List<String> getFacility = [];
+
+  List logo = [
+    FontAwesomeIcons.fan,
+    FontAwesomeIcons.wifi,
+    FontAwesomeIcons.motorcycle,
+    FontAwesomeIcons.doorClosed
+  ];
+
+  List label = ["Máy lạnh", "Wifi", "Giữ xe", "Nội thất"];
+
+  TextEditingController numberPeopleController = TextEditingController();
+  TextEditingController numberFloorController = TextEditingController();
+  TextEditingController roomIdController = TextEditingController();
+  TextEditingController acreageController = TextEditingController();
+  TextEditingController priceController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -58,8 +90,41 @@ class RoomRegistration extends StatelessWidget {
                 style: TextStyle(fontSize: 35, fontWeight: FontWeight.w900),
               ),
               spaceHeight(context),
-              TextFieldWidget(
-                hint: "Mã phòng",
+              Form(
+                  key: formKey,
+                  child: Column(
+                    children: [
+                      TextFieldWidget(
+                        hint: "Tên phòng",
+                        controller: roomIdController,
+                        errorText: "Hãy nhập tên phòng",
+                      ),
+                      spaceHeight(context, height: 0.03),
+                      TextFieldWidget(
+                        hint: "Diện tích (m2)",
+                        type: TextInputType.number,
+                        controller: acreageController,
+                        errorText: "Hãy nhập diện tích",
+                      ),
+                      spaceHeight(context, height: 0.03),
+                      TextFieldWidget(
+                        hint: "Giá",
+                        type: TextInputType.number,
+                        controller: priceController,
+                        errorText: "Hãy nhập giá tiền",
+                      ),
+                    ],
+                  )),
+              spaceHeight(context),
+              spaceHeight(context, height: 0.03),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  dropDownWidget(
+                      context, number, "Số người", numberPeopleController),
+                  dropDownWidget(
+                      context, number, "Số tầng", numberFloorController)
+                ],
               ),
               spaceHeight(context),
               Align(
@@ -68,58 +133,34 @@ class RoomRegistration extends StatelessWidget {
                     "Tiện ích",
                     style: mediumTextStyle(context),
                   )),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      checkBoxCombo(context, FontAwesomeIcons.fan, "Máy lạnh"),
-                      checkBoxCombo(
-                          context, FontAwesomeIcons.motorcycle, "Giữ xe")
-                    ],
-                  ),
-                  Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      checkBoxCombo(context, FontAwesomeIcons.wifi, "Wifi"),
-                      checkBoxCombo(
-                          context, FontAwesomeIcons.doorClosed, "Nội thất")
-                    ],
-                  )
-                ],
-              ),
-              spaceHeight(context, height: 0.03),
-              Row(
-                children: [
-                  Text(
-                    "Ở ghép",
-                    style: mediumTextStyle(context),
-                  ),
-                  // const CheckboxExample()
-                ],
-              ),
-              spaceHeight(context, height: 0.03),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  dropDownWidget(context, number, "Số người"),
-                  dropDownWidget(context, number, "Số tầng")
-                ],
-              ),
-              spaceHeight(context, height: 0.03),
-              TextFieldWidget(
-                hint: "Diện tích m2",
-                type: TextInputType.number,
-              ),
+              GridView.builder(
+                  shrinkWrap: true,
+                  physics: const NeverScrollableScrollPhysics(),
+                  gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                      crossAxisCount: 2, childAspectRatio: 2),
+                  itemCount: 4,
+                  itemBuilder: (context, index) {
+                    return checkBoxCombo(context, logo[index], label[index]);
+                  }),
               spaceHeight(context),
               Align(
                 alignment: Alignment.centerLeft,
-                child: Text(
-                  "Ảnh",
-                  style: mediumTextStyle(context),
+                child: Row(
+                  children: [
+                    Text(
+                      "Ảnh",
+                      style: mediumTextStyle(context),
+                    ),
+                    spaceWidth(context),
+                    Consumer<RoomRegisterProvider>(
+                      builder: (context, value, child) {
+                        return Text("Tối thiểu ${value.countItem}/3 ảnh");
+                      },
+                    )
+                  ],
                 ),
               ),
+              spaceHeight(context),
               Row(
                 children: [
                   GestureDetector(
@@ -159,8 +200,8 @@ class RoomRegistration extends StatelessWidget {
               spaceHeight(context),
               Align(
                 alignment: Alignment.centerLeft,
-                child:
-                    Consumer<HouseProvider>(builder: (context, value, child) {
+                child: Consumer<RoomRegisterProvider>(
+                    builder: (context, value, child) {
                   if (value.selectedImageRoom.isEmpty) {
                     return const SizedBox();
                   }
@@ -188,7 +229,7 @@ class RoomRegistration extends StatelessWidget {
                                   child: IconButton(
                                       onPressed: () {
                                         context
-                                            .read<HouseProvider>()
+                                            .read<RoomRegisterProvider>()
                                             .deleteImageRoom(index);
                                       },
                                       icon: const Icon(FontAwesomeIcons.xmark)))
@@ -206,7 +247,42 @@ class RoomRegistration extends StatelessWidget {
                 color: Colors.black,
               ),
               spaceHeight(context),
-              ButtonWidget(function: () {}, textButton: "Đăng ký"),
+              ButtonWidget(
+                  function: () async {
+                    String facilities = getFacility.join(' ,');
+                    await context
+                        .read<UserLoginProvider>()
+                        .readPhoneNumber()
+                        .then((value) async {
+                      String userPhone =
+                          context.read<UserLoginProvider>().userPhone;
+                      if (formKey.currentState!.validate() &&
+                          context
+                                  .read<RoomRegisterProvider>()
+                                  .selectedImageRoom
+                                  .length >=
+                              3) {
+                        await context
+                            .read<RoomRegisterProvider>()
+                            .roomRegistration(
+                                widget.houseId as String,
+                                roomIdController.text,
+                                userPhone,
+                                facilities,
+                                numberPeopleController.text,
+                                numberFloorController.text,
+                                acreageController.text,
+                                "",
+                                priceController.text)
+                            .then((value) async {
+                          await context
+                              .read<RoomRegisterProvider>()
+                              .uploadImg(userPhone);
+                        });
+                      }
+                    });
+                  },
+                  textButton: "Đăng ký"),
             ],
           ),
         ),
@@ -217,19 +293,29 @@ class RoomRegistration extends StatelessWidget {
   Row checkBoxCombo(BuildContext context, IconData logo, String label) {
     return Row(
       children: [
-        // const CheckboxExample(),
+        CheckboxExample(isChecked: (p0) {
+          isChoosed(p0!);
+          if (isChecked == true && !getFacility.contains(label)) {
+            getFacility.add(label);
+            return;
+          }
+          if (isChecked == false && getFacility.contains(label)) {
+            getFacility.remove(label);
+            return;
+          }
+        }),
         Icon(logo),
         spaceWidth(context),
         Text(
           label,
-          style: mediumTextStyle(context),
+          style: smallMediumTextStyle(context),
         )
       ],
     );
   }
 
-  DropdownMenu<String> dropDownWidget(
-      context, List<String> location, String hint) {
+  DropdownMenu<String> dropDownWidget(context, List<String> location,
+      String hint, TextEditingController controller) {
     return DropdownMenu(
       width: getWidth(context, width: 0.4),
       hintText: hint,

@@ -22,7 +22,6 @@ class HouseRepo {
     String? description,
   ) async {
     currentDate();
-    print(createdAt);
 
     FirebaseService.houseRef.doc().set(House(
         userName: userName,

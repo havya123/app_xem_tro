@@ -9,10 +9,12 @@ import 'package:permission_handler/permission_handler.dart';
 
 class HouseProvider extends ChangeNotifier {
   List<XFile?> selectedImageHouse = [];
-  List<XFile?> selectedImageRoom = [];
+
+  int countImage = 0;
 
   void deleteImage(int index) {
     selectedImageHouse.removeAt(index);
+    countImage = selectedImageHouse.length;
     notifyListeners();
   }
 
@@ -25,6 +27,7 @@ class HouseProvider extends ChangeNotifier {
         await ImagePicker().pickImage(source: ImageSource.gallery);
     if (returnImage == null) return;
     selectedImageHouse.add(returnImage);
+    countImage = selectedImageHouse.length;
     notifyListeners();
   }
 
@@ -37,35 +40,7 @@ class HouseProvider extends ChangeNotifier {
         await ImagePicker().pickImage(source: ImageSource.camera);
     if (returnImage == null) return;
     selectedImageHouse.add(returnImage);
-    notifyListeners();
-  }
-
-  void deleteImageRoom(int index) {
-    selectedImageRoom.removeAt(index);
-    notifyListeners();
-  }
-
-  Future<void> pickImageRoomFromGallery() async {
-    var status = await Permission.storage.request();
-    if (status.isDenied) {
-      return Future.error("Storage permission is denied");
-    }
-    final returnImage =
-        await ImagePicker().pickImage(source: ImageSource.gallery);
-    if (returnImage == null) return;
-    selectedImageRoom.add(returnImage);
-    notifyListeners();
-  }
-
-  Future<void> pickImageRoomFromCamera() async {
-    var status = await Permission.camera.request();
-    if (status.isDenied) {
-      return Future.error("Storage permission is denied");
-    }
-    final returnImage =
-        await ImagePicker().pickImage(source: ImageSource.camera);
-    if (returnImage == null) return;
-    selectedImageRoom.add(returnImage);
+    countImage = selectedImageHouse.length;
     notifyListeners();
   }
 
