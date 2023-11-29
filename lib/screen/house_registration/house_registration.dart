@@ -42,6 +42,7 @@ class _HouseRegistrationState extends State<HouseRegistration> {
 
   TextEditingController streetController = TextEditingController();
   final formKey = GlobalKey<FormState>();
+  final desKey = GlobalKey<FormState>();
 
   void showErrorDialog() {
     showDialog(
@@ -141,6 +142,9 @@ class _HouseRegistrationState extends State<HouseRegistration> {
                             type: TextInputType.number,
                             controller: phoneNumberController,
                             errorText: "Hãy nhập số điện thoại",
+                            numberOfLetter: 10,
+                            minLetter: 10,
+                            errorPass: "Số điện thoại gồm 10 số",
                           ),
                         ],
                       )),
@@ -305,21 +309,24 @@ class _HouseRegistrationState extends State<HouseRegistration> {
                 ),
               ),
               spaceHeight(context, height: 0.03),
-              Container(
-                width: double.infinity,
-                height: getHeight(context, height: 0.35),
-                decoration: BoxDecoration(
-                    border: Border.all(color: Colors.black),
-                    borderRadius: BorderRadius.circular(20)),
-                child: Padding(
-                    padding: EdgeInsets.all(padding(context, padding: 0.02)),
-                    child: TextFieldWidget(
-                      hint: "",
-                      minLetter: 50,
-                      errorText: "Hãy nhập thông tin mô tả",
-                      errorPass: "Nhập ít nhất 100 ký tự",
-                      removeBorder: true,
-                    )),
+              Form(
+                key: desKey,
+                child: Container(
+                  width: double.infinity,
+                  height: getHeight(context, height: 0.35),
+                  decoration: BoxDecoration(
+                      border: Border.all(color: Colors.black),
+                      borderRadius: BorderRadius.circular(20)),
+                  child: Padding(
+                      padding: EdgeInsets.all(padding(context, padding: 0.02)),
+                      child: TextFieldWidget(
+                        hint: "",
+                        minLetter: 50,
+                        errorText: "Hãy nhập thông tin mô tả",
+                        errorPass: "Nhập ít nhất 100 ký tự",
+                        removeBorder: true,
+                      )),
+                ),
               ),
               spaceHeight(context),
               Align(
@@ -425,7 +432,8 @@ class _HouseRegistrationState extends State<HouseRegistration> {
                         .then((value) async {
                       String userPhone =
                           context.read<UserLoginProvider>().userPhone;
-                      if (formKey.currentState!.validate()) {
+                      if (formKey.currentState!.validate() &&
+                          desKey.currentState!.validate()) {
                         context
                             .read<HouseRegisterProvider>()
                             .houseRegistration(
