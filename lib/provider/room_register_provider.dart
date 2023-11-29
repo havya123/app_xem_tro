@@ -8,7 +8,10 @@ import 'package:permission_handler/permission_handler.dart';
 class RoomRegisterProvider extends ChangeNotifier {
   List<XFile?> selectedImageRoom = [];
 
+  int countItem = 0;
+
   Future<void> roomRegistration(
+      String houseId,
       String roomId,
       String userPhone,
       String utilities,
@@ -17,12 +20,13 @@ class RoomRegisterProvider extends ChangeNotifier {
       String acreage,
       String? img,
       String price) async {
-    await RoomRepo().roomRegistration(
-        roomId, utilities, numberOfPeople, numberOfFloor, acreage, img, price);
+    await RoomRepo().roomRegistration(houseId, roomId, utilities,
+        numberOfPeople, numberOfFloor, acreage, img, price);
   }
 
   void deleteImageRoom(int index) {
     selectedImageRoom.removeAt(index);
+    countItem = selectedImageRoom.length;
     notifyListeners();
   }
 
@@ -35,6 +39,7 @@ class RoomRegisterProvider extends ChangeNotifier {
         await ImagePicker().pickImage(source: ImageSource.gallery);
     if (returnImage == null) return;
     selectedImageRoom.add(returnImage);
+    countItem = selectedImageRoom.length;
     notifyListeners();
   }
 
@@ -47,6 +52,7 @@ class RoomRegisterProvider extends ChangeNotifier {
         await ImagePicker().pickImage(source: ImageSource.camera);
     if (returnImage == null) return;
     selectedImageRoom.add(returnImage);
+    countItem = selectedImageRoom.length;
     notifyListeners();
   }
 

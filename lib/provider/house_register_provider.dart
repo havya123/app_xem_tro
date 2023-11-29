@@ -9,8 +9,11 @@ import 'package:permission_handler/permission_handler.dart';
 class HouseRegisterProvider extends ChangeNotifier {
   List<XFile?> selectedImageHouse = [];
 
+  int countImage = 0;
+
   void deleteImage(int index) {
     selectedImageHouse.removeAt(index);
+    countImage = selectedImageHouse.length;
     notifyListeners();
   }
 
@@ -23,6 +26,7 @@ class HouseRegisterProvider extends ChangeNotifier {
         await ImagePicker().pickImage(source: ImageSource.gallery);
     if (returnImage == null) return;
     selectedImageHouse.add(returnImage);
+    countImage = selectedImageHouse.length;
     notifyListeners();
   }
 
@@ -35,6 +39,7 @@ class HouseRegisterProvider extends ChangeNotifier {
         await ImagePicker().pickImage(source: ImageSource.camera);
     if (returnImage == null) return;
     selectedImageHouse.add(returnImage);
+    countImage = selectedImageHouse.length;
     notifyListeners();
   }
 

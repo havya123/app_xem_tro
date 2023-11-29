@@ -6,7 +6,6 @@ import 'package:app_xem_tro/provider/user_provider.dart';
 import 'package:app_xem_tro/route/route_manager.dart';
 import 'package:app_xem_tro/route/routes.dart';
 import 'package:flutter/material.dart';
-import 'package:fluttertoast/fluttertoast.dart';
 import 'package:get/get_navigation/get_navigation.dart';
 import 'package:provider/provider.dart';
 

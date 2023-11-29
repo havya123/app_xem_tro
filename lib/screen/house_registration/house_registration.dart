@@ -40,9 +40,12 @@ class _HouseRegistrationState extends State<HouseRegistration> {
   String district = "";
   String ward = "";
 
+  String errorTextProvince = "Vui lòng chọn Tỉnh/TP";
+  String errorTextDistrict = "Vui lòng chọn Quận/Huyện";
+  String errorTextWard = "";
+
   TextEditingController streetController = TextEditingController();
   final formKey = GlobalKey<FormState>();
-  final desKey = GlobalKey<FormState>();
 
   void showErrorDialog() {
     showDialog(
@@ -142,73 +145,83 @@ class _HouseRegistrationState extends State<HouseRegistration> {
                             type: TextInputType.number,
                             controller: phoneNumberController,
                             errorText: "Hãy nhập số điện thoại",
-                            numberOfLetter: 10,
-                            minLetter: 10,
-                            errorPass: "Số điện thoại gồm 10 số",
+                          ),
+                          spaceHeight(context, height: 0.03),
+                          const Align(
+                            alignment: Alignment.topLeft,
+                            child: Text(
+                              "Địa chỉ",
+                              style: TextStyle(fontSize: 18),
+                            ),
+                          ),
+                          spaceHeight(context, height: 0.01),
+                          Consumer<GoogleMapProvider>(
+                              builder: (context, value, child) {
+                            return dropDownProvince(
+                              context,
+                              value.listProvince,
+                              "Tỉnh/TP",
+                              (p0) {
+                                province = p0 as String;
+                                int code = value.listProvince
+                                    .firstWhere(
+                                        (province) => province.name == p0)
+                                    .code;
+
+                                context
+                                    .read<GoogleMapProvider>()
+                                    .getListDistrict(code);
+                              },
+                            );
+                          }),
+                          spaceHeight(context, height: 0.03),
+                          Consumer<GoogleMapProvider>(
+                              builder: (context, value, child) {
+                            return dropDownDistrict(
+                              context,
+                              value.listDistrict,
+                              "Quận/Huyện",
+                              (p0) {
+                                district = p0 as String;
+                                int code = value.listDistrict
+                                    .firstWhere((listDistrict) =>
+                                        listDistrict.name == p0)
+                                    .code;
+                                context
+                                    .read<GoogleMapProvider>()
+                                    .getListWard(code);
+                              },
+                            );
+                          }),
+                          spaceHeight(context, height: 0.03),
+                          Consumer<GoogleMapProvider>(
+                              builder: (context, value, child) {
+                            return dropDownWard(
+                              context,
+                              value.listWard,
+                              "Phường/Xã",
+                              (p0) {
+                                ward = p0 as String;
+                              },
+                            );
+                          }),
+                          spaceHeight(context, height: 0.03),
+                          TextFieldWidget(
+                            errorText: "Vui lòng nhập đầy đủ địa chỉ",
+                            hint: "Đường",
+                            controller: streetController,
+                            function: (p0) async {
+                              await context
+                                  .read<GoogleMapProvider>()
+                                  .searchPlace("$province $district $ward $p0",
+                                      showErrorDialog);
+                              context
+                                  .read<GoogleMapProvider>()
+                                  .goToPlace(_controller);
+                            },
                           ),
                         ],
                       )),
-                  spaceHeight(context, height: 0.03),
-                  const Align(
-                    alignment: Alignment.topLeft,
-                    child: Text(
-                      "Địa chỉ",
-                      style: TextStyle(fontSize: 18),
-                    ),
-                  ),
-                  spaceHeight(context, height: 0.01),
-                  Consumer<GoogleMapProvider>(builder: (context, value, child) {
-                    return dropDownProvince(
-                      context,
-                      value.listProvince,
-                      "Tỉnh/TP",
-                      (p0) {
-                        province = p0 as String;
-                        int code = value.listProvince
-                            .firstWhere((province) => province.name == p0)
-                            .code;
-
-                        context.read<GoogleMapProvider>().getListDistrict(code);
-                      },
-                    );
-                  }),
-                  spaceHeight(context, height: 0.03),
-                  Consumer<GoogleMapProvider>(builder: (context, value, child) {
-                    return dropDownDistrict(
-                      context,
-                      value.listDistrict,
-                      "Quận/Huyện",
-                      (p0) {
-                        district = p0 as String;
-                        int code = value.listDistrict
-                            .firstWhere(
-                                (listDistrict) => listDistrict.name == p0)
-                            .code;
-                        context.read<GoogleMapProvider>().getListWard(code);
-                      },
-                    );
-                  }),
-                  spaceHeight(context, height: 0.03),
-                  Consumer<GoogleMapProvider>(builder: (context, value, child) {
-                    return dropDownWard(
-                      context,
-                      value.listWard,
-                      "Phường/Xã",
-                      (p0) {
-                        ward = p0 as String;
-                      },
-                    );
-                  }),
-                  spaceHeight(context, height: 0.03),
-                  TextFieldWidget(
-                    hint: "Đường",
-                    controller: streetController,
-                    function: (p0) async {
-                      await context.read<GoogleMapProvider>().searchPlace(
-                          "$province $district $ward $p0", showErrorDialog);
-                      context.read<GoogleMapProvider>().goToPlace(_controller);
-                    },
-                  ),
                 ],
               ),
               spaceHeight(context),
@@ -259,29 +272,6 @@ class _HouseRegistrationState extends State<HouseRegistration> {
                   ),
                 ),
               ),
-              // Row(
-              //   mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              //   children: [
-              //     Column(
-              //       crossAxisAlignment: CrossAxisAlignment.start,
-              //       children: [
-              //         checkBoxCombo(
-              //             context, FontAwesomeIcons.cartShopping, "Chợ"),
-              //         checkBoxCombo(context, FontAwesomeIcons.store, "Cửa hàng")
-              //       ],
-              //     ),
-              //     Column(
-              //       crossAxisAlignment: CrossAxisAlignment.start,
-              //       children: [
-              //         checkBoxCombo(
-              //             context, FontAwesomeIcons.mugSaucer, "Cafe"),
-              //         checkBoxCombo(
-              //             context, FontAwesomeIcons.water, "Tiệm giặt")
-              //       ],
-              //     )
-              //   ],
-              // ),
-
               GridView.builder(
                   shrinkWrap: true,
                   physics: const NeverScrollableScrollPhysics(),
@@ -309,31 +299,38 @@ class _HouseRegistrationState extends State<HouseRegistration> {
                 ),
               ),
               spaceHeight(context, height: 0.03),
-              Form(
-                key: desKey,
-                child: Container(
-                  width: double.infinity,
-                  height: getHeight(context, height: 0.35),
-                  decoration: BoxDecoration(
-                      border: Border.all(color: Colors.black),
-                      borderRadius: BorderRadius.circular(20)),
-                  child: Padding(
-                      padding: EdgeInsets.all(padding(context, padding: 0.02)),
-                      child: TextFieldWidget(
-                        hint: "",
-                        minLetter: 50,
-                        errorText: "Hãy nhập thông tin mô tả",
-                        errorPass: "Nhập ít nhất 100 ký tự",
-                        removeBorder: true,
-                      )),
-                ),
+              Container(
+                width: double.infinity,
+                height: getHeight(context, height: 0.35),
+                decoration: BoxDecoration(
+                    border: Border.all(color: Colors.black),
+                    borderRadius: BorderRadius.circular(20)),
+                child: Padding(
+                    padding: EdgeInsets.all(padding(context, padding: 0.02)),
+                    child: TextFieldWidget(
+                      hint: "",
+                      minLetter: 50,
+                      errorText: "Hãy nhập thông tin mô tả",
+                      errorPass: "Nhập ít nhất 100 ký tự",
+                      removeBorder: true,
+                    )),
               ),
               spaceHeight(context),
               Align(
                 alignment: Alignment.centerLeft,
-                child: Text(
-                  "Ảnh",
-                  style: mediumTextStyle(context),
+                child: Row(
+                  children: [
+                    Text(
+                      "Ảnh",
+                      style: mediumTextStyle(context),
+                    ),
+                    spaceWidth(context),
+                    Consumer<HouseRegisterProvider>(
+                      builder: (context, value, child) {
+                        return Text('Tối thiểu ${value.countImage}/3');
+                      },
+                    )
+                  ],
                 ),
               ),
               spaceHeight(context, height: 0.03),
@@ -433,7 +430,11 @@ class _HouseRegistrationState extends State<HouseRegistration> {
                       String userPhone =
                           context.read<UserLoginProvider>().userPhone;
                       if (formKey.currentState!.validate() &&
-                          desKey.currentState!.validate()) {
+                          context
+                                  .read<HouseRegisterProvider>()
+                                  .selectedImageHouse
+                                  .length >=
+                              3) {
                         context
                             .read<HouseRegisterProvider>()
                             .houseRegistration(

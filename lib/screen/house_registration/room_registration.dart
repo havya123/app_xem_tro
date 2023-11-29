@@ -13,7 +13,9 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:provider/provider.dart';
 
 class RoomRegistration extends StatefulWidget {
-  const RoomRegistration({super.key});
+  RoomRegistration({required this.houseId, super.key});
+
+  String? houseId;
 
   @override
   State<RoomRegistration> createState() => _RoomRegistrationState();
@@ -92,35 +94,11 @@ class _RoomRegistrationState extends State<RoomRegistration> {
                   child: Column(
                     children: [
                       TextFieldWidget(
-                        hint: "Mã phòng",
+                        hint: "Tên phòng",
                         controller: roomIdController,
-                        errorText: "Hãy nhập mã phòng",
+                        errorText: "Hãy nhập tên phòng",
                       ),
-
-                      // Row(
-                      //   mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      //   children: [
-                      //     Column(
-                      //       crossAxisAlignment: CrossAxisAlignment.start,
-                      //       children: [
-                      //         checkBoxCombo(context, FontAwesomeIcons.fan, "Máy lạnh"),
-                      //         checkBoxCombo(
-                      //             context, FontAwesomeIcons.motorcycle, "Giữ xe")
-                      //       ],
-                      //     ),
-                      //     Column(
-                      //       crossAxisAlignment: CrossAxisAlignment.start,
-                      //       children: [
-                      //         checkBoxCombo(context, FontAwesomeIcons.wifi, "Wifi"),
-                      //         checkBoxCombo(
-                      //             context, FontAwesomeIcons.doorClosed, "Nội thất")
-                      //       ],
-                      //     )
-                      //   ],
-                      // ),
-
                       spaceHeight(context, height: 0.03),
-
                       TextFieldWidget(
                         hint: "Diện tích (m2)",
                         type: TextInputType.number,
@@ -137,15 +115,6 @@ class _RoomRegistrationState extends State<RoomRegistration> {
                     ],
                   )),
               spaceHeight(context),
-              Row(
-                children: [
-                  Text(
-                    "Ở ghép",
-                    style: mediumTextStyle(context),
-                  ),
-                  // const CheckboxExample()
-                ],
-              ),
               spaceHeight(context, height: 0.03),
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -175,11 +144,22 @@ class _RoomRegistrationState extends State<RoomRegistration> {
               spaceHeight(context),
               Align(
                 alignment: Alignment.centerLeft,
-                child: Text(
-                  "Ảnh",
-                  style: mediumTextStyle(context),
+                child: Row(
+                  children: [
+                    Text(
+                      "Ảnh",
+                      style: mediumTextStyle(context),
+                    ),
+                    spaceWidth(context),
+                    Consumer<RoomRegisterProvider>(
+                      builder: (context, value, child) {
+                        return Text("Tối thiểu ${value.countItem}/3 ảnh");
+                      },
+                    )
+                  ],
                 ),
               ),
+              spaceHeight(context),
               Row(
                 children: [
                   GestureDetector(
@@ -275,10 +255,16 @@ class _RoomRegistrationState extends State<RoomRegistration> {
                         .then((value) async {
                       String userPhone =
                           context.read<UserLoginProvider>().userPhone;
-                      if (formKey.currentState!.validate()) {
+                      if (formKey.currentState!.validate() &&
+                          context
+                                  .read<RoomRegisterProvider>()
+                                  .selectedImageRoom
+                                  .length >=
+                              3) {
                         await context
                             .read<RoomRegisterProvider>()
                             .roomRegistration(
+                                widget.houseId as String,
                                 roomIdController.text,
                                 userPhone,
                                 facilities,
