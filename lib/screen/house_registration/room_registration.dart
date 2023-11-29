@@ -14,7 +14,7 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:provider/provider.dart';
 
 class RoomRegistration extends StatefulWidget {
-  RoomRegistration({required this.houseId, super.key});
+  RoomRegistration({this.houseId, super.key});
 
   String? houseId;
 

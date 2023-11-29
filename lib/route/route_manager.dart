@@ -110,7 +110,7 @@ class RouteManager {
     ),
     GetPage(
       name: "/roomRegistrationRoute",
-      page: () => const RoomRegistration(),
+      page: () => RoomRegistration(),
     ),
     GetPage(
       name: "/listHouseRoute",

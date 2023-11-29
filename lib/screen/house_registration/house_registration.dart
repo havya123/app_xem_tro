@@ -325,7 +325,7 @@ class _HouseRegistrationState extends State<HouseRegistration> {
                       style: mediumTextStyle(context),
                     ),
                     spaceWidth(context),
-                    Consumer<HouseRegisterProvider>(
+                    Consumer<HouseProvider>(
                       builder: (context, value, child) {
                         return Text('Tối thiểu ${value.countImage}/3');
                       },
@@ -431,12 +431,12 @@ class _HouseRegistrationState extends State<HouseRegistration> {
                           context.read<UserLoginProvider>().userPhone;
                       if (formKey.currentState!.validate() &&
                           context
-                                  .read<HouseRegisterProvider>()
+                                  .read<HouseProvider>()
                                   .selectedImageHouse
                                   .length >=
                               3) {
                         context
-                            .read<HouseRegisterProvider>()
+                            .read<HouseProvider>()
                             .houseRegistration(
                                 userNameController.text,
                                 userPhone,
@@ -457,7 +457,7 @@ class _HouseRegistrationState extends State<HouseRegistration> {
                                 "")
                             .then((value) async {
                           await context
-                              .read<HouseRegisterProvider>()
+                              .read<HouseProvider>()
                               .uploadImg(userPhone);
                         });
                       }

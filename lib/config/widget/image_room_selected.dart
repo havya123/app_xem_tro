@@ -1,4 +1,3 @@
-import 'package:app_xem_tro/provider/house_register_provider.dart';
 import 'package:app_xem_tro/provider/room_register_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -14,7 +13,9 @@ class ImageRoomSelected extends StatelessWidget {
         children: [
           TextButton(
             onPressed: () async {
-              await context.read<HouseProvider>().pickImageRoomFromGallery();
+              await context
+                  .read<RoomRegisterProvider>()
+                  .pickImageRoomFromGallery();
               // await context.read<HouseRegisterProvider>().saveImage();
               Navigator.pop(context);
             },
@@ -22,7 +23,7 @@ class ImageRoomSelected extends StatelessWidget {
           ),
           TextButton(
             onPressed: () {
-              context.read<HouseProvider>().pickImageRoomFromCamera();
+              context.read<RoomRegisterProvider>().pickImageRoomFromCamera();
               // context.read<UserDetailProvider>().saveImage();
               Navigator.pop(context);
             },

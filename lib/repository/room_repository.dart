@@ -10,6 +10,7 @@ class RoomRepo {
   static String createAt = "";
 
   Future<void> roomRegistration(
+      String houseId,
       String roomId,
       String utilities,
       String numberOfPeople,
@@ -20,6 +21,7 @@ class RoomRepo {
     currentDate();
 
     FirebaseService.roomRef.doc().set(Room(
+        houseId: houseId,
         roomId: roomId,
         utilities: utilities,
         numberOfPeople: numberOfPeople,
