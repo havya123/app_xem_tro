@@ -90,16 +90,21 @@ class HouseRepo {
     createdAt = timeNow.toString();
   }
 
-  Future<List<House>> getListHouse(String userPhone) async {
+  Future<List> getListHouse(String userPhone) async {
     List<House> listHouse = [];
+    List<String> listDoc = [];
+    List listDocHouse = [];
     await FirebaseFirestore.instance
         .collection('house')
         .where('userPhone', isEqualTo: userPhone)
         .get()
         .then((value) {
+      listDoc = value.docs.map((e) => e.id).toList();
+      listDocHouse.add(listDoc);
       listHouse = value.docs.map((e) => House.fromMap(e.data())).toList();
+      listDocHouse.add(listHouse);
     });
-    return listHouse;
+    return listDocHouse;
   }
 
   Future<List<House>> getAllHouse() async {

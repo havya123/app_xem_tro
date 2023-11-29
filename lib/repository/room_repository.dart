@@ -5,6 +5,7 @@ import 'package:app_xem_tro/models/room.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_storage/firebase_storage.dart';
+import 'package:image_picker/image_picker.dart';
 
 class RoomRepo {
   static String createAt = "";
@@ -36,30 +37,64 @@ class RoomRepo {
     createAt = timeNow.toString();
   }
 
-  Future<void> uploadImg(String userPhone, File file) async {
-    String fileName = file.path.split("/").last;
+  Future<void> uploadImg(
+      String userPhone, List<XFile?> listXFile, String houseId) async {
+    List<String> fileName =
+        listXFile.map((e) => e!.path.split("/").last).toList();
 
     try {
-      Reference ref = FirebaseStorage.instance
-          .ref()
-          .child('images/landlord/$userPhone/room/$fileName');
+      for (int i = 0; i < listXFile.length; i++) {
+        Reference ref = FirebaseStorage.instance.ref().child(
+            'images/landlord/$userPhone/house/room/$houseId/${fileName[i]}');
 
-      await ref.putFile(file);
+        await ref.putFile(File(listXFile[i]!.path));
 
-      String downloadURL = await ref.getDownloadURL();
-      updateImg(downloadURL, userPhone);
+        String downloadURL = await ref.getDownloadURL();
+        updateImg(downloadURL, houseId);
+      }
     } catch (e) {}
   }
 
-  Future<void> updateImg(String urlImg, String userPhone) async {
+  Future<void> updateImg(
+    String urlImg,
+    String houseId,
+  ) async {
     await FirebaseFirestore.instance
         .collection('room')
+        .where('houseId', isEqualTo: houseId)
+        .where('createAt', isEqualTo: createAt)
         .get()
         .then((value) async {
       await FirebaseFirestore.instance
           .collection('room')
           .doc(value.docs.first.id)
-          .update({'img': urlImg});
+          .get()
+          .then((value1) async {
+        Map<String, dynamic>? response = value1.data();
+        String currentImage = response?['img'] ?? "";
+        String addImg = "";
+        if (currentImage == "") {
+          addImg = urlImg;
+        } else {
+          addImg = "$currentImage, $urlImg";
+        }
+        FirebaseFirestore.instance
+            .collection('room')
+            .doc(value.docs.first.id)
+            .update({'img': addImg});
+      });
     });
+  }
+
+  Future<List<Room>> getListRoom(String houseId) async {
+    List<Room> listRoom = [];
+    await FirebaseFirestore.instance
+        .collection('room')
+        .where('housId', isEqualTo: houseId)
+        .get()
+        .then((value) {
+      listRoom = value.docs.map((e) => Room.fromMap(e.data())).toList();
+    });
+    return listRoom;
   }
 }

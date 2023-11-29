@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:app_xem_tro/models/room.dart';
 import 'package:app_xem_tro/repository/room_repository.dart';
 import 'package:flutter/foundation.dart';
 import 'package:image_picker/image_picker.dart';
@@ -56,7 +57,13 @@ class RoomRegisterProvider extends ChangeNotifier {
     notifyListeners();
   }
 
-  Future<void> uploadImg(String userPhone) async {
-    RoomRepo().uploadImg(userPhone, File(selectedImageRoom.first!.path));
+  Future<void> uploadImg(String userPhone, String houseId) async {
+    await RoomRepo().uploadImg(userPhone, selectedImageRoom, houseId);
+  }
+
+  Future<List<Room>> getListRoom(String houseId) async {
+    List<Room> listRoom = [];
+    listRoom = await RoomRepo().getListRoom(houseId);
+    return listRoom;
   }
 }

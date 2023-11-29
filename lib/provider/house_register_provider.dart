@@ -9,6 +9,7 @@ import 'package:permission_handler/permission_handler.dart';
 
 class HouseProvider extends ChangeNotifier {
   List<XFile?> selectedImageHouse = [];
+  List<String> listDoc = [];
 
   int countImage = 0;
 
@@ -66,7 +67,9 @@ class HouseProvider extends ChangeNotifier {
   }
 
   Future<List<House>> getListHouseLL(String userPhone) async {
-    List<House> listHouse = await HouseRepo().getListHouse(userPhone);
+    List listDocHouse = await HouseRepo().getListHouse(userPhone);
+    listDoc = listDocHouse[0];
+    List<House> listHouse = listDocHouse[1];
     return listHouse;
   }
 

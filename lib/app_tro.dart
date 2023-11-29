@@ -27,7 +27,8 @@ class _AppXemTroState extends State<AppXemTro> {
         ChangeNotifierProvider(
             create: (context) => UserLoginProvider()..readPhoneNumber()),
         ChangeNotifierProvider(create: (context) => GoogleMapProvider()),
-        ChangeNotifierProvider(create: (context) => HouseProvider())
+        ChangeNotifierProvider(create: (context) => HouseProvider()),
+        ChangeNotifierProvider(create: (context) => RoomRegisterProvider()),
       ],
       builder: (context, child) {
         return Consumer<UserLoginProvider>(builder: (context, value, chid) {

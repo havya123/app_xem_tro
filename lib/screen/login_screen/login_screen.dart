@@ -39,48 +39,48 @@ class _LoginScreenState extends State<LoginScreen> {
     isChecked = isCheck;
   }
 
+  void loginCheck(String phoneNumber, String password) async {
+    await context
+        .read<UserLoginProvider>()
+        .login(phoneNumber, password)
+        .then((value) async {
+      if (value) {
+        int role = await context.read<UserLoginProvider>().checkRole();
+        if (role == 1) {
+          Get.offNamed(Routes.navigationListHouseRoute);
+          return;
+        }
+        Get.offNamed(Routes.navigationRoute);
+      } else {
+        showDialog(
+          context: context,
+          builder: (context) {
+            return AlertDialog(
+              title: const Center(child: Text('Đăng nhập thất bại')),
+              content: const SingleChildScrollView(
+                child: ListBody(
+                  children: <Widget>[
+                    Text('Tài khoản hoặc mật khẩu không chính xác'),
+                  ],
+                ),
+              ),
+              actions: <Widget>[
+                TextButton(
+                  child: const Text('OK'),
+                  onPressed: () {
+                    Get.back();
+                  },
+                ),
+              ],
+            );
+          },
+        );
+      }
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
-    void loginCheck(String phoneNumber, String password) async {
-      await context
-          .read<UserLoginProvider>()
-          .login(phoneNumber, password)
-          .then((value) async {
-        if (value) {
-          int role = await context.read<UserLoginProvider>().checkRole();
-          if (role == 1) {
-            Get.offNamed(Routes.navigationListHouseRoute);
-            return;
-          }
-          Get.offNamed(Routes.navigationRoute);
-        } else {
-          showDialog(
-            context: context,
-            builder: (context) {
-              return AlertDialog(
-                title: const Center(child: Text('Đăng nhập thất bại')),
-                content: const SingleChildScrollView(
-                  child: ListBody(
-                    children: <Widget>[
-                      Text('Tài khoản hoặc mật khẩu không chính xác'),
-                    ],
-                  ),
-                ),
-                actions: <Widget>[
-                  TextButton(
-                    child: const Text('OK'),
-                    onPressed: () {
-                      Get.back();
-                    },
-                  ),
-                ],
-              );
-            },
-          );
-        }
-      });
-    }
-
     return Scaffold(
       body: Padding(
         padding: EdgeInsets.symmetric(

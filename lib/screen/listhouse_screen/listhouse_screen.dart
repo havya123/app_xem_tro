@@ -7,7 +7,6 @@ import 'package:app_xem_tro/route/routes.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:provider/provider.dart';
-import 'package:shimmer/shimmer.dart';
 
 class ListHouse extends StatefulWidget {
   const ListHouse({super.key});
@@ -49,9 +48,18 @@ class _ListHouseState extends State<ListHouse> {
                           child: CircularProgressIndicator(),
                         );
                       }
-                      if (!snapshot.hasData) {
-                        return const Center(
-                          child: Text("Chua co phong"),
+                      if (snapshot.data!.isEmpty) {
+                        return Center(
+                          child: TextButton(
+                            onPressed: () {
+                              Get.toNamed(Routes.houseRegistrationRoute);
+                            },
+                            child: Text(
+                              "Chưa có nhà trọ, Thêm Ngay!!! ",
+                              style:
+                                  mediumTextStyle(context, color: Colors.blue),
+                            ),
+                          ),
                         );
                       }
                       List<House> listHouse = snapshot.data as List<House>;
@@ -101,7 +109,10 @@ class _ListHouseState extends State<ListHouse> {
                                   children: [
                                     TextButton(
                                         onPressed: () {
-                                          Get.toNamed(Routes.listRoomRoute);
+                                          Get.toNamed(Routes.listRoomRoute,
+                                              arguments: context
+                                                  .read<HouseProvider>()
+                                                  .listDoc[index]);
                                         },
                                         child: Text(
                                           "Xem tất cả phòng trọ ",

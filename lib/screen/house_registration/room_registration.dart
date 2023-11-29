@@ -11,18 +11,18 @@ import 'package:app_xem_tro/provider/room_register_provider.dart';
 import 'package:app_xem_tro/provider/user_login_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:get/get.dart';
 import 'package:provider/provider.dart';
 
 class RoomRegistration extends StatefulWidget {
-  RoomRegistration({this.houseId, super.key});
-
-  String? houseId;
+  const RoomRegistration({super.key});
 
   @override
   State<RoomRegistration> createState() => _RoomRegistrationState();
 }
 
 class _RoomRegistrationState extends State<RoomRegistration> {
+  String houseId = Get.arguments as String;
   final formKey = GlobalKey<FormState>();
   bool isChecked = false;
   void isChoosed(bool isCheck) {
@@ -69,7 +69,9 @@ class _RoomRegistrationState extends State<RoomRegistration> {
                           fit: BoxFit.cover,
                         )),
                     InkWell(
-                      onTap: () {},
+                      onTap: () {
+                        Get.back();
+                      },
                       child: Container(
                         width: getWidth(context, width: 0.12),
                         height: getHeight(context, height: 0.06),
@@ -265,7 +267,7 @@ class _RoomRegistrationState extends State<RoomRegistration> {
                         await context
                             .read<RoomRegisterProvider>()
                             .roomRegistration(
-                                widget.houseId as String,
+                                houseId,
                                 roomIdController.text,
                                 userPhone,
                                 facilities,
@@ -277,7 +279,8 @@ class _RoomRegistrationState extends State<RoomRegistration> {
                             .then((value) async {
                           await context
                               .read<RoomRegisterProvider>()
-                              .uploadImg(userPhone);
+                              .uploadImg(userPhone, houseId)
+                              .then((value) => Get.back());
                         });
                       }
                     });
