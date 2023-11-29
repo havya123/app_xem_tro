@@ -241,29 +241,6 @@ class _HouseRegistrationState extends State<HouseRegistration> {
                   ),
                 ),
               ),
-              // Row(
-              //   mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              //   children: [
-              //     Column(
-              //       crossAxisAlignment: CrossAxisAlignment.start,
-              //       children: [
-              //         checkBoxCombo(
-              //             context, FontAwesomeIcons.cartShopping, "Chợ"),
-              //         checkBoxCombo(context, FontAwesomeIcons.store, "Cửa hàng")
-              //       ],
-              //     ),
-              //     Column(
-              //       crossAxisAlignment: CrossAxisAlignment.start,
-              //       children: [
-              //         checkBoxCombo(
-              //             context, FontAwesomeIcons.mugSaucer, "Cafe"),
-              //         checkBoxCombo(
-              //             context, FontAwesomeIcons.water, "Tiệm giặt")
-              //       ],
-              //     )
-              //   ],
-              // ),
-
               GridView.builder(
                   shrinkWrap: true,
                   physics: const NeverScrollableScrollPhysics(),
@@ -346,8 +323,8 @@ class _HouseRegistrationState extends State<HouseRegistration> {
               spaceHeight(context),
               Align(
                 alignment: Alignment.centerLeft,
-                child: Consumer<HouseRegisterProvider>(
-                    builder: (context, value, child) {
+                child:
+                    Consumer<HouseProvider>(builder: (context, value, child) {
                   if (value.selectedImageHouse.isEmpty) {
                     return const SizedBox();
                   }
@@ -375,7 +352,7 @@ class _HouseRegistrationState extends State<HouseRegistration> {
                                   child: IconButton(
                                       onPressed: () {
                                         context
-                                            .read<HouseRegisterProvider>()
+                                            .read<HouseProvider>()
                                             .deleteImage(index);
                                       },
                                       icon: const Icon(FontAwesomeIcons.xmark)))
@@ -396,7 +373,6 @@ class _HouseRegistrationState extends State<HouseRegistration> {
               ButtonWidget(
                   function: () async {
                     String facilities = getFacility.join(' ,');
-                    print(facilities);
                     await context
                         .read<UserLoginProvider>()
                         .readPhoneNumber()
@@ -404,7 +380,7 @@ class _HouseRegistrationState extends State<HouseRegistration> {
                       String userPhone =
                           context.read<UserLoginProvider>().userPhone;
                       await context
-                          .read<HouseRegisterProvider>()
+                          .read<HouseProvider>()
                           .houseRegistration(
                               userNameController.text,
                               userPhone,
@@ -422,7 +398,7 @@ class _HouseRegistrationState extends State<HouseRegistration> {
                               "")
                           .then((value) async {
                         await context
-                            .read<HouseRegisterProvider>()
+                            .read<HouseProvider>()
                             .uploadImg(userPhone);
                       });
                     });

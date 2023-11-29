@@ -13,9 +13,7 @@ class ImageRoomSelected extends StatelessWidget {
         children: [
           TextButton(
             onPressed: () async {
-              await context
-                  .read<HouseRegisterProvider>()
-                  .pickImageRoomFromGallery();
+              await context.read<HouseProvider>().pickImageRoomFromGallery();
               // await context.read<HouseRegisterProvider>().saveImage();
               Navigator.pop(context);
             },
@@ -23,7 +21,7 @@ class ImageRoomSelected extends StatelessWidget {
           ),
           TextButton(
             onPressed: () {
-              context.read<HouseRegisterProvider>().pickImageRoomFromCamera();
+              context.read<HouseProvider>().pickImageRoomFromCamera();
               // context.read<UserDetailProvider>().saveImage();
               Navigator.pop(context);
             },

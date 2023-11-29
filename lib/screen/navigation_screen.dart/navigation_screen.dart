@@ -2,6 +2,7 @@ import 'package:app_xem_tro/config/size_config.dart';
 import 'package:app_xem_tro/firebase_service/firebase.dart';
 import 'package:app_xem_tro/models/users.dart';
 import 'package:app_xem_tro/provider/google_map_provider.dart';
+import 'package:app_xem_tro/provider/house_register_provider.dart';
 import 'package:app_xem_tro/provider/user_login_provider.dart';
 import 'package:app_xem_tro/screen/chat_screen/chat_screen.dart';
 import 'package:app_xem_tro/screen/home_screen/home_screen.dart';
@@ -23,8 +24,14 @@ class NavigationScreen extends StatefulWidget {
 class _NavigationScreenState extends State<NavigationScreen> {
   @override
   void initState() {
-    context.read<GoogleMapProvider>().initPlace();
+    fectData();
     super.initState();
+  }
+
+  Future<void> fectData() async {
+    await context.read<GoogleMapProvider>().initPlace().then((value) {
+      context.read<HouseProvider>().getListHouseUser();
+    });
   }
 
   @override

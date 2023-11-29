@@ -87,13 +87,13 @@ class _SearchScreenState extends State<SearchScreen> {
                     right: padding(context, padding: 0.08)),
                 child: Column(
                   children: [
-                    const Item(),
+                    Item(),
                     spaceHeight(context),
-                    const Item(),
+                    Item(),
                     spaceHeight(context),
-                    const Item(),
+                    Item(),
                     spaceHeight(context),
-                    const Item()
+                    Item()
                   ],
                 ),
               )

@@ -1,12 +1,13 @@
 import 'dart:io';
 
+import 'package:app_xem_tro/models/house.dart';
 import 'package:app_xem_tro/repository/house_repository.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:permission_handler/permission_handler.dart';
 
-class HouseRegisterProvider extends ChangeNotifier {
+class HouseProvider extends ChangeNotifier {
   List<XFile?> selectedImageHouse = [];
   List<XFile?> selectedImageRoom = [];
 
@@ -86,6 +87,16 @@ class HouseRegisterProvider extends ChangeNotifier {
   }
 
   Future<void> uploadImg(String userPhone) async {
-    HouseRepo().uploadImg(userPhone, File(selectedImageHouse.first!.path));
+    HouseRepo().uploadImg(userPhone, selectedImageHouse);
+  }
+
+  Future<List<House>> getListHouseLL(String userPhone) async {
+    List<House> listHouse = await HouseRepo().getListHouse(userPhone);
+    return listHouse;
+  }
+
+  Future<List<House>> getListHouseUser() async {
+    List<House> listHouse = await HouseRepo().getAllHouse();
+    return listHouse;
   }
 }

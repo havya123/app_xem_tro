@@ -33,17 +33,31 @@ class ProfileScreen extends StatelessWidget {
               spaceHeight(context),
               Row(
                 children: [
-                  Container(
-                    width: 150,
-                    height: 150,
-                    clipBehavior: Clip.hardEdge,
-                    decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(100),
-                        color: Colors.grey.withOpacity(0.1)),
-                    child: Image.asset(
-                        "assets/images/splash_img/splash_icon.png",
-                        fit: BoxFit.cover),
-                  ),
+                  Consumer<User?>(builder: (context, value, child) {
+                    if (value!.address.isEmpty) {
+                      return Container(
+                        width: 150,
+                        height: 150,
+                        clipBehavior: Clip.hardEdge,
+                        decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(100),
+                            color: Colors.grey.withOpacity(0.1)),
+                        child: Image.asset(
+                            "assets/images/splash_img/splash_icon.png",
+                            fit: BoxFit.cover),
+                      );
+                    }
+                    return Container(
+                      width: 150,
+                      height: 150,
+                      clipBehavior: Clip.hardEdge,
+                      decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(100),
+                          color: Colors.grey.withOpacity(0.1)),
+                      child: Image.network(value.avatar as String,
+                          fit: BoxFit.cover),
+                    );
+                  }),
                   spaceWidth(context),
                   Expanded(
                       child: Column(

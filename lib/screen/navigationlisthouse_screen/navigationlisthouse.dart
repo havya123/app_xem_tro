@@ -1,5 +1,6 @@
 import 'package:app_xem_tro/config/size_config.dart';
 import 'package:app_xem_tro/models/users.dart';
+import 'package:app_xem_tro/provider/house_register_provider.dart';
 import 'package:app_xem_tro/provider/user_login_provider.dart';
 import 'package:app_xem_tro/screen/chat_screen/chat_screen.dart';
 import 'package:app_xem_tro/screen/listhouse_screen/listhouse_screen.dart';
@@ -10,8 +11,20 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:persistent_bottom_nav_bar/persistent_tab_view.dart';
 import 'package:provider/provider.dart';
 
-class NavigationListHouseScreen extends StatelessWidget {
+class NavigationListHouseScreen extends StatefulWidget {
   const NavigationListHouseScreen({super.key});
+
+  @override
+  State<NavigationListHouseScreen> createState() =>
+      _NavigationListHouseScreenState();
+}
+
+class _NavigationListHouseScreenState extends State<NavigationListHouseScreen> {
+  @override
+  void initState() {
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     List<Widget> widgets = [

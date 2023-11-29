@@ -4,7 +4,6 @@ import 'package:app_xem_tro/provider/google_map_provider.dart';
 import 'package:app_xem_tro/route/routes.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:get/get_navigation/get_navigation.dart';
 import 'package:provider/provider.dart';
 
 class HomeScreen extends StatelessWidget {
@@ -95,11 +94,14 @@ class HomeScreen extends StatelessWidget {
               ),
               spaceHeight(context, height: 0.02),
               SizedBox(
-                height: getHeight(context, height: 0.2),
+                height: getHeight(context, height: 0.3),
                 child: ListView.separated(
                     scrollDirection: Axis.horizontal,
                     itemBuilder: (context, index) {
-                      return const Item();
+                      return Container(
+                        width: 200,
+                        color: Colors.amber,
+                      );
                     },
                     separatorBuilder: (context, index) {
                       return spaceWidth(context);
@@ -128,7 +130,7 @@ class HomeScreen extends StatelessWidget {
                 child: ListView.separated(
                     scrollDirection: Axis.horizontal,
                     itemBuilder: (context, index) {
-                      return const Item();
+                      return Item();
                     },
                     separatorBuilder: (context, index) {
                       return spaceWidth(context);

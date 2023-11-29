@@ -4,6 +4,7 @@ import 'package:app_xem_tro/firebase_service/firebase.dart';
 import 'package:app_xem_tro/models/house.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_storage/firebase_storage.dart';
+import 'package:image_picker/image_picker.dart';
 
 class HouseRepo {
   static String createdAt = "";
@@ -39,19 +40,21 @@ class HouseRepo {
         userPhone: userPhone));
   }
 
-  Future<void> uploadImg(String userPhone, File file) async {
-    String fileName = file.path.split("/").last;
-    print(createdAt);
+  Future<void> uploadImg(String userPhone, List<XFile?> listXFile) async {
+    List<String> fileName =
+        listXFile.map((e) => e!.path.split("/").last).toList();
 
     try {
-      Reference ref = FirebaseStorage.instance
-          .ref()
-          .child('images/landlord/$userPhone/$fileName');
+      for (int i = 0; i < listXFile.length; i++) {
+        Reference ref = FirebaseStorage.instance
+            .ref()
+            .child('images/landlord/$userPhone/house/${fileName[i]}');
 
-      await ref.putFile(file);
+        await ref.putFile(File(listXFile[i]!.path));
 
-      String downloadURL = await ref.getDownloadURL();
-      updateImg(downloadURL, userPhone);
+        String downloadURL = await ref.getDownloadURL();
+        updateImg(downloadURL, userPhone);
+      }
     } catch (e) {}
   }
 
@@ -65,12 +68,46 @@ class HouseRepo {
       await FirebaseFirestore.instance
           .collection('house')
           .doc(value.docs.first.id)
-          .update({'img': urlImg});
+          .get()
+          .then((value1) async {
+        Map<String, dynamic>? response = value1.data();
+        String currentImage = response?['img'];
+        String addImg = "";
+        if (currentImage.isEmpty) {
+          addImg = urlImg;
+        } else {
+          addImg = "$currentImage, $urlImg";
+        }
+        FirebaseFirestore.instance
+            .collection('house')
+            .doc(value.docs.first.id)
+            .update({'img': addImg});
+      });
     });
   }
 
   void currentDate() {
     DateTime timeNow = DateTime.now();
     createdAt = timeNow.toString();
+  }
+
+  Future<List<House>> getListHouse(String userPhone) async {
+    List<House> listHouse = [];
+    await FirebaseFirestore.instance
+        .collection('house')
+        .where('userPhone', isEqualTo: userPhone)
+        .get()
+        .then((value) {
+      listHouse = value.docs.map((e) => House.fromMap(e.data())).toList();
+    });
+    return listHouse;
+  }
+
+  Future<List<House>> getAllHouse() async {
+    List<House> listHouse = [];
+    await FirebaseService.houseRef.get().then((value) {
+      listHouse = value.docs.map((e) => e.data()).toList();
+    });
+    return listHouse;
   }
 }

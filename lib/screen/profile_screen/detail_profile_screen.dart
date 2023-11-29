@@ -1,12 +1,11 @@
 import 'package:app_xem_tro/config/size_config.dart';
+import 'package:app_xem_tro/config/widget/avatar_selected.dart';
 import 'package:app_xem_tro/config/widget/button.dart';
 import 'package:app_xem_tro/config/widget/button_list_tile.dart';
 import 'package:app_xem_tro/config/widget/text_field.dart';
-import 'package:app_xem_tro/firebase_service/firebase.dart';
 import 'package:app_xem_tro/models/users.dart';
 import 'package:app_xem_tro/provider/user_login_provider.dart';
 import 'package:app_xem_tro/provider/user_provider.dart';
-import 'package:app_xem_tro/route/routes.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get/get.dart';
@@ -216,26 +215,34 @@ class EditPicture extends StatelessWidget {
   Widget build(BuildContext context) {
     return Stack(
       children: [
-        Container(
-          width: 150,
-          height: 150,
-          clipBehavior: Clip.hardEdge,
-          decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(100),
-              color: Colors.grey.withOpacity(0.1)),
-          child: Image.asset("assets/images/splash_img/splash_icon.png",
-              fit: BoxFit.cover),
-        ),
+        Consumer<User?>(builder: (context, value, child) {
+          return Container(
+            width: 150,
+            height: 150,
+            clipBehavior: Clip.hardEdge,
+            decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(100),
+                color: Colors.grey.withOpacity(0.1)),
+            child: Image.network(value!.avatar as String, fit: BoxFit.cover),
+          );
+        }),
         Positioned(
           bottom: 5,
           right: 5,
           child: Container(
-            width: getWidth(context, width: 0.1),
-            height: getHeight(context, height: 0.05),
+            width: 40,
+            height: 40,
             decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(100), color: Colors.grey),
-            child: const Icon(
-              FontAwesomeIcons.camera,
+            child: IconButton(
+              onPressed: () {
+                showModalBottomSheet(
+                    context: context,
+                    builder: (context) {
+                      return const AvatarSelected();
+                    });
+              },
+              icon: const Icon(FontAwesomeIcons.camera),
               color: Colors.white,
             ),
           ),

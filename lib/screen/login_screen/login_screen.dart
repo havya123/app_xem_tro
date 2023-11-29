@@ -52,8 +52,7 @@ class _LoginScreenState extends State<LoginScreen> {
             Get.offNamed(Routes.navigationListHouseRoute);
             return;
           }
-
-          Get.toNamed(Routes.navigationRoute);
+          Get.offNamed(Routes.navigationRoute);
         } else {
           showDialog(
             context: context,

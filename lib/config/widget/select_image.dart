@@ -13,19 +13,13 @@ class ImageSelected extends StatelessWidget {
         children: [
           TextButton(
             onPressed: () async {
-              await context
-                  .read<HouseRegisterProvider>()
-                  .pickImageHouseFromGallery();
-              // await context.read<HouseRegisterProvider>().saveImage();
-              Navigator.pop(context);
+              await context.read<HouseProvider>().pickImageHouseFromGallery();
             },
             child: const Text('Lấy ảnh từ thư viện'),
           ),
           TextButton(
             onPressed: () {
-              context.read<HouseRegisterProvider>().pickImageHouseFromCamera();
-              // context.read<UserDetailProvider>().saveImage();
-              Navigator.pop(context);
+              context.read<HouseProvider>().pickImageHouseFromCamera();
             },
             child: const Text('Lấy ảnh từ camera'),
           ),

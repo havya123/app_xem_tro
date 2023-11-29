@@ -5,6 +5,7 @@ import 'package:app_xem_tro/config/widget/button.dart';
 import 'package:app_xem_tro/config/widget/check_box.dart';
 import 'package:app_xem_tro/config/widget/image_room_selected.dart';
 import 'package:app_xem_tro/config/widget/text_field.dart';
+import 'package:app_xem_tro/models/house.dart';
 import 'package:app_xem_tro/provider/house_register_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
@@ -158,8 +159,8 @@ class RoomRegistration extends StatelessWidget {
               spaceHeight(context),
               Align(
                 alignment: Alignment.centerLeft,
-                child: Consumer<HouseRegisterProvider>(
-                    builder: (context, value, child) {
+                child:
+                    Consumer<HouseProvider>(builder: (context, value, child) {
                   if (value.selectedImageRoom.isEmpty) {
                     return const SizedBox();
                   }
@@ -187,7 +188,7 @@ class RoomRegistration extends StatelessWidget {
                                   child: IconButton(
                                       onPressed: () {
                                         context
-                                            .read<HouseRegisterProvider>()
+                                            .read<HouseProvider>()
                                             .deleteImageRoom(index);
                                       },
                                       icon: const Icon(FontAwesomeIcons.xmark)))
