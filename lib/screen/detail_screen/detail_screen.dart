@@ -2,13 +2,16 @@ import 'package:app_xem_tro/config/size_config.dart';
 import 'package:app_xem_tro/config/widget/button.dart';
 import 'package:app_xem_tro/config/widget/services.dart';
 import 'package:app_xem_tro/models/house.dart';
+import 'package:app_xem_tro/models/room.dart';
 import 'package:app_xem_tro/route/routes.dart';
+import 'package:app_xem_tro/screen/detail_screen/widget/confirm_form.dart';
 import 'package:app_xem_tro/screen/detail_screen/widget/desciption.dart';
 import 'package:app_xem_tro/screen/detail_screen/widget/list_services.dart';
 import 'package:app_xem_tro/screen/detail_screen/widget/map.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get/get.dart';
+import 'package:transparent_image/transparent_image.dart';
 
 class DetailScreen extends StatefulWidget {
   const DetailScreen({super.key});
@@ -18,25 +21,38 @@ class DetailScreen extends StatefulWidget {
 }
 
 class _DetailScreenState extends State<DetailScreen> {
-  Map<String, dynamic> arg = Get.arguments as Map<String, dynamic>;
+  Room room = Get.arguments as Room;
 
   @override
   Widget build(BuildContext context) {
-    House house = arg['house'];
-    String houseId = arg['houseId'];
+    List<String> listImg = room.img!.split(", ");
+    List<String> listCate = [
+      "4.1 (66 reviews)",
+      "${room.numberOfPeople} người",
+      "${room.numberOfFloor} tầng",
+      "${room.acreage}m2",
+    ];
+    List<IconData> listIcon = [
+      FontAwesomeIcons.star,
+      FontAwesomeIcons.bed,
+      FontAwesomeIcons.stairs,
+      FontAwesomeIcons.square,
+    ];
+
     return Scaffold(
       body: SingleChildScrollView(
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Stack(
-              children: [
-                Container(
+            SizedBox(
+              width: double.infinity,
+              height: getHeight(context, height: 0.3),
+              child: FadeInImage.memoryNetwork(
                   width: double.infinity,
                   height: getHeight(context, height: 0.3),
-                  color: Colors.yellow,
-                ),
-              ],
+                  fit: BoxFit.cover,
+                  placeholder: kTransparentImage,
+                  image: listImg[0]),
             ),
             Padding(
               padding: EdgeInsets.symmetric(
@@ -47,49 +63,37 @@ class _DetailScreenState extends State<DetailScreen> {
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text(
-                            house.houseName,
-                            style: largeTextStyle(context),
-                          ),
-                          spaceHeight(context, height: 0.01),
-                          Text(
-                            "${house.street}, ${house.ward}, ${house.district}, ${house.province} ",
-                            style: mediumTextStyle(context, color: Colors.grey),
-                          ),
-                        ],
+                      Text(
+                        room.roomId,
+                        style: largeTextStyle(context),
                       ),
+                      spaceHeight(context, height: 0.01),
                       IconButton(
                           onPressed: () {},
                           icon: const Icon(FontAwesomeIcons.heart)),
                     ],
                   ),
+                  // Text(
+                  //   "${house.street}, ${house.ward}, ${house.district}, ${house.province} ",
+                  //   style: mediumTextStyle(context, color: Colors.grey),
+                  // ),
                   spaceHeight(context),
-                  Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      spaceHeight(context, height: 0.02),
-                      GridView.builder(
-                        physics: const NeverScrollableScrollPhysics(),
-                        itemCount: 5,
-                        shrinkWrap: true,
-                        gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                            crossAxisCount: 2,
-                            childAspectRatio: 5,
-                            crossAxisSpacing: getWidth(context),
-                            mainAxisSpacing: getHeight(context)),
-                        itemBuilder: (context, index) => const ServiceWidget(
-                            icon: FontAwesomeIcons.star,
-                            detail: "4.1 (66 reviews)"),
-                      )
-                    ],
+                  GridView.builder(
+                    physics: const NeverScrollableScrollPhysics(),
+                    scrollDirection: Axis.vertical,
+                    shrinkWrap: true,
+                    gridDelegate:
+                        const SliverGridDelegateWithFixedCrossAxisCount(
+                      crossAxisCount: 2,
+                      childAspectRatio: 3,
+                    ),
+                    itemBuilder: (context, index) {
+                      return ServiceWidget(
+                          icon: listIcon[index], detail: listCate[index]);
+                    },
+                    itemCount: listIcon.length,
                   ),
-                  const Divider(
-                    color: Colors.grey,
-                  ),
+
                   Row(
                     crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
@@ -142,24 +146,19 @@ class _DetailScreenState extends State<DetailScreen> {
                   spaceHeight(context, height: 0.02),
                   const DescriptionWidget(),
                   spaceHeight(context),
+
                   ButtonWidget(
                     function: () {
-                      Get.toNamed(Routes.listRoomRouteUser, arguments: houseId);
+                      showModalBottomSheet(
+                        backgroundColor: Colors.transparent,
+                        context: context,
+                        builder: (context) {
+                          return const ConfirmFormWidget();
+                        },
+                      );
                     },
-                    textButton: "Xem danh sách các phòng trọ",
-                  ),
-                  // ButtonWidget(
-                  //   function: () {
-                  //     showModalBottomSheet(
-                  //       backgroundColor: Colors.transparent,
-                  //       context: context,
-                  //       builder: (context) {
-                  //         return const ConfirmFormWidget();
-                  //       },
-                  //     );
-                  //   },
-                  //   textButton: "Đặt lịch hẹn",
-                  // )
+                    textButton: "Đặt lịch hẹn",
+                  )
                 ],
               ),
             ),

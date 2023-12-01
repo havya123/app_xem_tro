@@ -13,6 +13,7 @@ class UserRepo {
     String dob,
     String address,
   ) {
+    String createdAt = DateTime.now().toString();
     FirebaseService.userRef.doc(phoneNumber).set(User(
         password: password,
         name: name,
@@ -23,7 +24,8 @@ class UserRepo {
         avatar:
             "https://firebasestorage.googleapis.com/v0/b/xemtro.appspot.com/o/images%2Fusers%2Fuser.png?alt=media&token=ba7315f5-74e4-4303-98aa-0f329e95aa9d",
         token: "",
-        role: 0));
+        role: 0,
+        createdAt: createdAt));
   }
 
   Future<String> logIn(String phoneNumber) async {

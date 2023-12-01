@@ -16,6 +16,7 @@ class House {
   String? description;
   String? img;
   String createdAt;
+  String status;
   House({
     required this.userName,
     required this.userPhone,
@@ -31,6 +32,7 @@ class House {
     this.description,
     this.img,
     required this.createdAt,
+    required this.status,
   });
 
   Map<String, dynamic> toMap() {
@@ -48,7 +50,8 @@ class House {
       'facilities': facilities,
       'description': description,
       'img': img,
-      'createdAt': createdAt
+      'createdAt': createdAt,
+      'status': status,
     };
   }
 
@@ -67,7 +70,8 @@ class House {
         facilities: map['facilities'] ?? "",
         description: map['description'] ?? "",
         img: map['img'] ?? "",
-        createdAt: map['createdAt'] ?? "");
+        createdAt: map['createdAt'] ?? "",
+        status: map['status'] ?? "");
   }
 
   String toJson() => json.encode(toMap());

@@ -12,6 +12,7 @@ import 'package:app_xem_tro/screen/forget_password_screen/reset_password.dart';
 import 'package:app_xem_tro/screen/home_screen/home_screen.dart';
 import 'package:app_xem_tro/screen/house_registration/house_registration.dart';
 import 'package:app_xem_tro/screen/house_registration/room_registration.dart';
+import 'package:app_xem_tro/screen/listhouse_screen/listhouse_nearby_screen.dart';
 import 'package:app_xem_tro/screen/listhouse_screen/listhouse_screen.dart';
 import 'package:app_xem_tro/screen/listroom_screen/listroom_screen.dart';
 import 'package:app_xem_tro/screen/listroom_screen/listroom_user_screen.dart';
@@ -153,7 +154,8 @@ class RouteManager {
     GetPage(
       name: Routes.detailRoute,
       page: () => const DetailScreen(),
-    )
+    ),
+    GetPage(name: Routes.listHouseNearby, page: () => const ListHouseNearBy())
   ];
 
   static GetPage notFound = GetPage(

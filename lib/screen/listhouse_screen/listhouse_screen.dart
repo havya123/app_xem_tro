@@ -81,6 +81,7 @@ class _ListHouseState extends State<ListHouse> {
                           physics: const NeverScrollableScrollPhysics(),
                           itemBuilder: (context, index) {
                             return Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
                                 Row(
                                   mainAxisAlignment: MainAxisAlignment.start,

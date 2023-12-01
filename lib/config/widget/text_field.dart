@@ -1,8 +1,6 @@
 import 'package:app_xem_tro/config/extension/email_valid_extension.dart';
-import 'package:app_xem_tro/provider/google_map_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:provider/provider.dart';
 
 class TextFieldWidget extends StatelessWidget {
   TextFieldWidget(

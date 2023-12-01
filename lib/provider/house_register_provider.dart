@@ -93,9 +93,9 @@ class HouseProvider extends ChangeNotifier {
     return listHouse;
   }
 
-  Future<List<House>> getListHouseNearBy(String address) async {
-    List<House> listHouse = await HouseRepo().getListHouseNearBy(address);
-    return listHouse;
+  Future<List> getListHouseNearBy(String address) async {
+    List response = await HouseRepo().getListHouseNearBy(address);
+    return response;
   }
 
   @override

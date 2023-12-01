@@ -1,10 +1,12 @@
 import 'package:app_xem_tro/config/size_config.dart';
 import 'package:app_xem_tro/config/widget/button.dart';
 import 'package:app_xem_tro/config/widget/review.dart';
+import 'package:app_xem_tro/config/widget/services.dart';
 import 'package:app_xem_tro/models/house.dart';
 import 'package:app_xem_tro/route/routes.dart';
 import 'package:easy_image_viewer/easy_image_viewer.dart';
 import 'package:flutter/material.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get/get.dart';
 import 'package:transparent_image/transparent_image.dart';
 
@@ -25,6 +27,8 @@ class _DetailScreenState extends State<OverViewScreen> {
     List<String> houseImage = house.img!.split(', ');
     final List<ImageProvider> imageProviders =
         houseImage.map((e) => Image.network(e).image).toList();
+    List<String> facilities = house.facilities.split(', ');
+
     return Scaffold(
       body: SingleChildScrollView(
         child: Column(
@@ -51,6 +55,37 @@ class _DetailScreenState extends State<OverViewScreen> {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Text(
+                        house.houseName,
+                        style: largeTextStyle(context),
+                      ),
+                      spaceHeight(context, height: 0.01),
+                      IconButton(
+                          onPressed: () {},
+                          icon: const Icon(FontAwesomeIcons.heart)),
+                    ],
+                  ),
+                  Text(
+                    "${house.street}, ${house.ward}, ${house.district}, ${house.province} ",
+                    style: mediumTextStyle(context, color: Colors.grey),
+                  ),
+                  Expanded(
+                    child: GridView.builder(
+                      scrollDirection: Axis.vertical,
+                      physics: const NeverScrollableScrollPhysics(),
+                      shrinkWrap: true,
+                      gridDelegate:
+                          const SliverGridDelegateWithFixedCrossAxisCount(
+                              crossAxisCount: 2),
+                      itemBuilder: (context, index) {
+                        return Text(facilities[index]);
+                      },
+                      itemCount: facilities.length,
+                    ),
+                  ),
                   spaceHeight(context, height: 0.08),
                   ButtonWidget(
                       function: () {
@@ -63,10 +98,9 @@ class _DetailScreenState extends State<OverViewScreen> {
                   spaceHeight(context),
                   ButtonWidget(
                     function: () {
-                      Get.toNamed(Routes.detailRoute,
-                          arguments: {'house': house, 'houseId': houseId});
+                      Get.toNamed(Routes.listRoomRouteUser, arguments: houseId);
                     },
-                    textButton: "Xem Chi Tiết",
+                    textButton: "Danh sách phòng trọ",
                   ),
                   spaceHeight(context),
                   Row(

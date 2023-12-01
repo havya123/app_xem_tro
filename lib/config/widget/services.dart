@@ -10,12 +10,12 @@ class ServiceWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return Row(
       crossAxisAlignment: CrossAxisAlignment.start,
-      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
       children: [
         Icon(
           icon,
           color: Colors.yellow,
         ),
+        spaceWidth(context),
         Text(
           detail,
           style: mediumTextStyle(context),

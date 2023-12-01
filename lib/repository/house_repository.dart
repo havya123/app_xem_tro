@@ -38,7 +38,8 @@ class HouseRepo {
         description: description ?? "",
         img: "",
         createdAt: createdAt,
-        userPhone: userPhone));
+        userPhone: userPhone,
+        status: 'waiting'));
   }
 
   Future<void> uploadImg(String userPhone, List<XFile?> listXFile) async {
@@ -117,54 +118,71 @@ class HouseRepo {
     return listHouse;
   }
 
-  Future<List<House>> getListHouseNearBy(String address) async {
+  Future<List> getListHouseNearBy(String address) async {
+    String address =
+        "69/1/25 Nguyễn Gia Trí, Phường 25, Quận Bình Thạnh, Thành Phố Hồ Chí Minh";
     List<House> listHouse = [];
     List<String> listAddress = address.split(', ').toList();
     Set<String> uniqueDocIds = <String>{};
-    List<String> listDoc;
+    List<String> listDoc = [];
 
     if (address.isEmpty) {
       await FirebaseService.houseRef.get().then((value) {
         listHouse = value.docs.map((e) => e.data()).toList().take(5).toList();
       });
-      return listHouse;
-    } else {
-      await FirebaseService.houseRef
-          .where('street', isEqualTo: listAddress[0])
-          .get()
-          .then((value) {
-        uniqueDocIds.addAll(value.docs.map((e) => e.id));
-      });
-      await FirebaseService.houseRef
-          .where('ward', isEqualTo: listAddress[1])
-          .get()
-          .then((value) {
-        uniqueDocIds.addAll(value.docs.map((e) => e.id));
-      });
-      await FirebaseService.houseRef
-          .where('district', isEqualTo: listAddress[2])
-          .get()
-          .then((value) {
-        uniqueDocIds.addAll(value.docs.map((e) => e.id));
-      });
-      await FirebaseService.houseRef
-          .where('province', isEqualTo: listAddress[3])
-          .get()
-          .then((value) {
-        uniqueDocIds.addAll(value.docs.map((e) => e.id));
-      });
-      listDoc = uniqueDocIds.toList();
-      for (String docId in listDoc) {
-        await FirebaseService.houseRef.doc(docId).get().then((value) {
-          if (value.exists) {
-            listHouse.add(value.data() as House);
-          } else {
-            print("Document with ID $docId does not exist.");
-          }
-        });
-      }
-
-      return listHouse;
+      List listData = [
+        listHouse,
+        listDoc,
+      ];
+      return listData;
     }
+    await FirebaseService.houseRef
+        .where('street', isEqualTo: listAddress[0])
+        .where('status', isEqualTo: 'accept')
+        .get()
+        .then((value) {
+      uniqueDocIds.addAll(value.docs.map((e) => e.id));
+    });
+    await FirebaseService.houseRef
+        .where('ward', isEqualTo: listAddress[1])
+        .where('status', isEqualTo: 'accept')
+        .get()
+        .then((value) {
+      uniqueDocIds.addAll(value.docs.map((e) => e.id));
+    });
+    await FirebaseService.houseRef
+        .where('district', isEqualTo: listAddress[2])
+        .where('status', isEqualTo: 'accept')
+        .get()
+        .then((value) {
+      uniqueDocIds.addAll(value.docs.map((e) => e.id));
+    });
+
+    listDoc = uniqueDocIds.toList();
+    for (String docId in listDoc) {
+      await FirebaseService.houseRef.doc(docId).get().then((value) {
+        if (value.exists) {
+          listHouse.add(value.data() as House);
+        } else {
+          print("Document with ID $docId does not exist.");
+        }
+      });
+    }
+    if (listHouse.isNotEmpty) {
+      List listData = [
+        listHouse,
+        listDoc,
+      ];
+      return listData;
+    }
+    await FirebaseService.houseRef.get().then((value) {
+      listHouse = value.docs.map((e) => e.data()).toList();
+    });
+    List listData = [
+      listHouse,
+      listDoc,
+    ];
+    print(listData);
+    return listData;
   }
 }

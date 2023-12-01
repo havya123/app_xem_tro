@@ -1,11 +1,13 @@
 import 'package:app_xem_tro/config/size_config.dart';
 import 'package:app_xem_tro/config/widget/item.dart';
+import 'package:app_xem_tro/models/house.dart';
 import 'package:app_xem_tro/provider/google_map_provider.dart';
 import 'package:app_xem_tro/provider/house_register_provider.dart';
 import 'package:app_xem_tro/route/routes.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:provider/provider.dart';
+import 'package:shimmer/shimmer.dart';
 
 class HomeScreen extends StatelessWidget {
   const HomeScreen({super.key});
@@ -86,7 +88,11 @@ class HomeScreen extends StatelessWidget {
                 children: [
                   Text("Gần bạn", style: largeTextStyle(context)),
                   TextButton(
-                      onPressed: () {},
+                      onPressed: () {
+                        Get.toNamed(Routes.listHouseNearby,
+                            arguments:
+                                context.read<GoogleMapProvider>().currentPlace);
+                      },
                       child: Text(
                         "Xem tất cả",
                         style: mediumTextStyle(context, color: Colors.blue),
@@ -94,21 +100,45 @@ class HomeScreen extends StatelessWidget {
                 ],
               ),
               spaceHeight(context, height: 0.02),
-              SizedBox(
-                height: getHeight(context, height: 0.3),
-                child: ListView.separated(
-                    scrollDirection: Axis.horizontal,
-                    itemBuilder: (context, index) {
-                      return Container(
-                        width: 200,
-                        color: Colors.amber,
-                      );
-                    },
-                    separatorBuilder: (context, index) {
-                      return spaceWidth(context);
-                    },
-                    itemCount: 5),
-              ),
+              FutureBuilder(
+                  future: context.read<HouseProvider>().getListHouseNearBy(
+                      context.read<GoogleMapProvider>().currentPlace),
+                  builder: (context, snapshot) {
+                    if (snapshot.connectionState == ConnectionState.waiting) {
+                      return Shimmer.fromColors(
+                          baseColor: Colors.grey[400]!,
+                          highlightColor: Colors.grey[300]!,
+                          child: SizedBox(
+                            height: getHeight(context, height: 0.3),
+                            width: double.infinity,
+                            child: Container(
+                              margin: EdgeInsets.only(right: padding(context)),
+                              decoration: BoxDecoration(
+                                color: Colors.white,
+                                borderRadius: BorderRadius.circular(8.0),
+                              ),
+                            ),
+                          ));
+                    }
+                    List response = snapshot.data as List;
+                    List<House> listHouse = response[0];
+                    List<String> listDoc = response[1];
+                    return SizedBox(
+                      height: getHeight(context, height: 0.3),
+                      child: ListView.separated(
+                          shrinkWrap: true,
+                          scrollDirection: Axis.horizontal,
+                          itemBuilder: (context, index) {
+                            return HouseItem(
+                                houseId: listDoc[index],
+                                house: listHouse[index]);
+                          },
+                          separatorBuilder: (context, index) {
+                            return spaceWidth(context);
+                          },
+                          itemCount: 5),
+                    );
+                  }),
               spaceHeight(context),
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -138,6 +168,7 @@ class HomeScreen extends StatelessWidget {
                     },
                     itemCount: 5),
               ),
+              spaceHeight(context),
             ]),
           ),
         ),

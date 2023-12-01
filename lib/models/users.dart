@@ -11,6 +11,7 @@ class User {
   String? avatar;
   String token;
   int role;
+  String createdAt;
 
   User({
     required this.password,
@@ -22,6 +23,7 @@ class User {
     required this.token,
     required this.role,
     this.avatar,
+    required this.createdAt,
   });
 
   Map<String, dynamic> toMap() {
@@ -34,7 +36,8 @@ class User {
       'address': address,
       'avatar': avatar,
       'token': token,
-      'role': role
+      'role': role,
+      'createdAt': createdAt
     };
   }
 
@@ -48,7 +51,8 @@ class User {
         address: map['address'] ?? "",
         avatar: map['avatar'] ?? "",
         token: map['token'] ?? "",
-        role: map['role'] as int);
+        role: map['role'] as int,
+        createdAt: map['createdAt'] ?? "");
   }
 
   String toJson() => json.encode(toMap());

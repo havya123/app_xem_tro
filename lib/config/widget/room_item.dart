@@ -1,6 +1,6 @@
 import 'package:app_xem_tro/config/size_config.dart';
 import 'package:app_xem_tro/models/room.dart';
-import 'package:flutter/foundation.dart';
+import 'package:app_xem_tro/route/routes.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:transparent_image/transparent_image.dart';
@@ -14,8 +14,7 @@ class RoomItem extends StatelessWidget {
     List<String> listImage = room.img!.split(',');
     return InkWell(
       onTap: () {
-        // Get.toNamed(Routes.overviewRote,
-        //     arguments: {'house': house, 'houseId': houseId});
+        Get.toNamed(Routes.detailRoute, arguments: room);
       },
       child: Container(
         height: getHeight(context, height: 0.3),
