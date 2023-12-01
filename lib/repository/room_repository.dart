@@ -90,7 +90,7 @@ class RoomRepo {
     List<Room> listRoom = [];
     await FirebaseFirestore.instance
         .collection('room')
-        .where('housId', isEqualTo: houseId)
+        .where('houseId', isEqualTo: houseId)
         .get()
         .then((value) {
       listRoom = value.docs.map((e) => Room.fromMap(e.data())).toList();

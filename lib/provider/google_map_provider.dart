@@ -49,7 +49,7 @@ class GoogleMapProvider extends ChangeNotifier {
     Place? place = await GoogleMapRepo().getPlaceByAttitude(
         "${currentPosition!.latitude},${currentPosition!.longitude}");
     if (place != null) {
-      currentPlace = "$currentPlace ${place.address}";
+      currentPlace = place.address;
       notifyListeners();
     } else {
       currentPlace;
@@ -90,10 +90,5 @@ class GoogleMapProvider extends ChangeNotifier {
     }
     var position = await Geolocator.getCurrentPosition();
     currentPosition = LatLng(position.latitude, position.longitude);
-  }
-
-  Future<void> initPosition() async {
-    Place? place = await GoogleMapRepo().getPlaceByAttitude(
-        "${currentPosition!.latitude},${currentPosition!.longitude}");
   }
 }

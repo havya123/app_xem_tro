@@ -45,12 +45,14 @@ class _LoginScreenState extends State<LoginScreen> {
         .login(phoneNumber, password)
         .then((value) async {
       if (value) {
-        int role = await context.read<UserLoginProvider>().checkRole();
-        if (role == 1) {
-          Get.offNamed(Routes.navigationListHouseRoute);
-          return;
-        }
-        Get.offNamed(Routes.navigationRoute);
+        await context.read<UserLoginProvider>().checkRole().then((value) async {
+          if (value == 1) {
+            Get.offNamed(Routes.navigationListHouseRoute);
+
+            return;
+          }
+          Get.offNamed(Routes.navigationRoute);
+        });
       } else {
         showDialog(
           context: context,
@@ -148,7 +150,6 @@ class _LoginScreenState extends State<LoginScreen> {
                   CheckboxExample(
                     isChecked: (p0) {
                       isChoosed(p0!);
-                      print(isChecked);
                     },
                   ),
                   const Expanded(

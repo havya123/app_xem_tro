@@ -85,17 +85,17 @@ class _SearchScreenState extends State<SearchScreen> {
                 padding: EdgeInsets.only(
                     left: padding(context, padding: 0.02),
                     right: padding(context, padding: 0.08)),
-                child: Column(
-                  children: [
-                    Item(),
-                    spaceHeight(context),
-                    Item(),
-                    spaceHeight(context),
-                    Item(),
-                    spaceHeight(context),
-                    Item()
-                  ],
-                ),
+                // child: Column(
+                //   children: [
+                //     HouseItem(),
+                //     spaceHeight(context),
+                //     HouseItem(),
+                //     spaceHeight(context),
+                //     HouseItem(),
+                //     spaceHeight(context),
+                //     HouseItem()
+                //   ],
+                // ),
               )
             ],
           ),

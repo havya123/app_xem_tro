@@ -40,8 +40,8 @@ class _RoomRegistrationState extends State<RoomRegistration> {
 
   List label = ["Máy lạnh", "Wifi", "Giữ xe", "Nội thất"];
 
-  TextEditingController numberPeopleController = TextEditingController();
-  TextEditingController numberFloorController = TextEditingController();
+  String numberOfPeople = "";
+  String numberOfFloor = "";
   TextEditingController roomIdController = TextEditingController();
   TextEditingController acreageController = TextEditingController();
   TextEditingController priceController = TextEditingController();
@@ -49,6 +49,7 @@ class _RoomRegistrationState extends State<RoomRegistration> {
   @override
   Widget build(BuildContext context) {
     List<String> number = ["1", "2", "3", "4"];
+    String userPhone = context.read<UserLoginProvider>().userPhone;
     return Scaffold(
       body: Padding(
         padding: EdgeInsets.symmetric(
@@ -122,10 +123,8 @@ class _RoomRegistrationState extends State<RoomRegistration> {
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  dropDownWidget(
-                      context, number, "Số người", numberPeopleController),
-                  dropDownWidget(
-                      context, number, "Số tầng", numberFloorController)
+                  dropDownWidget(context, number, "Số người", numberOfPeople),
+                  dropDownWidget(context, number, "Số tầng", numberOfFloor)
                 ],
               ),
               spaceHeight(context),
@@ -252,38 +251,32 @@ class _RoomRegistrationState extends State<RoomRegistration> {
               ButtonWidget(
                   function: () async {
                     String facilities = getFacility.join(' ,');
-                    await context
-                        .read<UserLoginProvider>()
-                        .readPhoneNumber()
-                        .then((value) async {
-                      String userPhone =
-                          context.read<UserLoginProvider>().userPhone;
-                      if (formKey.currentState!.validate() &&
-                          context
-                                  .read<RoomRegisterProvider>()
-                                  .selectedImageRoom
-                                  .length >=
-                              3) {
+
+                    if (formKey.currentState!.validate() &&
+                        context
+                                .read<RoomRegisterProvider>()
+                                .selectedImageRoom
+                                .length >=
+                            3) {
+                      await context
+                          .read<RoomRegisterProvider>()
+                          .roomRegistration(
+                              houseId,
+                              roomIdController.text,
+                              userPhone,
+                              facilities,
+                              numberOfPeople,
+                              numberOfFloor,
+                              acreageController.text,
+                              "",
+                              priceController.text)
+                          .then((value) async {
                         await context
                             .read<RoomRegisterProvider>()
-                            .roomRegistration(
-                                houseId,
-                                roomIdController.text,
-                                userPhone,
-                                facilities,
-                                numberPeopleController.text,
-                                numberFloorController.text,
-                                acreageController.text,
-                                "",
-                                priceController.text)
-                            .then((value) async {
-                          await context
-                              .read<RoomRegisterProvider>()
-                              .uploadImg(userPhone, houseId)
-                              .then((value) => Get.back());
-                        });
-                      }
-                    });
+                            .uploadImg(userPhone, houseId)
+                            .then((value) => Get.back());
+                      });
+                    }
                   },
                   textButton: "Đăng ký"),
             ],
@@ -317,12 +310,14 @@ class _RoomRegistrationState extends State<RoomRegistration> {
     );
   }
 
-  DropdownMenu<String> dropDownWidget(context, List<String> location,
-      String hint, TextEditingController controller) {
+  DropdownMenu<String> dropDownWidget(
+      context, List<String> location, String hint, String? amount) {
     return DropdownMenu(
       width: getWidth(context, width: 0.4),
       hintText: hint,
-      onSelected: (String? value) {},
+      onSelected: (String? value) {
+        amount = value;
+      },
       dropdownMenuEntries:
           location.map<DropdownMenuEntry<String>>((String value) {
         return DropdownMenuEntry<String>(

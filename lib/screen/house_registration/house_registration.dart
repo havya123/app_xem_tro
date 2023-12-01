@@ -78,6 +78,7 @@ class _HouseRegistrationState extends State<HouseRegistration> {
 
   TextEditingController userNameController = TextEditingController();
   TextEditingController phoneNumberController = TextEditingController();
+  TextEditingController houseNameController = TextEditingController();
   List<String> getFacility = [];
 
   bool isChecked = false;
@@ -87,6 +88,7 @@ class _HouseRegistrationState extends State<HouseRegistration> {
 
   @override
   Widget build(BuildContext context) {
+    String userPhone = context.read<UserLoginProvider>().userPhone;
     return Scaffold(
       body: Padding(
         padding: EdgeInsets.symmetric(
@@ -107,7 +109,9 @@ class _HouseRegistrationState extends State<HouseRegistration> {
                           fit: BoxFit.cover,
                         )),
                     InkWell(
-                      onTap: () {},
+                      onTap: () {
+                        Get.back();
+                      },
                       child: Container(
                         width: getWidth(context, width: 0.12),
                         height: getHeight(context, height: 0.06),
@@ -145,6 +149,12 @@ class _HouseRegistrationState extends State<HouseRegistration> {
                             type: TextInputType.number,
                             controller: phoneNumberController,
                             errorText: "Hãy nhập số điện thoại",
+                          ),
+                          spaceHeight(context, height: 0.03),
+                          TextFieldWidget(
+                            hint: 'Nhập tên nhà trọ',
+                            controller: houseNameController,
+                            errorText: "Hãy nhập tên nhà trọ",
                           ),
                           spaceHeight(context, height: 0.03),
                           const Align(
@@ -214,10 +224,12 @@ class _HouseRegistrationState extends State<HouseRegistration> {
                               await context
                                   .read<GoogleMapProvider>()
                                   .searchPlace("$province $district $ward $p0",
-                                      showErrorDialog);
-                              context
-                                  .read<GoogleMapProvider>()
-                                  .goToPlace(_controller);
+                                      showErrorDialog)
+                                  .then((value) async {
+                                context
+                                    .read<GoogleMapProvider>()
+                                    .goToPlace(_controller);
+                              });
                             },
                           ),
                         ],
@@ -236,7 +248,6 @@ class _HouseRegistrationState extends State<HouseRegistration> {
                     ),
                     child: Consumer<GoogleMapProvider>(
                         builder: (context, value, child) {
-                      print(value.latLng);
                       return GoogleMap(
                         mapType: MapType.normal,
                         markers: {value.marker},
@@ -281,14 +292,9 @@ class _HouseRegistrationState extends State<HouseRegistration> {
                   itemBuilder: (context, index) {
                     return checkBoxCombo(context, logo[index], label[index]);
                   }),
-              Row(
-                children: [
-                  // const CheckboxExample(),
-                  Text(
-                    "Khác...",
-                    style: mediumTextStyle(context),
-                  )
-                ],
+              Text(
+                "Khác...",
+                style: mediumTextStyle(context),
               ),
               spaceHeight(context),
               Align(
@@ -423,45 +429,37 @@ class _HouseRegistrationState extends State<HouseRegistration> {
               ButtonWidget(
                   function: () async {
                     String facilities = getFacility.join(' ,');
-                    await context
-                        .read<UserLoginProvider>()
-                        .readPhoneNumber()
-                        .then((value) async {
-                      String userPhone =
-                          context.read<UserLoginProvider>().userPhone;
-                      if (formKey.currentState!.validate() &&
-                          context
-                                  .read<HouseProvider>()
-                                  .selectedImageHouse
-                                  .length >=
-                              3) {
+                    if (formKey.currentState!.validate() &&
                         context
+                                .read<HouseProvider>()
+                                .selectedImageHouse
+                                .length >=
+                            3) {
+                      context
+                          .read<HouseProvider>()
+                          .houseRegistration(
+                              userNameController.text,
+                              userPhone,
+                              phoneNumberController.text,
+                              houseNameController.text,
+                              province,
+                              district,
+                              ward,
+                              streetController.text,
+                              context.read<GoogleMapProvider>().latLng.latitude,
+                              context
+                                  .read<GoogleMapProvider>()
+                                  .latLng
+                                  .longitude,
+                              facilities,
+                              "")
+                          .then((value) async {
+                        await context
                             .read<HouseProvider>()
-                            .houseRegistration(
-                                userNameController.text,
-                                userPhone,
-                                phoneNumberController.text,
-                                province,
-                                district,
-                                ward,
-                                streetController.text,
-                                context
-                                    .read<GoogleMapProvider>()
-                                    .latLng
-                                    .latitude,
-                                context
-                                    .read<GoogleMapProvider>()
-                                    .latLng
-                                    .longitude,
-                                facilities,
-                                "")
-                            .then((value) async {
-                          await context
-                              .read<HouseProvider>()
-                              .uploadImg(userPhone);
-                        });
-                      }
-                    });
+                            .uploadImg(userPhone)
+                            .then((value) => Get.back());
+                      });
+                    }
                   },
                   textButton: "Đăng ký"),
             ],

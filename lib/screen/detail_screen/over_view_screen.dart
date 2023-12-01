@@ -1,8 +1,12 @@
 import 'package:app_xem_tro/config/size_config.dart';
 import 'package:app_xem_tro/config/widget/button.dart';
 import 'package:app_xem_tro/config/widget/review.dart';
+import 'package:app_xem_tro/models/house.dart';
 import 'package:app_xem_tro/route/routes.dart';
+import 'package:easy_image_viewer/easy_image_viewer.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:transparent_image/transparent_image.dart';
 
 class OverViewScreen extends StatefulWidget {
   const OverViewScreen({super.key});
@@ -12,18 +16,34 @@ class OverViewScreen extends StatefulWidget {
 }
 
 class _DetailScreenState extends State<OverViewScreen> {
+  Map<String, dynamic> arg = Get.arguments as Map<String, dynamic>;
+
   @override
   Widget build(BuildContext context) {
+    House house = arg['house'];
+    String houseId = arg['houseId'];
+    List<String> houseImage = house.img!.split(', ');
+    final List<ImageProvider> imageProviders =
+        houseImage.map((e) => Image.network(e).image).toList();
     return Scaffold(
       body: SingleChildScrollView(
         child: Column(
           children: [
             Stack(
               children: [
-                Container(
+                SizedBox(
                   width: double.infinity,
                   height: getHeight(context, height: 0.3),
-                  color: Colors.yellow,
+                  child: FadeInImage.memoryNetwork(
+                    width: double.infinity,
+                    height: getHeight(context, height: 0.3),
+                    fit: BoxFit.cover,
+                    placeholder: kTransparentImage,
+                    image: houseImage.first,
+                    imageErrorBuilder: (context, error, stackTrace) =>
+                        Image.network(
+                            "https://icons.veryicon.com/png/o/education-technology/alibaba-cloud-iot-business-department/image-load-failed.png"),
+                  ),
                 ),
               ],
             ),
@@ -37,13 +57,19 @@ class _DetailScreenState extends State<OverViewScreen> {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   ButtonWidget(
-                      function: () {}, textButton: "Xem toan bo hinh anh"),
+                      function: () {
+                        MultiImageProvider multiImageProvider =
+                            MultiImageProvider(imageProviders);
+                        showImageViewerPager(context, multiImageProvider,
+                            swipeDismissible: true, doubleTapZoomable: true);
+                      },
+                      textButton: "Xem toàn bộ hình ảnh"),
                   spaceHeight(context),
                   ButtonWidget(
                     function: () {
-                      Navigator.pushNamed(context, Routes.detailRoute);
+                      Get.toNamed(Routes.listRoomRouteUser, arguments: houseId);
                     },
-                    textButton: "Xem chi tiet",
+                    textButton: "Xem danh sách các phòng trọ",
                   ),
                   spaceHeight(context),
                   Row(

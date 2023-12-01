@@ -17,7 +17,7 @@ class UserLoginProvider extends ChangeNotifier {
       return false;
     }
     if (password == response) {
-      updatePhone(phoneNumber);
+      await updatePhone(phoneNumber);
       return true;
     }
     return false;
@@ -32,7 +32,6 @@ class UserLoginProvider extends ChangeNotifier {
   Future<void> savePhoneNumber(String phoneNumber) async {
     final SharedPreferences prefs = await SharedPreferences.getInstance();
     await prefs.setString('phoneNumber', phoneNumber);
-    updatePhone(phoneNumber);
   }
 
   Future<void> readPhoneNumber() async {

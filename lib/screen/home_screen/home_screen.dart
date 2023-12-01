@@ -1,6 +1,7 @@
 import 'package:app_xem_tro/config/size_config.dart';
 import 'package:app_xem_tro/config/widget/item.dart';
 import 'package:app_xem_tro/provider/google_map_provider.dart';
+import 'package:app_xem_tro/provider/house_register_provider.dart';
 import 'package:app_xem_tro/route/routes.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -130,7 +131,7 @@ class HomeScreen extends StatelessWidget {
                 child: ListView.separated(
                     scrollDirection: Axis.horizontal,
                     itemBuilder: (context, index) {
-                      return Item();
+                      return Container();
                     },
                     separatorBuilder: (context, index) {
                       return spaceWidth(context);

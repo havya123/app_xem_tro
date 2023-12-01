@@ -1,5 +1,7 @@
+import 'dart:async';
 import 'dart:io';
 
+import 'package:app_xem_tro/config/status/status_code.dart';
 import 'package:app_xem_tro/models/room.dart';
 import 'package:app_xem_tro/repository/room_repository.dart';
 import 'package:flutter/foundation.dart';
@@ -8,7 +10,9 @@ import 'package:permission_handler/permission_handler.dart';
 
 class RoomRegisterProvider extends ChangeNotifier {
   List<XFile?> selectedImageRoom = [];
-
+  List<Room> listRoom = [];
+  Timer? timer;
+  StreamController<Map> roomController = StreamController<Map>.broadcast();
   int countItem = 0;
 
   Future<void> roomRegistration(
@@ -21,8 +25,10 @@ class RoomRegisterProvider extends ChangeNotifier {
       String acreage,
       String? img,
       String price) async {
-    await RoomRepo().roomRegistration(houseId, roomId, utilities,
-        numberOfPeople, numberOfFloor, acreage, img, price);
+    await RoomRepo()
+        .roomRegistration(houseId, roomId, utilities, numberOfPeople,
+            numberOfFloor, acreage, img, price)
+        .then((value) => getListRoom(houseId));
   }
 
   void deleteImageRoom(int index) {
@@ -61,9 +67,24 @@ class RoomRegisterProvider extends ChangeNotifier {
     await RoomRepo().uploadImg(userPhone, selectedImageRoom, houseId);
   }
 
-  Future<List<Room>> getListRoom(String houseId) async {
-    List<Room> listRoom = [];
-    listRoom = await RoomRepo().getListRoom(houseId);
-    return listRoom;
+  Future<void> getListRoom(String houseId) async {
+    timer?.cancel();
+    timer = Timer(const Duration(seconds: 1), () async {
+      roomController.add({'status': statusCode.loading, 'data': []});
+      var response = await RoomRepo().getListRoom(houseId);
+      if (response.isNotEmpty) {
+        listRoom.clear();
+        listRoom = response;
+        roomController.add({'status': statusCode.success, 'data': listRoom});
+      } else {
+        roomController.add({'status': statusCode.error, 'data': []});
+      }
+    });
+  }
+
+  @override
+  void dispose() {
+    roomController.close();
+    super.dispose();
   }
 }

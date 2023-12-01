@@ -20,7 +20,6 @@ class AvatarSelected extends StatelessWidget {
           spaceHeight(context),
           Consumer<UserProvider>(
             builder: (context, value, child) {
-              print('Consumer rebuilt!');
               if (value.image == null) {
                 return Container(
                   width: 150,

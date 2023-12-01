@@ -12,6 +12,7 @@ class HouseRepo {
     String userName,
     String userPhone,
     String phoneNumber,
+    String houseName,
     String province,
     String district,
     String ward,
@@ -26,6 +27,7 @@ class HouseRepo {
     FirebaseService.houseRef.doc().set(House(
         userName: userName,
         phoneNumber: phoneNumber,
+        houseName: houseName,
         province: province,
         district: district,
         ward: ward,
@@ -113,5 +115,56 @@ class HouseRepo {
       listHouse = value.docs.map((e) => e.data()).toList();
     });
     return listHouse;
+  }
+
+  Future<List<House>> getListHouseNearBy(String address) async {
+    List<House> listHouse = [];
+    List<String> listAddress = address.split(', ').toList();
+    Set<String> uniqueDocIds = <String>{};
+    List<String> listDoc;
+
+    if (address.isEmpty) {
+      await FirebaseService.houseRef.get().then((value) {
+        listHouse = value.docs.map((e) => e.data()).toList().take(5).toList();
+      });
+      return listHouse;
+    } else {
+      await FirebaseService.houseRef
+          .where('street', isEqualTo: listAddress[0])
+          .get()
+          .then((value) {
+        uniqueDocIds.addAll(value.docs.map((e) => e.id));
+      });
+      await FirebaseService.houseRef
+          .where('ward', isEqualTo: listAddress[1])
+          .get()
+          .then((value) {
+        uniqueDocIds.addAll(value.docs.map((e) => e.id));
+      });
+      await FirebaseService.houseRef
+          .where('district', isEqualTo: listAddress[2])
+          .get()
+          .then((value) {
+        uniqueDocIds.addAll(value.docs.map((e) => e.id));
+      });
+      await FirebaseService.houseRef
+          .where('province', isEqualTo: listAddress[3])
+          .get()
+          .then((value) {
+        uniqueDocIds.addAll(value.docs.map((e) => e.id));
+      });
+      listDoc = uniqueDocIds.toList();
+      for (String docId in listDoc) {
+        await FirebaseService.houseRef.doc(docId).get().then((value) {
+          if (value.exists) {
+            listHouse.add(value.data() as House);
+          } else {
+            print("Document with ID $docId does not exist.");
+          }
+        });
+      }
+
+      return listHouse;
+    }
   }
 }

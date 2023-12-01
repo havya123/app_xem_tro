@@ -1,11 +1,12 @@
 import 'package:app_xem_tro/config/size_config.dart';
+import 'package:app_xem_tro/config/status/status_code.dart';
 import 'package:app_xem_tro/config/widget/item.dart';
+import 'package:app_xem_tro/config/widget/room_item.dart';
 import 'package:app_xem_tro/models/room.dart';
 import 'package:app_xem_tro/provider/room_register_provider.dart';
 import 'package:app_xem_tro/route/routes.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:get/get_navigation/get_navigation.dart';
 import 'package:provider/provider.dart';
 
 class ListRoom extends StatelessWidget {
@@ -13,6 +14,7 @@ class ListRoom extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     String arg = Get.arguments as String;
+    context.read<RoomRegisterProvider>().getListRoom(arg);
     return SafeArea(
       child: Scaffold(
         body: Padding(
@@ -52,50 +54,56 @@ class ListRoom extends StatelessWidget {
                     ],
                   ),
                   spaceHeight(context),
-                  FutureBuilder(
-                      future:
-                          context.read<RoomRegisterProvider>().getListRoom(arg),
+                  StreamBuilder(
+                      stream: context
+                          .read<RoomRegisterProvider>()
+                          .roomController
+                          .stream,
                       builder: (context, snapshot) {
-                        if (snapshot.connectionState ==
-                            ConnectionState.waiting) {
+                        if (snapshot.data == null) {
                           return const Center(
-                            child: CircularProgressIndicator(),
-                          );
+                              child: CircularProgressIndicator());
                         }
-                        if (snapshot.data!.isEmpty) {
-                          return Center(
-                            child: Text(
-                              "Chưa Có Phòng Trọ, Đăng ký ngay",
-                              style: mediumTextStyle(context),
+                        if (snapshot.data?['status'] == statusCode.loading) {
+                          return const Center(
+                            child: Padding(
+                              padding: EdgeInsets.symmetric(horizontal: 20),
+                              child: CircularProgressIndicator(),
                             ),
                           );
                         }
-                        List<Room> listRoom = snapshot.data as List<Room>;
+                        if (snapshot.data!['data'].length == 0) {
+                          return Center(
+                            child: TextButton(
+                              onPressed: () {
+                                Get.toNamed(Routes.houseRegistrationRoute);
+                              },
+                              child: Text(
+                                "Chưa có nhà trọ, Thêm Ngay!!! ",
+                                style: mediumTextStyle(context,
+                                    color: Colors.blue),
+                              ),
+                            ),
+                          );
+                        }
+                        List<Room> listRoom =
+                            snapshot.data?['data'] as List<Room>;
                         return ListView.separated(
                             scrollDirection: Axis.vertical,
                             shrinkWrap: true,
                             physics: const NeverScrollableScrollPhysics(),
                             itemBuilder: (context, index) {
                               return Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
-                                  Row(
-                                    mainAxisAlignment: MainAxisAlignment.start,
-                                    children: [
-                                      Expanded(
-                                        flex: 5,
-                                        child: Text(
-                                          'Phòng trọ ${index + 1}',
-                                          style: mediumTextStyle(
-                                            context,
-                                          ),
-                                        ),
-                                      ),
-                                    ],
+                                  Text(
+                                    listRoom[index].roomId,
+                                    style: mediumTextStyle(
+                                      context,
+                                    ),
                                   ),
                                   spaceHeight(context, height: 0.02),
-                                  Item(
-                                    imageUrl: listRoom[index].img,
-                                  ),
+                                  RoomItem(room: listRoom[index]),
                                   spaceHeight(context, height: 0.02),
                                 ],
                               );
@@ -103,7 +111,7 @@ class ListRoom extends StatelessWidget {
                             separatorBuilder: (context, index) =>
                                 spaceHeight(context),
                             itemCount: listRoom.length);
-                      }),
+                      })
                 ]),
           ),
         ),

@@ -29,8 +29,10 @@ class _NavigationScreenState extends State<NavigationScreen> {
   }
 
   Future<void> fectData() async {
-    await context.read<GoogleMapProvider>().initPlace().then((value) {
-      context.read<HouseProvider>().getListHouseUser();
+    await context.read<GoogleMapProvider>().initPlace().then((value) async {
+      await context
+          .read<HouseProvider>()
+          .getListHouseNearBy(context.read<GoogleMapProvider>().currentPlace);
     });
   }
 

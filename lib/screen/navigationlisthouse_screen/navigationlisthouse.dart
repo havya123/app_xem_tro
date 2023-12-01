@@ -1,6 +1,4 @@
 import 'package:app_xem_tro/config/size_config.dart';
-import 'package:app_xem_tro/models/users.dart';
-import 'package:app_xem_tro/provider/house_register_provider.dart';
 import 'package:app_xem_tro/provider/user_login_provider.dart';
 import 'package:app_xem_tro/screen/chat_screen/chat_screen.dart';
 import 'package:app_xem_tro/screen/listhouse_screen/listhouse_screen.dart';

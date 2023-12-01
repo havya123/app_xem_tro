@@ -13,6 +13,7 @@ import 'package:app_xem_tro/screen/house_registration/house_registration.dart';
 import 'package:app_xem_tro/screen/house_registration/room_registration.dart';
 import 'package:app_xem_tro/screen/listhouse_screen/listhouse_screen.dart';
 import 'package:app_xem_tro/screen/listroom_screen/listroom_screen.dart';
+import 'package:app_xem_tro/screen/listroom_screen/listroom_user_screen.dart';
 import 'package:app_xem_tro/screen/login_screen/login_screen.dart';
 import 'package:app_xem_tro/screen/map_screen/fullmap_screen.dart';
 import 'package:app_xem_tro/screen/navigation_screen.dart/navigation_screen.dart';
@@ -110,7 +111,7 @@ class RouteManager {
     ),
     GetPage(
       name: "/roomRegistrationRoute",
-      page: () => RoomRegistration(),
+      page: () => const RoomRegistration(),
     ),
     GetPage(
       name: "/listHouseRoute",
@@ -137,7 +138,14 @@ class RouteManager {
       name: Routes.rootRoute,
       page: () => const RootScreen(),
     ),
-    GetPage(name: Routes.resetRoute, page: () => const ResetPassword())
+    GetPage(
+      name: Routes.resetRoute,
+      page: () => const ResetPassword(),
+    ),
+    GetPage(
+      name: "/listRoomRouteUser",
+      page: () => const ListRoomUserScreen(),
+    ),
   ];
 
   static GetPage notFound = GetPage(

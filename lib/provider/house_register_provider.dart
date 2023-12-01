@@ -1,8 +1,7 @@
-import 'dart:io';
-
+import 'dart:async';
+import 'package:app_xem_tro/config/status/status_code.dart';
 import 'package:app_xem_tro/models/house.dart';
 import 'package:app_xem_tro/repository/house_repository.dart';
-import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:permission_handler/permission_handler.dart';
@@ -10,8 +9,10 @@ import 'package:permission_handler/permission_handler.dart';
 class HouseProvider extends ChangeNotifier {
   List<XFile?> selectedImageHouse = [];
   List<String> listDoc = [];
-
+  List<House> listHouse = [];
   int countImage = 0;
+  Timer? timer;
+  StreamController<Map> houseController = StreamController<Map>.broadcast();
 
   void deleteImage(int index) {
     selectedImageHouse.removeAt(index);
@@ -49,6 +50,7 @@ class HouseProvider extends ChangeNotifier {
     String userName,
     String userPhone,
     String phoneNumber,
+    String houseName,
     String province,
     String district,
     String ward,
@@ -58,23 +60,47 @@ class HouseProvider extends ChangeNotifier {
     String facilities,
     String? description,
   ) async {
-    await HouseRepo().houseRegistration(userName, userPhone, phoneNumber,
-        province, district, ward, street, lat, lng, facilities, description);
+    await HouseRepo()
+        .houseRegistration(userName, userPhone, phoneNumber, houseName,
+            province, district, ward, street, lat, lng, facilities, description)
+        .then((value) {
+      getListHouseLL(userPhone);
+    });
   }
 
   Future<void> uploadImg(String userPhone) async {
-    HouseRepo().uploadImg(userPhone, selectedImageHouse);
+    await HouseRepo().uploadImg(userPhone, selectedImageHouse);
   }
 
-  Future<List<House>> getListHouseLL(String userPhone) async {
-    List listDocHouse = await HouseRepo().getListHouse(userPhone);
-    listDoc = listDocHouse[0];
-    List<House> listHouse = listDocHouse[1];
-    return listHouse;
+  Future<void> getListHouseLL(String userPhone) async {
+    timer?.cancel();
+    timer = Timer(const Duration(seconds: 1), () async {
+      houseController.add({'status': statusCode.loading, 'data': []});
+      var response = await HouseRepo().getListHouse(userPhone);
+      if (response.isNotEmpty) {
+        listHouse.clear();
+        listHouse = response[1];
+        listDoc = response[0];
+        houseController.add({'status': statusCode.success, 'data': listHouse});
+      } else {
+        houseController.add({'status': statusCode.error, 'data': []});
+      }
+    });
   }
 
   Future<List<House>> getListHouseUser() async {
     List<House> listHouse = await HouseRepo().getAllHouse();
     return listHouse;
+  }
+
+  Future<List<House>> getListHouseNearBy(String address) async {
+    List<House> listHouse = await HouseRepo().getListHouseNearBy(address);
+    return listHouse;
+  }
+
+  @override
+  void dispose() {
+    houseController.close();
+    super.dispose();
   }
 }

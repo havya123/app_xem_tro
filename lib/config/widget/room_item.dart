@@ -1,21 +1,21 @@
 import 'package:app_xem_tro/config/size_config.dart';
-import 'package:app_xem_tro/models/house.dart';
-import 'package:app_xem_tro/route/routes.dart';
+import 'package:app_xem_tro/models/room.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:transparent_image/transparent_image.dart';
 
-class HouseItem extends StatelessWidget {
-  HouseItem({required this.houseId, required this.house, super.key});
-  House house;
-  String houseId;
+class RoomItem extends StatelessWidget {
+  RoomItem({required this.room, super.key});
+  Room room;
+
   @override
   Widget build(BuildContext context) {
-    List<String> listImage = house.img!.split(',');
+    List<String> listImage = room.img!.split(',');
     return InkWell(
       onTap: () {
-        Get.toNamed(Routes.overviewRote,
-            arguments: {'house': house, 'houseId': houseId});
+        // Get.toNamed(Routes.overviewRote,
+        //     arguments: {'house': house, 'houseId': houseId});
       },
       child: Container(
         height: getHeight(context, height: 0.3),
@@ -72,19 +72,14 @@ class HouseItem extends StatelessWidget {
                         ],
                       ),
                       Text(
-                        house.houseName,
+                        room.roomId,
                         style: mediumTextStyle(context, size: 0.03),
                       ),
-                      spaceHeight(context, height: 0.01),
-                      Text(
-                        " ${house.street}, ${house.ward}, ${house.district}",
-                        style: smallTextStyle(context,
-                            color: Colors.grey, size: 0.018),
-                      ),
+
                       spaceHeight(context, height: 0.01),
                       Expanded(
                         child: Text(
-                          "Cơ sở vật chất: ${house.facilities}",
+                          "Cơ sở vật chất: ${room.utilities}",
                           style: mediumTextStyle(context),
                         ),
                       ),

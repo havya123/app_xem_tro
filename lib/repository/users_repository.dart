@@ -1,11 +1,8 @@
-import 'dart:ffi';
 import 'dart:io';
-
 import 'package:app_xem_tro/firebase_service/firebase.dart';
 import 'package:app_xem_tro/models/users.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_storage/firebase_storage.dart';
-import 'package:image_picker/image_picker.dart';
 
 class UserRepo {
   void signUp(
@@ -66,9 +63,7 @@ class UserRepo {
 
       String downloadURL = await ref.getDownloadURL();
       await updateImg(downloadURL, userPhone);
-    } catch (e) {
-      print(e);
-    }
+    } catch (e) {}
   }
 
   Future<void> updateImg(String urlImg, String userPhone) async {

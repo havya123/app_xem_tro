@@ -6,6 +6,7 @@ import 'package:app_xem_tro/provider/user_provider.dart';
 import 'package:app_xem_tro/route/routes.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:get/get.dart';
 import 'package:provider/provider.dart';
 
 class ButtonListTile extends StatefulWidget {
@@ -86,13 +87,15 @@ class _SwitchState extends State<Switchs> {
         ListTile(
           leading: Switch(
             value: widget.isSwitch,
-            onChanged: (value) {
+            onChanged: (value) async {
               setState(() {
                 widget.isSwitch = value;
               });
-              context
+              await context
                   .read<UserProvider>()
-                  .switchRole(context.read<UserLoginProvider>().userPhone);
+                  .switchRole(context.read<UserLoginProvider>().userPhone)
+                  .then(
+                      (value) => Get.offNamed(Routes.navigationListHouseRoute));
             },
           ),
           title: Text(

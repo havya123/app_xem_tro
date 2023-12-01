@@ -5,6 +5,7 @@ class House {
   String userName;
   String userPhone;
   String phoneNumber;
+  String houseName;
   String province;
   String district;
   String ward;
@@ -19,6 +20,7 @@ class House {
     required this.userName,
     required this.userPhone,
     required this.phoneNumber,
+    required this.houseName,
     required this.province,
     required this.district,
     required this.ward,
@@ -36,6 +38,7 @@ class House {
       'userName': userName,
       'userPhone': userPhone,
       'phoneNumber': phoneNumber,
+      'houseName': houseName,
       'province': province,
       'district': district,
       'ward': ward,
@@ -54,6 +57,7 @@ class House {
         userName: map['userName'] ?? "",
         userPhone: map['userPhone'] ?? "",
         phoneNumber: map['phoneNumber'] ?? "",
+        houseName: map['houseName'] ?? "",
         province: map['province'] ?? "",
         district: map['district'] ?? "",
         ward: map['ward'] ?? "",

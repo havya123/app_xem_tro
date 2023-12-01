@@ -1,4 +1,5 @@
 import 'package:app_xem_tro/config/size_config.dart';
+import 'package:app_xem_tro/config/status/status_code.dart';
 import 'package:app_xem_tro/config/widget/item.dart';
 import 'package:app_xem_tro/models/house.dart';
 import 'package:app_xem_tro/provider/house_register_provider.dart';
@@ -18,6 +19,9 @@ class ListHouse extends StatefulWidget {
 class _ListHouseState extends State<ListHouse> {
   @override
   Widget build(BuildContext context) {
+    context
+        .read<HouseProvider>()
+        .getListHouseLL(context.read<UserLoginProvider>().userPhone);
     return SafeArea(
       child: Scaffold(
         body: Padding(
@@ -39,16 +43,22 @@ class _ListHouseState extends State<ListHouse> {
                   height: getHeight(context, height: 0.05),
                 ),
                 spaceHeight(context, height: 0.01),
-                FutureBuilder(
-                    future: context.read<HouseProvider>().getListHouseLL(
-                        context.read<UserLoginProvider>().userPhone),
+                StreamBuilder(
+                    stream:
+                        context.read<HouseProvider>().houseController.stream,
                     builder: (context, snapshot) {
-                      if (snapshot.connectionState == ConnectionState.waiting) {
+                      if (snapshot.data == null) {
+                        return const Center(child: CircularProgressIndicator());
+                      }
+                      if (snapshot.data?['status'] == statusCode.loading) {
                         return const Center(
-                          child: CircularProgressIndicator(),
+                          child: Padding(
+                            padding: EdgeInsets.symmetric(horizontal: 20),
+                            child: CircularProgressIndicator(),
+                          ),
                         );
                       }
-                      if (snapshot.data!.isEmpty) {
+                      if (snapshot.data!['data'].length == 0) {
                         return Center(
                           child: TextButton(
                             onPressed: () {
@@ -62,7 +72,8 @@ class _ListHouseState extends State<ListHouse> {
                           ),
                         );
                       }
-                      List<House> listHouse = snapshot.data as List<House>;
+                      List<House> listHouse =
+                          snapshot.data?['data'] as List<House>;
 
                       return ListView.separated(
                           scrollDirection: Axis.vertical,
@@ -77,7 +88,7 @@ class _ListHouseState extends State<ListHouse> {
                                     Expanded(
                                       flex: 5,
                                       child: Text(
-                                        'Nhà trọ ${index + 1}',
+                                        listHouse[index].houseName,
                                         style: mediumTextStyle(
                                           context,
                                         ),
@@ -91,7 +102,8 @@ class _ListHouseState extends State<ListHouse> {
                                     InkWell(
                                       onTap: () {
                                         Get.toNamed(
-                                            Routes.houseRegistrationRoute);
+                                          Routes.houseRegistrationRoute,
+                                        );
                                       },
                                       child: const Icon(
                                         Icons.add,
@@ -100,8 +112,11 @@ class _ListHouseState extends State<ListHouse> {
                                   ],
                                 ),
                                 spaceHeight(context, height: 0.02),
-                                Item(
-                                  imageUrl: listHouse[index].img,
+                                HouseItem(
+                                  house: listHouse[index],
+                                  houseId: context
+                                      .read<HouseProvider>()
+                                      .listDoc[index],
                                 ),
                                 spaceHeight(context, height: 0.02),
                                 Row(
@@ -127,7 +142,7 @@ class _ListHouseState extends State<ListHouse> {
                           separatorBuilder: (context, index) =>
                               spaceHeight(context),
                           itemCount: listHouse.length);
-                    }),
+                    })
               ],
             ),
           ),
