@@ -4,6 +4,7 @@ import 'package:app_xem_tro/screen/admin_screen/admin_approve_screen.dart';
 import 'package:app_xem_tro/screen/admin_screen/admin_booking_screen.dart';
 import 'package:app_xem_tro/screen/admin_screen/admin_screen.dart';
 import 'package:app_xem_tro/screen/chat_screen/list_chat_screen.dart';
+import 'package:app_xem_tro/screen/detail_screen/detail_screen.dart';
 import 'package:app_xem_tro/screen/detail_screen/over_view_screen.dart';
 import 'package:app_xem_tro/screen/error_screen/error_screen.dart';
 import 'package:app_xem_tro/screen/forget_password_screen/forget_password_screen.dart';
@@ -129,7 +130,10 @@ class RouteManager {
       name: "/navigationListRoomRoute",
       page: () => const NavigationListRoomScreen(),
     ),
-    GetPage(name: Routes.searchRoute, page: () => const SearchScreen()),
+    GetPage(
+      name: Routes.searchRoute,
+      page: () => const SearchScreen(),
+    ),
     GetPage(
       name: "/mapRoute",
       page: () => const FullMapScreen(),
@@ -146,6 +150,10 @@ class RouteManager {
       name: "/listRoomRouteUser",
       page: () => const ListRoomUserScreen(),
     ),
+    GetPage(
+      name: Routes.detailRoute,
+      page: () => const DetailScreen(),
+    )
   ];
 
   static GetPage notFound = GetPage(

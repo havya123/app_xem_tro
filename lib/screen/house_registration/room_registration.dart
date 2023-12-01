@@ -123,8 +123,12 @@ class _RoomRegistrationState extends State<RoomRegistration> {
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  dropDownWidget(context, number, "Số người", numberOfPeople),
-                  dropDownWidget(context, number, "Số tầng", numberOfFloor)
+                  dropDownWidget(context, number, "Số người", (p0) {
+                    numberOfPeople = p0!;
+                  }),
+                  dropDownWidget(context, number, "Số tầng", (p0) {
+                    numberOfFloor = p0!;
+                  })
                 ],
               ),
               spaceHeight(context),
@@ -250,6 +254,8 @@ class _RoomRegistrationState extends State<RoomRegistration> {
               spaceHeight(context),
               ButtonWidget(
                   function: () async {
+                    print(numberOfFloor);
+                    print(numberOfPeople);
                     String facilities = getFacility.join(' ,');
 
                     if (formKey.currentState!.validate() &&
@@ -311,12 +317,12 @@ class _RoomRegistrationState extends State<RoomRegistration> {
   }
 
   DropdownMenu<String> dropDownWidget(
-      context, List<String> location, String hint, String? amount) {
+      context, List<String> location, String hint, Function(String?) amount) {
     return DropdownMenu(
       width: getWidth(context, width: 0.4),
       hintText: hint,
       onSelected: (String? value) {
-        amount = value;
+        amount(value);
       },
       dropdownMenuEntries:
           location.map<DropdownMenuEntry<String>>((String value) {

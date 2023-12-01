@@ -29,23 +29,18 @@ class _DetailScreenState extends State<OverViewScreen> {
       body: SingleChildScrollView(
         child: Column(
           children: [
-            Stack(
-              children: [
-                SizedBox(
-                  width: double.infinity,
-                  height: getHeight(context, height: 0.3),
-                  child: FadeInImage.memoryNetwork(
-                    width: double.infinity,
-                    height: getHeight(context, height: 0.3),
-                    fit: BoxFit.cover,
-                    placeholder: kTransparentImage,
-                    image: houseImage.first,
-                    imageErrorBuilder: (context, error, stackTrace) =>
-                        Image.network(
-                            "https://icons.veryicon.com/png/o/education-technology/alibaba-cloud-iot-business-department/image-load-failed.png"),
-                  ),
-                ),
-              ],
+            SizedBox(
+              width: double.infinity,
+              height: getHeight(context, height: 0.4),
+              child: FadeInImage.memoryNetwork(
+                width: double.infinity,
+                height: getHeight(context, height: 0.4),
+                fit: BoxFit.cover,
+                placeholder: kTransparentImage,
+                image: houseImage.first,
+                imageErrorBuilder: (context, error, stackTrace) => Image.network(
+                    "https://icons.veryicon.com/png/o/education-technology/alibaba-cloud-iot-business-department/image-load-failed.png"),
+              ),
             ),
             spaceWidth(context),
             Padding(
@@ -56,6 +51,7 @@ class _DetailScreenState extends State<OverViewScreen> {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
+                  spaceHeight(context, height: 0.08),
                   ButtonWidget(
                       function: () {
                         MultiImageProvider multiImageProvider =
@@ -67,9 +63,10 @@ class _DetailScreenState extends State<OverViewScreen> {
                   spaceHeight(context),
                   ButtonWidget(
                     function: () {
-                      Get.toNamed(Routes.listRoomRouteUser, arguments: houseId);
+                      Get.toNamed(Routes.detailRoute,
+                          arguments: {'house': house, 'houseId': houseId});
                     },
-                    textButton: "Xem danh sách các phòng trọ",
+                    textButton: "Xem Chi Tiết",
                   ),
                   spaceHeight(context),
                   Row(

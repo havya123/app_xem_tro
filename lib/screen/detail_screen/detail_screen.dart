@@ -1,12 +1,14 @@
 import 'package:app_xem_tro/config/size_config.dart';
 import 'package:app_xem_tro/config/widget/button.dart';
 import 'package:app_xem_tro/config/widget/services.dart';
-import 'package:app_xem_tro/screen/detail_screen/widget/confirm_form.dart';
+import 'package:app_xem_tro/models/house.dart';
+import 'package:app_xem_tro/route/routes.dart';
 import 'package:app_xem_tro/screen/detail_screen/widget/desciption.dart';
 import 'package:app_xem_tro/screen/detail_screen/widget/list_services.dart';
 import 'package:app_xem_tro/screen/detail_screen/widget/map.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:get/get.dart';
 
 class DetailScreen extends StatefulWidget {
   const DetailScreen({super.key});
@@ -16,8 +18,12 @@ class DetailScreen extends StatefulWidget {
 }
 
 class _DetailScreenState extends State<DetailScreen> {
+  Map<String, dynamic> arg = Get.arguments as Map<String, dynamic>;
+
   @override
   Widget build(BuildContext context) {
+    House house = arg['house'];
+    String houseId = arg['houseId'];
     return Scaffold(
       body: SingleChildScrollView(
         child: Column(
@@ -45,12 +51,12 @@ class _DetailScreenState extends State<DetailScreen> {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Text(
-                            "Ten nha tro",
+                            house.houseName,
                             style: largeTextStyle(context),
                           ),
                           spaceHeight(context, height: 0.01),
                           Text(
-                            "Dia chi",
+                            "${house.street}, ${house.ward}, ${house.district}, ${house.province} ",
                             style: mediumTextStyle(context, color: Colors.grey),
                           ),
                         ],
@@ -65,10 +71,6 @@ class _DetailScreenState extends State<DetailScreen> {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      Text(
-                        "Gia thue tro: 100trieu/thang",
-                        style: largeTextStyle(context),
-                      ),
                       spaceHeight(context, height: 0.02),
                       GridView.builder(
                         physics: const NeverScrollableScrollPhysics(),
@@ -142,16 +144,22 @@ class _DetailScreenState extends State<DetailScreen> {
                   spaceHeight(context),
                   ButtonWidget(
                     function: () {
-                      showModalBottomSheet(
-                        backgroundColor: Colors.transparent,
-                        context: context,
-                        builder: (context) {
-                          return const ConfirmFormWidget();
-                        },
-                      );
+                      Get.toNamed(Routes.listRoomRouteUser, arguments: houseId);
                     },
-                    textButton: "Đặt lịch hẹn",
-                  )
+                    textButton: "Xem danh sách các phòng trọ",
+                  ),
+                  // ButtonWidget(
+                  //   function: () {
+                  //     showModalBottomSheet(
+                  //       backgroundColor: Colors.transparent,
+                  //       context: context,
+                  //       builder: (context) {
+                  //         return const ConfirmFormWidget();
+                  //       },
+                  //     );
+                  //   },
+                  //   textButton: "Đặt lịch hẹn",
+                  // )
                 ],
               ),
             ),
