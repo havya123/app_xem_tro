@@ -24,12 +24,12 @@ class _ListHouseState extends State<ListHouse> {
         .getListHouseLL(context.read<UserLoginProvider>().userPhone);
     return SafeArea(
       child: Scaffold(
-        body: Padding(
-          padding: EdgeInsets.symmetric(
-            horizontal: getHeight(context, height: 0.02),
-            vertical: getHeight(context, height: 0.02),
-          ),
-          child: SingleChildScrollView(
+        body: SingleChildScrollView(
+          child: Padding(
+            padding: EdgeInsets.symmetric(
+              horizontal: getHeight(context, height: 0.02),
+              vertical: getHeight(context, height: 0.02),
+            ),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
@@ -41,6 +41,26 @@ class _ListHouseState extends State<ListHouse> {
                 ),
                 SizedBox(
                   height: getHeight(context, height: 0.05),
+                ),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.end,
+                  children: [
+                    Text(
+                      'Thêm nhà trọ',
+                      style: mediumTextStyle(context, color: Colors.blue),
+                    ),
+                    spaceWidth(context, width: 0.03),
+                    InkWell(
+                      onTap: () {
+                        Get.toNamed(
+                          Routes.houseRegistrationRoute,
+                        );
+                      },
+                      child: const Icon(
+                        Icons.add,
+                      ),
+                    ),
+                  ],
                 ),
                 spaceHeight(context, height: 0.01),
                 StreamBuilder(
@@ -74,7 +94,6 @@ class _ListHouseState extends State<ListHouse> {
                       }
                       List<House> listHouse =
                           snapshot.data?['data'] as List<House>;
-
                       return ListView.separated(
                           scrollDirection: Axis.vertical,
                           shrinkWrap: true,
@@ -83,34 +102,11 @@ class _ListHouseState extends State<ListHouse> {
                             return Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
-                                Row(
-                                  mainAxisAlignment: MainAxisAlignment.start,
-                                  children: [
-                                    Expanded(
-                                      flex: 5,
-                                      child: Text(
-                                        listHouse[index].houseName,
-                                        style: mediumTextStyle(
-                                          context,
-                                        ),
-                                      ),
-                                    ),
-                                    const Text(
-                                      'Thêm nhà trọ',
-                                      style: TextStyle(color: Colors.blue),
-                                    ),
-                                    spaceWidth(context, width: 0.03),
-                                    InkWell(
-                                      onTap: () {
-                                        Get.toNamed(
-                                          Routes.houseRegistrationRoute,
-                                        );
-                                      },
-                                      child: const Icon(
-                                        Icons.add,
-                                      ),
-                                    ),
-                                  ],
+                                Text(
+                                  listHouse[index].houseName,
+                                  style: mediumTextStyle(
+                                    context,
+                                  ),
                                 ),
                                 spaceHeight(context, height: 0.02),
                                 HouseItem(

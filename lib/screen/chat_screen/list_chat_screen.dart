@@ -1,9 +1,17 @@
 import 'package:app_xem_tro/config/size_config.dart';
+import 'package:app_xem_tro/models/roomChat.dart';
+import 'package:app_xem_tro/models/users.dart';
+import 'package:app_xem_tro/provider/message_provider.dart';
+import 'package:app_xem_tro/provider/user_login_provider.dart';
+import 'package:app_xem_tro/route/routes.dart';
 import 'package:app_xem_tro/screen/chat_screen/chat_screen.dart';
 import 'package:app_xem_tro/screen/chat_screen/list_chat.dart';
 import 'package:flutter/material.dart';
 import 'package:app_xem_tro/config/widget/button_list_tile.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:get/get.dart';
+import 'package:provider/provider.dart';
+import 'package:transparent_image/transparent_image.dart';
 
 class ListChatScreen extends StatefulWidget {
   const ListChatScreen({super.key});
@@ -14,49 +22,97 @@ class ListChatScreen extends StatefulWidget {
 
 class _ListChatScreenState extends State<ListChatScreen> {
   @override
+  void initState() {
+    super.initState();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: SingleChildScrollView(
         child: Container(
           padding: EdgeInsets.symmetric(
               horizontal: padding(context), vertical: padding(context)),
-          child: Column(children: [
-            spaceHeight(context),
-            ListChat(
-              name: 'Chủ trọ 1',
-              lastMessage: "Thank for contacting me!",
-              lastTime: "15:23",
-              onPress: () async {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                      builder: (context) => const ChatScreen()),
-                );
-              },
-              onLongPress: () {
-                bottomSheet();
-              },
-            ),
-            ListChat(
-              name: 'Chủ trọ 2',
-              lastMessage: "Your payment was accepted",
-              lastTime: "Yesterday",
-              onPress: () {},
-              onLongPress: () {
-                bottomSheet();
-              },
-            ),
-            ListChat(
-              name: 'Chủ trọ 3',
-              lastMessage: "It was great experience!",
-              lastTime: "11/10/2021",
-              onPress: () {},
-              onLongPress: () {
-                bottomSheet();
-              },
-            ),
-            spaceHeight(context),
-          ]),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              spaceHeight(context),
+              Text(
+                "Đoạn Chat",
+                style: largeTextStyle(context),
+              ),
+              spaceHeight(context),
+              FutureBuilder(
+                future: context
+                    .read<MessageProvider>()
+                    .loadRoomChat(context.read<UserLoginProvider>().userPhone),
+                builder: (context, snapshot) {
+                  if (snapshot.connectionState == ConnectionState.waiting) {
+                    return const Center(
+                      child: CircularProgressIndicator(),
+                    );
+                  }
+                  if (snapshot.data!.isEmpty) {
+                    return const Center(
+                      child: Text("Bạn chưa có cuộc trò chuyện nào"),
+                    );
+                  }
+                  List<RoomChat> roomChats = snapshot.data![1];
+                  List<User> user = snapshot.data![2];
+                  return ListView.separated(
+                    physics: const NeverScrollableScrollPhysics(),
+                    shrinkWrap: true,
+                    scrollDirection: Axis.vertical,
+                    itemBuilder: (context, index) {
+                      return GestureDetector(
+                        onTap: () {
+                          Get.toNamed(Routes.chatRoute,
+                              arguments: roomChats[index].participantIds);
+                        },
+                        child: Row(
+                          children: [
+                            Container(
+                              height: 70,
+                              width: 70,
+                              clipBehavior: Clip.hardEdge,
+                              decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(100)),
+                              child: FadeInImage.memoryNetwork(
+                                width: double.infinity,
+                                fit: BoxFit.cover,
+                                placeholder: kTransparentImage,
+                                image: user[index].avatar as String,
+                              ),
+                            ),
+                            spaceWidth(context),
+                            SizedBox(
+                              height: 50,
+                              child: Column(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Text(
+                                    user[index].name,
+                                    style: mediumTextStyle(context),
+                                  ),
+                                  Text(
+                                      "${roomChats[index].lastMsg} ${roomChats[index].lastSend}")
+                                ],
+                              ),
+                            )
+                          ],
+                        ),
+                      );
+                    },
+                    separatorBuilder: (context, index) => spaceHeight(context),
+                    itemCount: roomChats.length,
+                  );
+                },
+              ),
+              spaceHeight(context),
+            ],
+          ),
         ),
       ),
     );

@@ -109,7 +109,7 @@ class HomeScreen extends StatelessWidget {
                           baseColor: Colors.grey[400]!,
                           highlightColor: Colors.grey[300]!,
                           child: SizedBox(
-                            height: getHeight(context, height: 0.3),
+                            height: getHeight(context, height: 0.5),
                             width: double.infinity,
                             child: Container(
                               margin: EdgeInsets.only(right: padding(context)),
@@ -120,11 +120,12 @@ class HomeScreen extends StatelessWidget {
                             ),
                           ));
                     }
+
                     List response = snapshot.data as List;
                     List<House> listHouse = response[0];
                     List<String> listDoc = response[1];
                     return SizedBox(
-                      height: getHeight(context, height: 0.3),
+                      height: getHeight(context, height: 0.5),
                       child: ListView.separated(
                           shrinkWrap: true,
                           scrollDirection: Axis.horizontal,

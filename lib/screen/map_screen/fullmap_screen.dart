@@ -32,8 +32,12 @@ class _FullMapScreenState extends State<FullMapScreen> {
                 return GoogleMap(
                   mapType: MapType.normal,
                   onTap: (position) async {
-                    await context.read<GoogleMapProvider>().setMaker(position);
-                    context.read<GoogleMapProvider>().goToPlace(completer);
+                    await context
+                        .read<GoogleMapProvider>()
+                        .setMaker(position)
+                        .then((value) async {
+                      context.read<GoogleMapProvider>().goToPlace(completer);
+                    });
                   },
                   markers: {value.marker},
                   initialCameraPosition:

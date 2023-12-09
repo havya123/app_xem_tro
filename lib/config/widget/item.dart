@@ -10,6 +10,7 @@ class HouseItem extends StatelessWidget {
   HouseItem({required this.houseId, required this.house, super.key});
   House house;
   String houseId;
+
   @override
   Widget build(BuildContext context) {
     List<String> listImage = house.img!.split(',');
@@ -19,8 +20,7 @@ class HouseItem extends StatelessWidget {
             arguments: {'house': house, 'houseId': houseId});
       },
       child: Container(
-        height: getHeight(context, height: 0.3),
-        width: getWidth(context, width: 0.9),
+        width: getWidth(context, width: 0.8),
         clipBehavior: Clip.hardEdge,
         decoration: BoxDecoration(
           border: Border.all(width: 1),
@@ -28,25 +28,30 @@ class HouseItem extends StatelessWidget {
             borderRadius(context),
           ),
         ),
-        child: Row(
-          children: [
-            Expanded(
-              flex: 3,
-              child: FadeInImage.memoryNetwork(
-                width: double.infinity,
-                height: getHeight(context, height: 0.3),
-                fit: BoxFit.cover,
-                placeholder: kTransparentImage,
-                image: listImage[0],
-                imageErrorBuilder: (BuildContext context, Object exception,
-                    StackTrace? stackTrace) {
-                  return Image.network(
-                      "https://icons.veryicon.com/png/o/education-technology/alibaba-cloud-iot-business-department/image-load-failed.png");
-                },
+        child: Padding(
+          padding: const EdgeInsets.all(8),
+          child: Column(
+            children: [
+              Container(
+                height: getHeight(context, height: 0.25),
+                clipBehavior: Clip.hardEdge,
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(15),
+                ),
+                child: FadeInImage.memoryNetwork(
+                  width: double.infinity,
+                  fit: BoxFit.cover,
+                  placeholder: kTransparentImage,
+                  image: listImage[0],
+                  imageErrorBuilder: (BuildContext context, Object exception,
+                      StackTrace? stackTrace) {
+                    return Image.network(
+                        "https://icons.veryicon.com/png/o/education-technology/alibaba-cloud-iot-business-department/image-load-failed.png");
+                  },
+                ),
               ),
-            ),
-            Expanded(
-                flex: 5,
+              SizedBox(
+                height: getHeight(context, height: 0.2),
                 child: Padding(
                   padding: EdgeInsets.symmetric(
                       horizontal: padding(context, padding: 0.02),
@@ -57,6 +62,10 @@ class HouseItem extends StatelessWidget {
                       Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
+                          Text(
+                            house.houseName,
+                            style: largeTextStyle(context),
+                          ),
                           SizedBox(
                             height: getHeight(context, height: 0.06),
                             child: Row(
@@ -74,14 +83,7 @@ class HouseItem extends StatelessWidget {
                               ],
                             ),
                           ),
-                          spaceWidth(context, width: 0.02),
-                          const LikeButton(),
                         ],
-                      ),
-
-                      Text(
-                        house.houseName,
-                        style: largeTextStyle(context),
                       ),
                       spaceHeight(context, height: 0.02),
                       Text(
@@ -89,23 +91,12 @@ class HouseItem extends StatelessWidget {
                         style: mediumTextStyle(context, color: Colors.grey),
                       ),
                       spaceHeight(context, height: 0.01),
-
-                      // Consumer<FavouriteProvider>(
-                      //     builder: (context, value, child) {
-                      //   return LikeButton(
-                      //     isLiked: value.isSaved(""),
-                      //     onTap: (isLiked) async {
-                      //       value.addFavouriteItem(
-                      //           context.read<UserLoginProvider>().userPhone,
-                      //           "");
-                      //       return !isLiked;
-                      //     },
-                      //   );
-                      // })
                     ],
                   ),
-                ))
-          ],
+                ),
+              ),
+            ],
+          ),
         ),
       ),
     );

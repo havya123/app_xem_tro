@@ -1,7 +1,9 @@
 import 'dart:io';
 
 import 'package:app_xem_tro/firebase_service/firebase.dart';
+import 'package:app_xem_tro/models/house.dart';
 import 'package:app_xem_tro/models/room.dart';
+import 'package:app_xem_tro/models/users.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_storage/firebase_storage.dart';
@@ -86,15 +88,31 @@ class RoomRepo {
     });
   }
 
-  Future<List<Room>> getListRoom(String houseId) async {
+  Future<List> getListRoom(String houseId) async {
+    List data = [];
     List<Room> listRoom = [];
+    List<String> listIdRoom = [];
     await FirebaseFirestore.instance
         .collection('room')
         .where('houseId', isEqualTo: houseId)
         .get()
         .then((value) {
+      listIdRoom = value.docs.map((e) => e.id).toList();
       listRoom = value.docs.map((e) => Room.fromMap(e.data())).toList();
     });
-    return listRoom;
+    data = [listIdRoom, listRoom];
+    return data;
+  }
+
+  Future<User?> getUser(String houseId) async {
+    House? house =
+        await FirebaseService.houseRef.doc(houseId).get().then((value) {
+      return value.data();
+    });
+    User? user =
+        await FirebaseService.userRef.doc(house!.userPhone).get().then((value) {
+      return value.data();
+    });
+    return user;
   }
 }

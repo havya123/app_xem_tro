@@ -3,6 +3,7 @@ import 'package:app_xem_tro/screen/admin_screen/admin_account_screen.dart';
 import 'package:app_xem_tro/screen/admin_screen/admin_approve_screen.dart';
 import 'package:app_xem_tro/screen/admin_screen/admin_booking_screen.dart';
 import 'package:app_xem_tro/screen/admin_screen/admin_screen.dart';
+import 'package:app_xem_tro/screen/chat_screen/chat_screen.dart';
 import 'package:app_xem_tro/screen/chat_screen/list_chat_screen.dart';
 import 'package:app_xem_tro/screen/detail_screen/detail_screen.dart';
 import 'package:app_xem_tro/screen/detail_screen/over_view_screen.dart';
@@ -110,6 +111,10 @@ class RouteManager {
     GetPage(
       name: "/houseRegistrationRoute",
       page: () => const HouseRegistration(),
+    ),
+    GetPage(
+      name: Routes.chatRoute,
+      page: () => const ChatScreen(),
     ),
     GetPage(
       name: "/roomRegistrationRoute",

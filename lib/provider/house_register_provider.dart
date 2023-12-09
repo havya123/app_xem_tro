@@ -98,6 +98,11 @@ class HouseProvider extends ChangeNotifier {
     return response;
   }
 
+  Future<House> getHouseDetail(String id) async {
+    House house = await HouseRepo().getHouseDetail(id);
+    return house;
+  }
+
   @override
   void dispose() {
     houseController.close();

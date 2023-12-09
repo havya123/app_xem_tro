@@ -6,15 +6,16 @@ import 'package:get/get.dart';
 import 'package:transparent_image/transparent_image.dart';
 
 class RoomItem extends StatelessWidget {
-  RoomItem({required this.room, super.key});
+  RoomItem({this.roomId, required this.room, super.key});
   Room room;
-
+  String? roomId;
   @override
   Widget build(BuildContext context) {
     List<String> listImage = room.img!.split(',');
     return InkWell(
       onTap: () {
-        Get.toNamed(Routes.detailRoute, arguments: room);
+        Get.toNamed(Routes.detailRoute,
+            arguments: {'room': room, 'roomId': roomId});
       },
       child: Container(
         height: getHeight(context, height: 0.3),
@@ -74,7 +75,6 @@ class RoomItem extends StatelessWidget {
                         room.roomId,
                         style: mediumTextStyle(context, size: 0.03),
                       ),
-
                       spaceHeight(context, height: 0.01),
                       Expanded(
                         child: Text(
@@ -82,21 +82,6 @@ class RoomItem extends StatelessWidget {
                           style: mediumTextStyle(context),
                         ),
                       ),
-                      // const LikeButton()
-                      // Consumer<FavouriteProvider>(
-                      //     builder: (context, value, child) {
-                      //   return LikeButton(
-                      //     isLiked: value.isSaved(""),
-                      //     onTap: (isLiked) async {
-                      //       value.addFavouriteItem(
-                      //           context
-                      //               .read<UserLoginProvider>()
-                      //               .userPhone,
-                      //           "");
-                      //       return !isLiked;
-                      //     },
-                      //   );
-                      // })
                     ],
                   ),
                 ))

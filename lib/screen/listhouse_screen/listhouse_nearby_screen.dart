@@ -99,9 +99,12 @@ class _ListHouseNearByState extends State<ListHouseNearBy> {
                               ),
                             ),
                             spaceHeight(context, height: 0.02),
-                            HouseItem(
-                              house: listHouse[index],
-                              houseId: listDoc[index],
+                            SizedBox(
+                              height: getHeight(context, height: 0.6),
+                              child: HouseItem(
+                                house: listHouse[index],
+                                houseId: listDoc[index],
+                              ),
                             ),
                             spaceHeight(context, height: 0.02),
                           ],

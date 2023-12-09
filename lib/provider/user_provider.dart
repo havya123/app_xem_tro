@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:app_xem_tro/models/users.dart';
 import 'package:app_xem_tro/repository/users_repository.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
@@ -8,9 +9,16 @@ import 'package:permission_handler/permission_handler.dart';
 class UserProvider extends ChangeNotifier {
   XFile? image;
 
+  get context => null;
+
   void signUp(String phoneNumber, String password, String name, String email,
       String dob, String address) {
     UserRepo().signUp(phoneNumber, password, name, email, dob, address);
+  }
+
+  Future<User> getUserDetail(String userPhone) async {
+    User user = await UserRepo().getUser(userPhone) as User;
+    return user;
   }
 
   Future<bool> checkingNumberPhone(String phoneNumber) async {

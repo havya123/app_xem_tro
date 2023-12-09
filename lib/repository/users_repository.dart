@@ -39,6 +39,14 @@ class UserRepo {
     return response.password;
   }
 
+  Future<User?> getUser(String userPhone) async {
+    User? user =
+        await FirebaseService.userRef.doc(userPhone).get().then((value) {
+      return value.data();
+    });
+    return user;
+  }
+
   Future<String> checkIfPhoneNumberExists(String phoneNumber) async {
     User? response = await FirebaseService.userRef
         .doc(phoneNumber)

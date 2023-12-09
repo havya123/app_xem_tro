@@ -2,6 +2,7 @@ import 'dart:io';
 
 import 'package:app_xem_tro/firebase_service/firebase.dart';
 import 'package:app_xem_tro/models/house.dart';
+import 'package:app_xem_tro/models/users.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:image_picker/image_picker.dart';
@@ -58,6 +59,14 @@ class HouseRepo {
         updateImg(downloadURL, userPhone);
       }
     } catch (e) {}
+  }
+
+  Future<House> getHouseDetail(String houseId) async {
+    House house =
+        await FirebaseService.houseRef.doc(houseId).get().then((value) {
+      return value.data() as House;
+    });
+    return house;
   }
 
   Future<void> updateImg(String urlImg, String userPhone) async {

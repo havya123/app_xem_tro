@@ -1,10 +1,12 @@
 import 'package:app_xem_tro/config/size_config.dart';
 import 'package:app_xem_tro/firebase_service/firebase.dart';
 import 'package:app_xem_tro/models/users.dart';
+import 'package:app_xem_tro/provider/favourite_provider.dart';
 import 'package:app_xem_tro/provider/google_map_provider.dart';
 import 'package:app_xem_tro/provider/house_register_provider.dart';
 import 'package:app_xem_tro/provider/user_login_provider.dart';
 import 'package:app_xem_tro/screen/chat_screen/chat_screen.dart';
+import 'package:app_xem_tro/screen/chat_screen/list_chat_screen.dart';
 import 'package:app_xem_tro/screen/home_screen/home_screen.dart';
 import 'package:app_xem_tro/screen/login_screen/login_screen.dart';
 import 'package:app_xem_tro/screen/profile_screen/profie_screen.dart';
@@ -32,7 +34,15 @@ class _NavigationScreenState extends State<NavigationScreen> {
     await context.read<GoogleMapProvider>().initPlace().then((value) async {
       await context
           .read<HouseProvider>()
-          .getListHouseNearBy(context.read<GoogleMapProvider>().currentPlace);
+          .getListHouseNearBy(context.read<GoogleMapProvider>().currentPlace)
+          .then((value) async {
+        await context
+            .read<FavouriteProvider>()
+            .loadListId(context.read<UserLoginProvider>().userPhone)
+            .then((value) async {
+          await context.read<FavouriteProvider>().loadWatchList();
+        });
+      });
     });
   }
 
@@ -42,7 +52,7 @@ class _NavigationScreenState extends State<NavigationScreen> {
     List<Widget> widgets = [
       const HomeScreen(),
       const SaveScreen(),
-      const ChatScreen(),
+      const ListChatScreen(),
       ProfileScreen(controller: controller),
     ];
 

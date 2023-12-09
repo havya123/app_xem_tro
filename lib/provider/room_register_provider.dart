@@ -1,8 +1,8 @@
 import 'dart:async';
-import 'dart:io';
-
 import 'package:app_xem_tro/config/status/status_code.dart';
+import 'package:app_xem_tro/firebase_service/firebase.dart';
 import 'package:app_xem_tro/models/room.dart';
+import 'package:app_xem_tro/models/users.dart';
 import 'package:app_xem_tro/repository/room_repository.dart';
 import 'package:flutter/foundation.dart';
 import 'package:image_picker/image_picker.dart';
@@ -11,6 +11,7 @@ import 'package:permission_handler/permission_handler.dart';
 class RoomRegisterProvider extends ChangeNotifier {
   List<XFile?> selectedImageRoom = [];
   List<Room> listRoom = [];
+  List<String> listRoomId = [];
   Timer? timer;
   StreamController<Map> roomController = StreamController<Map>.broadcast();
   int countItem = 0;
@@ -35,6 +36,13 @@ class RoomRegisterProvider extends ChangeNotifier {
     selectedImageRoom.removeAt(index);
     countItem = selectedImageRoom.length;
     notifyListeners();
+  }
+
+  Future<Room> getRoomDetail(String roomId) async {
+    Room room = await FirebaseService.roomRef.doc(roomId).get().then((value) {
+      return value.data() as Room;
+    });
+    return room;
   }
 
   Future<void> pickImageRoomFromGallery() async {
@@ -72,14 +80,22 @@ class RoomRegisterProvider extends ChangeNotifier {
     timer = Timer(const Duration(seconds: 1), () async {
       roomController.add({'status': statusCode.loading, 'data': []});
       var response = await RoomRepo().getListRoom(houseId);
+      List<Room> rooms = response[1];
+      List<String> listId = response[0];
       if (response.isNotEmpty) {
         listRoom.clear();
-        listRoom = response;
+        listRoom = rooms;
+        listRoomId = listId;
         roomController.add({'status': statusCode.success, 'data': listRoom});
       } else {
         roomController.add({'status': statusCode.error, 'data': []});
       }
     });
+  }
+
+  Future<User> getLandLord(String houseId) async {
+    User user = await RoomRepo().getUser(houseId) as User;
+    return user;
   }
 
   @override

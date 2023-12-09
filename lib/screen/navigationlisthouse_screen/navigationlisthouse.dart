@@ -1,6 +1,7 @@
 import 'package:app_xem_tro/config/size_config.dart';
 import 'package:app_xem_tro/provider/user_login_provider.dart';
 import 'package:app_xem_tro/screen/chat_screen/chat_screen.dart';
+import 'package:app_xem_tro/screen/chat_screen/list_chat_screen.dart';
 import 'package:app_xem_tro/screen/listhouse_screen/listhouse_screen.dart';
 import 'package:app_xem_tro/screen/login_screen/login_screen.dart';
 import 'package:app_xem_tro/screen/profile_screen/profie_screen.dart';
@@ -27,7 +28,7 @@ class _NavigationListHouseScreenState extends State<NavigationListHouseScreen> {
   Widget build(BuildContext context) {
     List<Widget> widgets = [
       const ListHouse(),
-      const ChatScreen(),
+      const ListChatScreen(),
       ProfileScreen(),
     ];
     List<PersistentBottomNavBarItem> barlistItem = [

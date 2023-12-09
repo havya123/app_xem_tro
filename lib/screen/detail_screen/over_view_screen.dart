@@ -1,13 +1,19 @@
+import 'dart:async';
+
 import 'package:app_xem_tro/config/size_config.dart';
 import 'package:app_xem_tro/config/widget/button.dart';
+import 'package:app_xem_tro/config/widget/facility_widget.dart';
 import 'package:app_xem_tro/config/widget/review.dart';
 import 'package:app_xem_tro/config/widget/services.dart';
 import 'package:app_xem_tro/models/house.dart';
+import 'package:app_xem_tro/provider/google_map_provider.dart';
 import 'package:app_xem_tro/route/routes.dart';
 import 'package:easy_image_viewer/easy_image_viewer.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get/get.dart';
+import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'package:provider/provider.dart';
 import 'package:transparent_image/transparent_image.dart';
 
 class OverViewScreen extends StatefulWidget {
@@ -19,16 +25,33 @@ class OverViewScreen extends StatefulWidget {
 
 class _DetailScreenState extends State<OverViewScreen> {
   Map<String, dynamic> arg = Get.arguments as Map<String, dynamic>;
+  late House house;
+  late String houseId;
+  List<String> houseImage = [];
+  late List<ImageProvider> imageProviders = [];
+  List<String> facilities = [];
+  final Completer<GoogleMapController> _controller =
+      Completer<GoogleMapController>();
+
+  @override
+  void initState() {
+    fetchData();
+    super.initState();
+  }
+
+  Future<void> fetchData() async {
+    house = arg['house'];
+    houseId = arg['houseId'];
+    houseImage = house.img!.split(', ');
+    imageProviders = houseImage.map((e) => Image.network(e).image).toList();
+    facilities = house.facilities.split(' ,');
+    context
+        .read<GoogleMapProvider>()
+        .setMaker(LatLng(house.lat.toDouble(), house.lng.toDouble()));
+  }
 
   @override
   Widget build(BuildContext context) {
-    House house = arg['house'];
-    String houseId = arg['houseId'];
-    List<String> houseImage = house.img!.split(', ');
-    final List<ImageProvider> imageProviders =
-        houseImage.map((e) => Image.network(e).image).toList();
-    List<String> facilities = house.facilities.split(', ');
-
     return Scaffold(
       body: SingleChildScrollView(
         child: Column(
@@ -55,34 +78,30 @@ class _DetailScreenState extends State<OverViewScreen> {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Text(
-                        house.houseName,
-                        style: largeTextStyle(context),
-                      ),
-                      spaceHeight(context, height: 0.01),
-                      IconButton(
-                          onPressed: () {},
-                          icon: const Icon(FontAwesomeIcons.heart)),
-                    ],
+                  Text(
+                    house.houseName,
+                    style: largeTextStyle(context),
                   ),
+                  spaceHeight(context, height: 0.01),
                   Text(
                     "${house.street}, ${house.ward}, ${house.district}, ${house.province} ",
                     style: mediumTextStyle(context, color: Colors.grey),
                   ),
-                  Expanded(
-                    child: GridView.builder(
-                      scrollDirection: Axis.vertical,
-                      physics: const NeverScrollableScrollPhysics(),
+                  spaceHeight(context),
+                  Text(
+                    'Facilities',
+                    style: largeTextStyle(context),
+                  ),
+                  spaceHeight(context),
+                  SizedBox(
+                    height: getHeight(context, height: 0.18),
+                    child: ListView.separated(
+                      scrollDirection: Axis.horizontal,
                       shrinkWrap: true,
-                      gridDelegate:
-                          const SliverGridDelegateWithFixedCrossAxisCount(
-                              crossAxisCount: 2),
                       itemBuilder: (context, index) {
-                        return Text(facilities[index]);
+                        return FacilityWidget(facility: facilities[index]);
                       },
+                      separatorBuilder: (context, index) => spaceWidth(context),
                       itemCount: facilities.length,
                     ),
                   ),
@@ -101,6 +120,44 @@ class _DetailScreenState extends State<OverViewScreen> {
                       Get.toNamed(Routes.listRoomRouteUser, arguments: houseId);
                     },
                     textButton: "Danh sách phòng trọ",
+                  ),
+                  spaceHeight(context),
+                  Stack(
+                    children: [
+                      Container(
+                        width: double.infinity,
+                        height: 200,
+                        decoration: const BoxDecoration(
+                          color: Colors.grey,
+                          borderRadius: BorderRadius.all(Radius.circular(20)),
+                        ),
+                        child: Consumer<GoogleMapProvider>(
+                            builder: (context, value, child) {
+                          return GoogleMap(
+                            mapType: MapType.normal,
+                            markers: {value.marker},
+                            initialCameraPosition: CameraPosition(
+                                target: LatLng(
+                                    house.lat.toDouble(), house.lng.toDouble()),
+                                zoom: 24),
+                            onMapCreated: (GoogleMapController controller) {
+                              _controller.complete(controller);
+                            },
+                          );
+                        }),
+                      ),
+                      Positioned(
+                        right: 0,
+                        top: 0,
+                        child: IconButton(
+                          onPressed: () {
+                            Get.toNamed(Routes.mapRoute,
+                                arguments: _controller);
+                          },
+                          icon: const Icon(FontAwesomeIcons.expand),
+                        ),
+                      ),
+                    ],
                   ),
                   spaceHeight(context),
                   Row(

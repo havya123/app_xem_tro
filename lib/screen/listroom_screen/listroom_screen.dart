@@ -103,7 +103,11 @@ class ListRoom extends StatelessWidget {
                                     ),
                                   ),
                                   spaceHeight(context, height: 0.02),
-                                  RoomItem(room: listRoom[index]),
+                                  RoomItem(
+                                      room: listRoom[index],
+                                      roomId: context
+                                          .read<RoomRegisterProvider>()
+                                          .listRoomId[index]),
                                   spaceHeight(context, height: 0.02),
                                 ],
                               );
