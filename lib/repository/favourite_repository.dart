@@ -2,8 +2,9 @@ import 'package:app_xem_tro/firebase_service/firebase.dart';
 import 'package:app_xem_tro/models/favourite.dart';
 
 class FavouriteRepo {
-  void saveWatchList(String houseId, String userId, String roomId) {
-    FirebaseService.favouriteRef
+  Future<void> saveWatchList(
+      String houseId, String userId, String roomId) async {
+    await FirebaseService.favouriteRef
         .doc()
         .set(Favourite(houseId: houseId, userId: userId, roomId: roomId));
   }

@@ -117,7 +117,6 @@ class ResetPassword extends StatelessWidget {
                           result: [phoneNumber, confirmpassController.text]);
                     }
                   } else {
-                    formKey.currentState!.validate();
                     return;
                   }
                 },

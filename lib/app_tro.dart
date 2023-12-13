@@ -1,5 +1,6 @@
 import 'package:app_xem_tro/firebase_service/firebase.dart';
 import 'package:app_xem_tro/models/users.dart';
+import 'package:app_xem_tro/provider/booking_provider.dart';
 import 'package:app_xem_tro/provider/favourite_provider.dart';
 import 'package:app_xem_tro/provider/google_map_provider.dart';
 import 'package:app_xem_tro/provider/house_register_provider.dart';
@@ -33,7 +34,8 @@ class _AppXemTroState extends State<AppXemTro> {
         ChangeNotifierProvider(create: (context) => HouseProvider()),
         ChangeNotifierProvider(create: (context) => RoomRegisterProvider()),
         ChangeNotifierProvider(create: (context) => FavouriteProvider()),
-        ChangeNotifierProvider(create: (context) => MessageProvider())
+        ChangeNotifierProvider(create: (context) => MessageProvider()),
+        ChangeNotifierProvider(create: (context) => BookingProvider()),
       ],
       builder: (context, child) {
         return Consumer<UserLoginProvider>(builder: (context, value, chid) {

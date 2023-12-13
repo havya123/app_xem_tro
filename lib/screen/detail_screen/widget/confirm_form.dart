@@ -1,12 +1,25 @@
 import 'package:app_xem_tro/config/size_config.dart';
 import 'package:app_xem_tro/config/widget/button.dart';
 import 'package:app_xem_tro/config/widget/text_field.dart';
+import 'package:app_xem_tro/models/users.dart';
+import 'package:app_xem_tro/provider/booking_provider.dart';
+import 'package:app_xem_tro/provider/user_login_provider.dart';
+import 'package:app_xem_tro/provider/user_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:get/get.dart';
+import 'package:get/get_navigation/get_navigation.dart';
+import 'package:intl/intl.dart';
+import 'package:provider/provider.dart';
 
 class ConfirmFormWidget extends StatefulWidget {
-  const ConfirmFormWidget({super.key});
-
+  ConfirmFormWidget(
+      {required this.roomId,
+      required this.landlordId,
+      required this.landlordName,
+      required this.landlordPhone,
+      super.key});
+  String landlordId, landlordName, landlordPhone, roomId;
   @override
   State<ConfirmFormWidget> createState() => _ConfirmFormWidgetState();
 }
@@ -16,31 +29,36 @@ class _ConfirmFormWidgetState extends State<ConfirmFormWidget> {
   TextEditingController phoneController = TextEditingController();
   TextEditingController dateController = TextEditingController();
   TextEditingController timeController = TextEditingController();
+  DateTime selectedDate = DateTime.now();
+  TimeOfDay selectedTime = TimeOfDay.now();
+  final formKey = GlobalKey<FormState>();
   @override
   void initState() {
     super.initState();
-    nameController.text = "Gà";
   }
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      resizeToAvoidBottomInset: true,
-      backgroundColor: Colors.transparent,
-      body: FractionallySizedBox(
-        heightFactor: getHeight(context, height: 0.002),
-        child: Container(
-          decoration: BoxDecoration(
-            color: Colors.white,
-            borderRadius: const BorderRadius.only(
-                topLeft: Radius.circular(50), topRight: Radius.circular(50)),
-            border: Border.all(width: 1),
-          ),
-          child: SingleChildScrollView(
-            child: Padding(
-              padding: EdgeInsets.symmetric(
-                  vertical: padding(context), horizontal: padding(context)),
-              child: Column(
+    return Consumer<User?>(builder: (context, value, child) {
+      nameController.text = value!.name;
+      phoneController.text = value.phoneNumber;
+      return Scaffold(
+        resizeToAvoidBottomInset: true,
+        backgroundColor: Colors.transparent,
+        body: FractionallySizedBox(
+          heightFactor: getHeight(context, height: 0.002),
+          child: Container(
+            decoration: BoxDecoration(
+              color: Colors.white,
+              borderRadius: const BorderRadius.only(
+                  topLeft: Radius.circular(50), topRight: Radius.circular(50)),
+              border: Border.all(width: 1),
+            ),
+            child: SingleChildScrollView(
+              child: Padding(
+                padding: EdgeInsets.symmetric(
+                    vertical: padding(context), horizontal: padding(context)),
+                child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Center(
@@ -58,39 +76,143 @@ class _ConfirmFormWidgetState extends State<ConfirmFormWidget> {
                       "Thông tin cá nhân",
                       style: mediumTextStyle(context, size: 0.03),
                     ),
-                    Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                      children: [
-                        detail(context, "Tên: ", nameController, 100,
-                            TextInputType.name, false, null),
-                        detail(context, "Số điện thoại: ", phoneController, 10,
-                            TextInputType.phone, false, null),
-                        detail(
+                    Form(
+                      key: formKey,
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                        children: [
+                          detail(context, "Tên", nameController, 100,
+                              TextInputType.name, false, null, () {}),
+                          detail(context, 'Số điện thoại', phoneController, 10,
+                              TextInputType.phone, false, null, () {}),
+                          detail(
                             context,
                             "Ngày: ",
                             dateController,
                             20,
                             TextInputType.name,
                             true,
-                            FontAwesomeIcons.calendar),
-                        detail(context, "Time: ", timeController, 20,
-                            TextInputType.name, true, FontAwesomeIcons.clock),
-                      ],
+                            FontAwesomeIcons.calendar,
+                            () async {
+                              DateTime currentDate = DateTime.now();
+                              DateTime maxDate =
+                                  currentDate.add(const Duration(days: 30));
+
+                              DateTime? pickedDate = await showDatePicker(
+                                context: context,
+                                initialDate: selectedDate,
+                                firstDate: currentDate,
+                                lastDate: maxDate,
+                              );
+
+                              if (pickedDate != null &&
+                                  pickedDate != selectedDate) {
+                                setState(() {
+                                  selectedDate = pickedDate;
+                                  dateController.text = DateFormat()
+                                      .add_yMMMd()
+                                      .format(selectedDate);
+                                });
+                              }
+                            },
+                          ),
+                          detail(
+                            context,
+                            "Thời gian: ",
+                            timeController,
+                            20,
+                            TextInputType.name,
+                            true,
+                            FontAwesomeIcons.clock,
+                            () async {
+                              TimeOfDay? pickedTime = await showTimePicker(
+                                context: context,
+                                initialTime: selectedTime,
+                              );
+
+                              if (pickedTime != null &&
+                                  pickedTime != selectedTime) {
+                                setState(() {
+                                  selectedTime = pickedTime;
+                                  timeController.text =
+                                      selectedTime.format(context);
+                                });
+                              }
+                            },
+                          ),
+                        ],
+                      ),
                     ),
                     spaceHeight(context),
                     ButtonWidget(
-                      function: () {
-                        Navigator.pop(context);
+                      function: () async {
+                        if (formKey.currentState!.validate() &&
+                            dateController.text.isNotEmpty &&
+                            timeController.text.isNotEmpty) {
+                          await context
+                              .read<BookingProvider>()
+                              .saveBooking(
+                                  nameController.text,
+                                  phoneController.text,
+                                  context.read<UserLoginProvider>().userPhone,
+                                  widget.landlordName,
+                                  widget.landlordPhone,
+                                  widget.landlordId,
+                                  widget.roomId,
+                                  dateController.text,
+                                  timeController.text)
+                              .then((value) {
+                            showDialog(
+                              context: context,
+                              builder: (context) {
+                                return AlertDialog(
+                                  title: const Text("Đặt lịch hẹn thành công"),
+                                  content: const Text(
+                                      "Vui lòng xem chi tiết lịch hẹn tại trang cá nha"),
+                                  actions: [
+                                    TextButton(
+                                        onPressed: () {
+                                          Get.back();
+                                          Get.back();
+                                        },
+                                        child: const Text("Ok")),
+                                  ],
+                                );
+                              },
+                            );
+                          });
+                        } else {
+                          showDialog(
+                            context: context,
+                            builder: (context) {
+                              return AlertDialog(
+                                title: const Text("Có lỗi xảy ra"),
+                                content: const Text(
+                                    "Vui lòng điền đầy đủ thông tin"),
+                                actions: [
+                                  TextButton(
+                                      onPressed: () {
+                                        Get.back();
+                                      },
+                                      child: const Text("Ok")),
+                                ],
+                              );
+                            },
+                          );
+                          return;
+                        }
                       },
                       textButton: "Đặt lịch",
                     )
-                  ]),
+                  ],
+                ),
+              ),
             ),
           ),
         ),
-      ),
-    );
+      );
+    });
   }
 
   Row detail(
@@ -101,6 +223,7 @@ class _ConfirmFormWidgetState extends State<ConfirmFormWidget> {
     TextInputType type,
     bool suffixIcon,
     IconData? icon,
+    VoidCallback function,
   ) {
     return Row(
       children: [
@@ -109,19 +232,18 @@ class _ConfirmFormWidgetState extends State<ConfirmFormWidget> {
           style: mediumTextStyle(context),
         ),
         Expanded(
-            child: TextFieldWidget(
-          hint: "",
-          controller: nameController,
-          removeBorder: true,
-          numberOfLetter: lengthText,
-          type: type,
-          icon: suffixIcon
-              ? IconButton(
-                  icon: Icon(icon),
-                  onPressed: () {},
-                )
-              : null,
-        ))
+          child: TextFieldWidget(
+            hint: "",
+            controller: nameController,
+            removeBorder: true,
+            numberOfLetter: lengthText,
+            type: type,
+            icon: IconButton(
+              icon: Icon(icon),
+              onPressed: function,
+            ),
+          ),
+        ),
       ],
     );
   }

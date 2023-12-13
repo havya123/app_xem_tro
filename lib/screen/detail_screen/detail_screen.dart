@@ -2,19 +2,16 @@ import 'package:app_xem_tro/config/size_config.dart';
 import 'package:app_xem_tro/config/widget/button.dart';
 import 'package:app_xem_tro/config/widget/facility_widget.dart';
 import 'package:app_xem_tro/config/widget/services.dart';
-import 'package:app_xem_tro/models/favourite.dart';
-import 'package:app_xem_tro/models/house.dart';
 import 'package:app_xem_tro/models/room.dart';
 import 'package:app_xem_tro/models/users.dart';
 import 'package:app_xem_tro/provider/favourite_provider.dart';
 import 'package:app_xem_tro/provider/message_provider.dart';
 import 'package:app_xem_tro/provider/room_register_provider.dart';
 import 'package:app_xem_tro/provider/user_login_provider.dart';
+import 'package:app_xem_tro/provider/user_provider.dart';
 import 'package:app_xem_tro/route/routes.dart';
 import 'package:app_xem_tro/screen/detail_screen/widget/confirm_form.dart';
 import 'package:app_xem_tro/screen/detail_screen/widget/desciption.dart';
-import 'package:app_xem_tro/screen/detail_screen/widget/list_services.dart';
-import 'package:app_xem_tro/screen/detail_screen/widget/map.dart';
 import 'package:easy_image_viewer/easy_image_viewer.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
@@ -45,6 +42,8 @@ class _DetailScreenState extends State<DetailScreen> {
     FontAwesomeIcons.stairs,
     FontAwesomeIcons.square,
   ];
+  String landlordName = "";
+  String landlordPhone = "";
 
   List<ImageProvider> imageProviders = [];
 
@@ -54,7 +53,7 @@ class _DetailScreenState extends State<DetailScreen> {
     super.initState();
   }
 
-  void fetchData() {
+  void fetchData() async {
     room = arg['room'];
     roomId = arg['roomId'];
     listImg = room.img!.split(", ");
@@ -179,11 +178,11 @@ class _DetailScreenState extends State<DetailScreen> {
                                             MainAxisAlignment.center,
                                         children: [
                                           Text(
-                                            "Chu tro",
+                                            landlordName,
                                             style: mediumTextStyle(context),
                                           ),
                                           Text(
-                                            "+8412482184",
+                                            landlordPhone,
                                             style: mediumTextStyle(context),
                                           )
                                         ],
@@ -200,6 +199,8 @@ class _DetailScreenState extends State<DetailScreen> {
                         }
 
                         User user = snapshot.data as User;
+                        landlordName = user.name;
+                        landlordPhone = user.phoneNumber;
                         landlordId = user.phoneNumber;
                         return Row(
                           crossAxisAlignment: CrossAxisAlignment.center,
@@ -292,7 +293,12 @@ class _DetailScreenState extends State<DetailScreen> {
                         backgroundColor: Colors.transparent,
                         context: context,
                         builder: (context) {
-                          return const ConfirmFormWidget();
+                          return ConfirmFormWidget(
+                            roomId: roomId,
+                            landlordId: landlordId,
+                            landlordName: landlordName,
+                            landlordPhone: landlordPhone,
+                          );
                         },
                       );
                     },

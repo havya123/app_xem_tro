@@ -68,7 +68,6 @@ dependencies:
   shimmer: ^3.0.0
   easy_image_viewer: ^1.2.1
   intl: ^0.18.1
-  syncfusion_flutter_datepicker: ^23.2.7
 dev_dependencies:
   flutter_test:
     sdk: flutter

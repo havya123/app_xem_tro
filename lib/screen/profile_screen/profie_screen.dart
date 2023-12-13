@@ -90,7 +90,9 @@ class ProfileScreen extends StatelessWidget {
                 context,
                 "assets/images/profile_img/schedule.png",
                 "Lịch hẹn",
-                () {},
+                () {
+                  Get.toNamed(Routes.bookingroute);
+                },
               ),
               spaceHeight(context, height: 0.05),
               options(

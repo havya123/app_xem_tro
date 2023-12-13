@@ -1,3 +1,4 @@
+import 'package:app_xem_tro/models/booking.dart';
 import 'package:app_xem_tro/models/favourite.dart';
 import 'package:app_xem_tro/models/house.dart';
 import 'package:app_xem_tro/models/message.dart';
@@ -36,4 +37,11 @@ class FirebaseService {
           fromFirestore: ((snapshot, options) =>
               RoomChat.fromMap(snapshot.data()!)),
           toFirestore: (roomChat, _) => roomChat.toMap());
+
+  static final bookingRef = FirebaseFirestore.instance
+      .collection('booking')
+      .withConverter<Booking>(
+          fromFirestore: ((snapshot, options) =>
+              Booking.fromMap(snapshot.data()!)),
+          toFirestore: (booking, _) => booking.toMap());
 }

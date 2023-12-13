@@ -1,8 +1,4 @@
 import 'package:app_xem_tro/route/routes.dart';
-import 'package:app_xem_tro/screen/admin_screen/admin_account_screen.dart';
-import 'package:app_xem_tro/screen/admin_screen/admin_approve_screen.dart';
-import 'package:app_xem_tro/screen/admin_screen/admin_booking_screen.dart';
-import 'package:app_xem_tro/screen/admin_screen/admin_screen.dart';
 import 'package:app_xem_tro/screen/chat_screen/chat_screen.dart';
 import 'package:app_xem_tro/screen/chat_screen/list_chat_screen.dart';
 import 'package:app_xem_tro/screen/detail_screen/detail_screen.dart';
@@ -77,22 +73,7 @@ class RouteManager {
     ),
     GetPage(name: Routes.resetRoute, page: () => const ResetPassword()),
     // ADMIN
-    GetPage(
-      name: "/adminRoute",
-      page: () => const AdminScreen(),
-    ),
-    GetPage(
-      name: "/adminAccountRoute",
-      page: () => const AdminAccountScreen(),
-    ),
-    GetPage(
-      name: "/adminBookingRoute",
-      page: () => const AdminBookingScreen(),
-    ),
-    GetPage(
-      name: "/adminApproveRoute",
-      page: () => const AdminApproveScreen(),
-    ),
+
     // CHAT
     GetPage(
       name: "/listchatRoute",
