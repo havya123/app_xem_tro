@@ -59,28 +59,9 @@ class _SaveScreenState extends State<SaveScreen> {
                     .stream,
                 builder: (context, snapshot) {
                   if (snapshot.data?['status'] == null) {
-                    return Shimmer.fromColors(
-                        baseColor: Colors.grey[400]!,
-                        highlightColor: Colors.grey[300]!,
-                        child: ListView.separated(
-                          separatorBuilder: (context, index) =>
-                              spaceHeight(context),
-                          physics: const NeverScrollableScrollPhysics(),
-                          shrinkWrap: true,
-                          scrollDirection: Axis.vertical,
-                          itemCount: 5,
-                          itemBuilder: (context, index) {
-                            return Container(
-                              width: double.infinity,
-                              height: getHeight(context, height: 0.4),
-                              margin: EdgeInsets.only(right: padding(context)),
-                              decoration: BoxDecoration(
-                                color: Colors.white,
-                                borderRadius: BorderRadius.circular(8.0),
-                              ),
-                            );
-                          },
-                        ));
+                    return const Center(
+                      child: Text('Danh sách hiện đang trống'),
+                    );
                   }
 
                   if (snapshot.data?['status'] == statusCode.loading) {

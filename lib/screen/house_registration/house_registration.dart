@@ -79,6 +79,7 @@ class _HouseRegistrationState extends State<HouseRegistration> {
   TextEditingController userNameController = TextEditingController();
   TextEditingController phoneNumberController = TextEditingController();
   TextEditingController houseNameController = TextEditingController();
+  TextEditingController descriptionController = TextEditingController();
   List<String> getFacility = [];
 
   bool isChecked = false;
@@ -315,6 +316,7 @@ class _HouseRegistrationState extends State<HouseRegistration> {
                     padding: EdgeInsets.all(padding(context, padding: 0.02)),
                     child: TextFieldWidget(
                       hint: "",
+                      controller: descriptionController,
                       minLetter: 50,
                       errorText: "Hãy nhập thông tin mô tả",
                       errorPass: "Nhập ít nhất 100 ký tự",
@@ -452,7 +454,7 @@ class _HouseRegistrationState extends State<HouseRegistration> {
                                   .latLng
                                   .longitude,
                               facilities,
-                              "")
+                              descriptionController.text)
                           .then((value) async {
                         await context
                             .read<HouseProvider>()
