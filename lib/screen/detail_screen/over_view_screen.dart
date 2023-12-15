@@ -117,7 +117,11 @@ class _DetailScreenState extends State<OverViewScreen> {
                   spaceHeight(context),
                   ButtonWidget(
                     function: () {
-                      Get.toNamed(Routes.listRoomRouteUser, arguments: houseId);
+                      Get.toNamed(Routes.listRoomRouteUser, arguments: {
+                        'houseId': houseId,
+                        'houseAddress':
+                            "${house.street}, ${house.ward}, ${house.district}, ${house.province}"
+                      });
                     },
                     textButton: "Danh sách phòng trọ",
                   ),

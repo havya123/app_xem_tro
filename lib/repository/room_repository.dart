@@ -115,4 +115,11 @@ class RoomRepo {
     });
     return user;
   }
+
+  Future<Room?> roomDetail(String roomId) async {
+    Room? room = await FirebaseService.roomRef.doc(roomId).get().then((value) {
+      return value.data();
+    });
+    return room;
+  }
 }

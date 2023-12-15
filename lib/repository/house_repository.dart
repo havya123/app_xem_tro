@@ -24,7 +24,7 @@ class HouseRepo {
     String? description,
   ) async {
     currentDate();
-
+    String fullAddress = "$street, $ward, $district, $province";
     FirebaseService.houseRef.doc().set(House(
         userName: userName,
         phoneNumber: phoneNumber,
@@ -40,7 +40,8 @@ class HouseRepo {
         img: "",
         createdAt: createdAt,
         userPhone: userPhone,
-        status: 'waiting'));
+        status: 'waiting',
+        fullAddress: fullAddress));
   }
 
   Future<void> uploadImg(String userPhone, List<XFile?> listXFile) async {

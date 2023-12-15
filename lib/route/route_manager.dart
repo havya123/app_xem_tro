@@ -1,4 +1,5 @@
 import 'package:app_xem_tro/route/routes.dart';
+import 'package:app_xem_tro/screen/booking_screen/booking_screen.dart';
 import 'package:app_xem_tro/screen/chat_screen/chat_screen.dart';
 import 'package:app_xem_tro/screen/chat_screen/list_chat_screen.dart';
 import 'package:app_xem_tro/screen/detail_screen/detail_screen.dart';
@@ -71,7 +72,10 @@ class RouteManager {
       name: Routes.detailProfileRoute,
       page: () => const DetailProfileScreen(),
     ),
-    GetPage(name: Routes.resetRoute, page: () => const ResetPassword()),
+    GetPage(
+      name: Routes.resetRoute,
+      page: () => const ResetPassword(),
+    ),
     // ADMIN
 
     // CHAT
@@ -141,7 +145,14 @@ class RouteManager {
       name: Routes.detailRoute,
       page: () => const DetailScreen(),
     ),
-    GetPage(name: Routes.listHouseNearby, page: () => const ListHouseNearBy())
+    GetPage(
+      name: Routes.listHouseNearby,
+      page: () => const ListHouseNearBy(),
+    ),
+    GetPage(
+      name: Routes.bookingroute,
+      page: () => const BookingScreen(),
+    ),
   ];
 
   static GetPage notFound = GetPage(

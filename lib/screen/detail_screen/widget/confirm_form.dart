@@ -18,8 +18,9 @@ class ConfirmFormWidget extends StatefulWidget {
       required this.landlordId,
       required this.landlordName,
       required this.landlordPhone,
+      required this.houseAddress,
       super.key});
-  String landlordId, landlordName, landlordPhone, roomId;
+  String landlordId, landlordName, landlordPhone, roomId, houseAddress;
   @override
   State<ConfirmFormWidget> createState() => _ConfirmFormWidgetState();
 }
@@ -161,7 +162,8 @@ class _ConfirmFormWidgetState extends State<ConfirmFormWidget> {
                                   widget.landlordId,
                                   widget.roomId,
                                   dateController.text,
-                                  timeController.text)
+                                  timeController.text,
+                                  widget.houseAddress)
                               .then((value) {
                             showDialog(
                               context: context,

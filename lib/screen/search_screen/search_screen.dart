@@ -3,6 +3,7 @@ import 'package:app_xem_tro/config/widget/button.dart';
 import 'package:app_xem_tro/config/widget/check_box.dart';
 import 'package:app_xem_tro/config/widget/item.dart';
 import 'package:app_xem_tro/config/widget/text_field.dart';
+import 'package:app_xem_tro/repository/search_repository.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
@@ -55,8 +56,11 @@ class _SearchScreenState extends State<SearchScreen> {
                       children: [
                         Image.asset("assets/images/home_img/search.png"),
                         spaceWidth(context),
-                        Text('Bình Thạnh',
-                            style: smallTextStyle(context, size: 0.024))
+                        GestureDetector(
+                          onTap: () => SearchRepository().searchHouse(),
+                          child: Text('Bình Thạnh',
+                              style: smallTextStyle(context, size: 0.024)),
+                        )
                       ],
                     ),
                   ),
@@ -85,17 +89,6 @@ class _SearchScreenState extends State<SearchScreen> {
                 padding: EdgeInsets.only(
                     left: padding(context, padding: 0.02),
                     right: padding(context, padding: 0.08)),
-                // child: Column(
-                //   children: [
-                //     HouseItem(),
-                //     spaceHeight(context),
-                //     HouseItem(),
-                //     spaceHeight(context),
-                //     HouseItem(),
-                //     spaceHeight(context),
-                //     HouseItem()
-                //   ],
-                // ),
               )
             ],
           ),

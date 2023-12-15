@@ -6,16 +6,20 @@ import 'package:get/get.dart';
 import 'package:transparent_image/transparent_image.dart';
 
 class RoomItem extends StatelessWidget {
-  RoomItem({this.roomId, required this.room, super.key});
+  RoomItem({this.roomId, required this.room, super.key, this.houseAddress});
   Room room;
   String? roomId;
+  String? houseAddress;
   @override
   Widget build(BuildContext context) {
     List<String> listImage = room.img!.split(',');
     return InkWell(
       onTap: () {
-        Get.toNamed(Routes.detailRoute,
-            arguments: {'room': room, 'roomId': roomId});
+        Get.toNamed(Routes.detailRoute, arguments: {
+          'room': room,
+          'roomId': roomId,
+          'houseAddress': houseAddress
+        });
       },
       child: Container(
         height: getHeight(context, height: 0.3),

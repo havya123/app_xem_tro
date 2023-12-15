@@ -1,4 +1,5 @@
 import 'package:app_xem_tro/config/size_config.dart';
+import 'package:app_xem_tro/provider/booking_provider.dart';
 import 'package:app_xem_tro/provider/user_login_provider.dart';
 import 'package:app_xem_tro/screen/chat_screen/chat_screen.dart';
 import 'package:app_xem_tro/screen/chat_screen/list_chat_screen.dart';

@@ -33,6 +33,7 @@ class _DetailScreenState extends State<DetailScreen> {
   late Room room;
   late String roomId;
   late String landlordId;
+  late String houseAddess;
   List<String> listImg = [];
   List<String> utilities = [];
   List<String> listCate = [];
@@ -56,6 +57,7 @@ class _DetailScreenState extends State<DetailScreen> {
   void fetchData() async {
     room = arg['room'];
     roomId = arg['roomId'];
+    houseAddess = arg['houseAddress'];
     listImg = room.img!.split(", ");
     utilities = room.utilities.split(" ,");
     listCate = [
@@ -298,6 +300,7 @@ class _DetailScreenState extends State<DetailScreen> {
                             landlordId: landlordId,
                             landlordName: landlordName,
                             landlordPhone: landlordPhone,
+                            houseAddress: houseAddess,
                           );
                         },
                       );

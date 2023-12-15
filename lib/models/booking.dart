@@ -12,6 +12,8 @@ class Booking {
   String date;
   String time;
   String status;
+  String createdAt;
+  String address;
   Booking({
     required this.userId,
     required this.userName,
@@ -23,6 +25,8 @@ class Booking {
     required this.date,
     required this.time,
     required this.status,
+    required this.createdAt,
+    required this.address,
   });
 
   Map<String, dynamic> toMap() {
@@ -37,22 +41,25 @@ class Booking {
       'date': date,
       'time': time,
       'status': status,
+      'createdAt': createdAt,
+      'address': address
     };
   }
 
   factory Booking.fromMap(Map<String, dynamic> map) {
     return Booking(
-      userId: map['userId'] ?? "",
-      userName: map['userName'] ?? "",
-      userPhone: map['userPhone'] ?? "",
-      landlordId: map['landlordId'] ?? "",
-      landlordName: map['landlordName'] ?? "",
-      landlordPhone: map['landlordPhone'] ?? "",
-      roomId: map['roomId'] ?? "",
-      date: map['date'] ?? "",
-      time: map['time'] ?? "",
-      status: map['status'] ?? "",
-    );
+        userId: map['userId'] ?? "",
+        userName: map['userName'] ?? "",
+        userPhone: map['userPhone'] ?? "",
+        landlordId: map['landlordId'] ?? "",
+        landlordName: map['landlordName'] ?? "",
+        landlordPhone: map['landlordPhone'] ?? "",
+        roomId: map['roomId'] ?? "",
+        date: map['date'] ?? "",
+        time: map['time'] ?? "",
+        status: map['status'] ?? "",
+        createdAt: map['createdAt'] ?? "",
+        address: map['address'] ?? "");
   }
 
   String toJson() => json.encode(toMap());

@@ -1,8 +1,17 @@
+import 'package:app_xem_tro/config/widget/room_item.dart';
 import 'package:app_xem_tro/models/booking.dart';
+import 'package:app_xem_tro/models/room.dart';
 import 'package:app_xem_tro/repository/booking_repository.dart';
+import 'package:app_xem_tro/repository/room_repository.dart';
 import 'package:flutter/foundation.dart';
 
 class BookingProvider extends ChangeNotifier {
+  List<Booking> listBookingUser = [];
+  List<Booking> listBookingLandlord = [];
+  List<Room> listRoom = [];
+
+  List<String> listRoomId = [];
+
   Future<void> saveBooking(
     String userName,
     String userPhone,
@@ -13,64 +22,40 @@ class BookingProvider extends ChangeNotifier {
     String roomId,
     String date,
     String time,
+    String address,
   ) async {
     await BookingRepo().saveBooking(userName, userPhone, userId, landlordName,
-        landlordPhone, landlordId, roomId, date, time);
+        landlordPhone, landlordId, roomId, date, time, address);
   }
 
-  Future<void> acceptBooking(String bookingId) async {
-    await BookingRepo().acceptBooking(bookingId);
+  Future<void> acceptBooking(
+      String userId, String landlordId, String roomId, String createdAt) async {
+    await BookingRepo().acceptBooking(userId, landlordId, roomId, createdAt);
   }
 
-  Future<void> declineBooking(String bookingId) async {
-    await BookingRepo().declineBooking(bookingId);
+  Future<void> declineBooking(
+      String userId, String landlordId, String roomId, String createdAt) async {
+    await BookingRepo().declineBooking(userId, landlordId, roomId, createdAt);
   }
 
-  Future<List<Booking>> fetchWaitingBookingUser(String userId) async {
-    List<Booking> listBooking = [];
-    await BookingRepo()
-        .fetchWaitingBookingUser(userId)
-        .then((value) => listBooking = value);
-    return listBooking;
+  Future<void> getListBookingUser(String userId) async {
+    listBookingUser = await BookingRepo().listBookingUser(userId);
+    listRoomId = listBookingUser.map((e) => e.roomId).toList();
+    notifyListeners();
   }
 
-  Future<List<Booking>> fetchAcceptBookingUser(String userId) async {
-    List<Booking> listBooking = [];
-    await BookingRepo()
-        .fetchAcceptBookingUser(userId)
-        .then((value) => listBooking = value);
-    return listBooking;
+  Future<void> getListBookingLandlord(String landlordId) async {
+    listBookingLandlord = await BookingRepo().listBookingLandlord(landlordId);
+    listRoomId = listBookingUser.map((e) => e.roomId).toList();
+    notifyListeners();
   }
 
-  Future<List<Booking>> fetchDeclineBookingUser(String userId) async {
-    List<Booking> listBooking = [];
-    await BookingRepo()
-        .fetchDeclineBookingUser(userId)
-        .then((value) => listBooking = value);
-    return listBooking;
-  }
-
-  Future<List<Booking>> fetchWaitingBookingLandlord(String landlordId) async {
-    List<Booking> listBooking = [];
-    await BookingRepo()
-        .fetchAcceptBookingLandlord(landlordId)
-        .then((value) => listBooking = value);
-    return listBooking;
-  }
-
-  Future<List<Booking>> fetchAcceptBookingLandlord(String landlordId) async {
-    List<Booking> listBooking = [];
-    await BookingRepo()
-        .fetchAcceptBookingLandlord(landlordId)
-        .then((value) => listBooking = value);
-    return listBooking;
-  }
-
-  Future<List<Booking>> fetchDeclineBookingLandlord(String landlordId) async {
-    List<Booking> listBooking = [];
-    await BookingRepo()
-        .fetchDeclineBookingLandlord(landlordId)
-        .then((value) => listBooking = value);
-    return listBooking;
+  Future<void> getListRoom() async {
+    for (var roomId in listRoomId) {
+      await RoomRepo().roomDetail(roomId).then((value) {
+        listRoom.add(value as Room);
+      });
+    }
+    notifyListeners();
   }
 }

@@ -1,6 +1,7 @@
 import 'package:app_xem_tro/config/size_config.dart';
 import 'package:app_xem_tro/firebase_service/firebase.dart';
 import 'package:app_xem_tro/models/users.dart';
+import 'package:app_xem_tro/provider/booking_provider.dart';
 import 'package:app_xem_tro/provider/favourite_provider.dart';
 import 'package:app_xem_tro/provider/google_map_provider.dart';
 import 'package:app_xem_tro/provider/house_register_provider.dart';
@@ -40,7 +41,17 @@ class _NavigationScreenState extends State<NavigationScreen> {
             .read<FavouriteProvider>()
             .loadListId(context.read<UserLoginProvider>().userPhone)
             .then((value) async {
-          await context.read<FavouriteProvider>().loadWatchList();
+          await context
+              .read<FavouriteProvider>()
+              .loadWatchList()
+              .then((value) async {
+            await context
+                .read<BookingProvider>()
+                .getListBookingUser(context.read<UserLoginProvider>().userPhone)
+                .then((value) async {
+              await context.read<BookingProvider>().getListRoom();
+            });
+          });
         });
       });
     });

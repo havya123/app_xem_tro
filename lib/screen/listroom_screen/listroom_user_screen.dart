@@ -13,8 +13,10 @@ class ListRoomUserScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    String arg = Get.arguments as String;
-    context.read<RoomRegisterProvider>().getListRoom(arg);
+    Map<String, dynamic> arg = Get.arguments as Map<String, dynamic>;
+    String houseId = arg['houseId'];
+    String houseAddress = arg['houseAddress'];
+    context.read<RoomRegisterProvider>().getListRoom(houseId);
     return Scaffold(
       body: SafeArea(
         child: SingleChildScrollView(
@@ -114,6 +116,7 @@ class ListRoomUserScreen extends StatelessWidget {
                                   roomId: context
                                       .read<RoomRegisterProvider>()
                                       .listRoomId[index],
+                                  houseAddress: houseAddress,
                                 ),
                                 spaceHeight(context, height: 0.02),
                               ],
