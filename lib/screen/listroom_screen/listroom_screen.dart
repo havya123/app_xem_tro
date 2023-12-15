@@ -79,7 +79,7 @@ class ListRoom extends StatelessWidget {
                                 Get.toNamed(Routes.houseRegistrationRoute);
                               },
                               child: Text(
-                                "Chưa có nhà trọ, Thêm Ngay!!! ",
+                                "Chưa có phòng trọ, Thêm Ngay!!! ",
                                 style: mediumTextStyle(context,
                                     color: Colors.blue),
                               ),
