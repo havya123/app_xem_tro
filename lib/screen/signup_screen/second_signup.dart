@@ -1,5 +1,7 @@
 import 'package:app_xem_tro/config/size_config.dart';
 import 'package:app_xem_tro/config/widget/button.dart';
+import 'package:app_xem_tro/config/widget/check_box.dart';
+import 'package:app_xem_tro/config/widget/gender_select.dart';
 import 'package:app_xem_tro/config/widget/text_field.dart';
 import 'package:app_xem_tro/provider/user_provider.dart';
 import 'package:app_xem_tro/route/routes.dart';
@@ -15,6 +17,7 @@ class SecondSignup extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     var data = Get.arguments;
+
     final formKey = GlobalKey<FormState>();
     var showpass = true.obs;
     var showpass2 = true.obs;
@@ -49,6 +52,12 @@ class SecondSignup extends StatelessWidget {
     }
 
     String phoneNumber = Get.arguments as String;
+
+    String gender = "";
+
+    void setGender(String value) {
+      gender = value;
+    }
 
     return Scaffold(
       body: Padding(
@@ -142,6 +151,15 @@ class SecondSignup extends StatelessWidget {
                           year = value;
                         },
                       ),
+                      spaceHeight(context),
+                      const Align(
+                        alignment: Alignment.centerLeft,
+                        child: Text(
+                          'Giới tính',
+                          style: TextStyle(color: Colors.black, fontSize: 16),
+                        ),
+                      ),
+                      GenderSelect(gender: setGender),
                       spaceHeight(context, height: 0.015),
                       TextFieldWidget(
                         hint: 'Địa chỉ',
@@ -213,13 +231,13 @@ class SecondSignup extends StatelessWidget {
                       Get.back(result: [data, passController.text]);
                       date = "$day / $month / $year";
                       context.read<UserProvider>().signUp(
-                            phoneNumber,
-                            passController.text,
-                            nameController.text,
-                            emailController.text,
-                            date as String,
-                            addressController.text,
-                          );
+                          phoneNumber,
+                          passController.text,
+                          nameController.text,
+                          emailController.text,
+                          date as String,
+                          addressController.text,
+                          gender);
                     }
                   } else {
                     formKey.currentState!.validate();

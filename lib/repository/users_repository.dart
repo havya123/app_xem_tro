@@ -5,14 +5,8 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 
 class UserRepo {
-  void signUp(
-    String phoneNumber,
-    String password,
-    String name,
-    String email,
-    String dob,
-    String address,
-  ) {
+  void signUp(String phoneNumber, String password, String name, String email,
+      String dob, String address, String gender) {
     String createdAt = DateTime.now().toString();
     FirebaseService.userRef.doc(phoneNumber).set(User(
         password: password,
@@ -25,7 +19,8 @@ class UserRepo {
             "https://firebasestorage.googleapis.com/v0/b/xemtro.appspot.com/o/images%2Fusers%2Fuser.png?alt=media&token=ba7315f5-74e4-4303-98aa-0f329e95aa9d",
         token: "",
         role: 0,
-        createdAt: createdAt));
+        createdAt: createdAt,
+        gender: gender));
   }
 
   Future<String> logIn(String phoneNumber) async {
@@ -82,6 +77,12 @@ class UserRepo {
 
   Future<void> updateName(String phoneNumber, String newName) async {
     await FirebaseService.userRef.doc(phoneNumber).update({'name': newName});
+  }
+
+  Future<void> updateAddress(String phoneNumber, String newAddress) async {
+    await FirebaseService.userRef
+        .doc(phoneNumber)
+        .update({'address': newAddress});
   }
 
   Future<void> updateEmail(String phoneNumber, String newEmail) async {

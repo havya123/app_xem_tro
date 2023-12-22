@@ -11,14 +11,18 @@ class ServiceWidget extends StatelessWidget {
     return Row(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Icon(
-          icon,
-          color: Colors.yellow,
+        Expanded(
+          child: Icon(
+            icon,
+            color: Colors.yellow,
+          ),
         ),
         spaceWidth(context),
-        Text(
-          detail,
-          style: mediumTextStyle(context),
+        Expanded(
+          child: Text(
+            detail,
+            style: mediumTextStyle(context),
+          ),
         ),
       ],
     );

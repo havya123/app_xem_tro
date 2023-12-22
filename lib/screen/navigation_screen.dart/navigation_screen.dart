@@ -46,6 +46,7 @@ class _NavigationScreenState extends State<NavigationScreen> {
 
     await houseProvider.getListHouseNearBy(googleMapProvider.currentPlace);
     await bookingProvider.getListBookingUser(userLoginProvider.userPhone);
+    await context.read<FavouriteProvider>().loadWatchList();
 
     isNotReady = false;
   }

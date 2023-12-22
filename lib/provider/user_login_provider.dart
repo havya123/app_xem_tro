@@ -35,11 +35,11 @@ class UserLoginProvider extends ChangeNotifier {
     await prefs.setString('phoneNumber', phoneNumber);
   }
 
-  Future<void> readPhoneNumber() async {
+  Future<String> readPhoneNumber() async {
     final SharedPreferences prefs = await SharedPreferences.getInstance();
     final String phoneNumber = prefs.getString('phoneNumber') ?? "";
     userPhone = phoneNumber;
-    notifyListeners();
+    return userPhone;
   }
 
   Future<bool> checkTokenExpired() async {

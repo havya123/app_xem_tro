@@ -59,31 +59,10 @@ class HouseItem extends StatelessWidget {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          Text(
-                            house.houseName,
-                            style: largeTextStyle(context),
-                          ),
-                          SizedBox(
-                            height: getHeight(context, height: 0.06),
-                            child: Row(
-                              children: [
-                                const Image(
-                                  image: AssetImage(
-                                      "assets/images/home_img/star.png"),
-                                  fit: BoxFit.contain,
-                                ),
-                                spaceWidth(context),
-                                Text(
-                                  "4.8(73)",
-                                  style: mediumTextStyle(context),
-                                ),
-                              ],
-                            ),
-                          ),
-                        ],
+                      Text(
+                        house.houseName,
+                        style: largeTextStyle(context),
+                        overflow: TextOverflow.ellipsis,
                       ),
                       spaceHeight(context, height: 0.02),
                       Text(

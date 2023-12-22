@@ -22,6 +22,7 @@ class _DetailProfileScreenState extends State<DetailProfileScreen> {
   TextEditingController nameController = TextEditingController();
   TextEditingController phoneController = TextEditingController();
   TextEditingController emailController = TextEditingController();
+  TextEditingController addressController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -73,16 +74,24 @@ class _DetailProfileScreenState extends State<DetailProfileScreen> {
               options(
                   context,
                   "assets/images/profile_img/payment-details (1).png",
-                  "Nu",
-                  () => dialogPopUp("Gender", TextInputType.text,
-                      TextEditingController(), () {})),
+                  value.gender,
+                  () {}),
               spaceHeight(context),
               options(
                   context,
                   "assets/images/profile_img/payment-details.png",
                   value.address,
-                  () => dialogPopUp("Address", TextInputType.text,
-                      TextEditingController(), () {})),
+                  () => dialogPopUp(
+                      "Address",
+                      TextInputType.text,
+                      addressController,
+                      () => dialogPopUp(
+                              "Address", TextInputType.text, addressController,
+                              () async {
+                            await context.read<UserProvider>().changeAddress(
+                                context.read<UserLoginProvider>().userPhone,
+                                addressController.text);
+                          }))),
               spaceHeight(context),
               const Divider(color: Colors.black87),
               Consumer<User?>(builder: (context, value, child) {

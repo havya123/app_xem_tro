@@ -12,8 +12,8 @@ class UserProvider extends ChangeNotifier {
   get context => null;
 
   void signUp(String phoneNumber, String password, String name, String email,
-      String dob, String address) {
-    UserRepo().signUp(phoneNumber, password, name, email, dob, address);
+      String dob, String address, String gender) {
+    UserRepo().signUp(phoneNumber, password, name, email, dob, address, gender);
   }
 
   Future<User> getUserDetail(String userPhone) async {
@@ -31,6 +31,10 @@ class UserProvider extends ChangeNotifier {
 
   Future<void> changeNewPass(String phoneNumber, String newPass) async {
     await UserRepo().changePass(phoneNumber, newPass);
+  }
+
+  Future<void> changeAddress(String phoneNumber, String newAddress) async {
+    await UserRepo().updateAddress(phoneNumber, newAddress);
   }
 
   Future<void> changeName(String phoneNumber, String newName) async {

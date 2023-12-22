@@ -10,6 +10,7 @@ class FavouriteProvider extends ChangeNotifier {
   List<Favourite> listFavourite = [];
   List<String> favourieId = [];
   List<Room> listRoom = [];
+  bool loadFavoutire = false;
 
   Future<void> addFavouriteItem(
       String houseId, String userId, String roomId, String houseAddress) async {
@@ -60,6 +61,7 @@ class FavouriteProvider extends ChangeNotifier {
         }
       }
     }
+    loadFavoutire = true;
     notifyListeners();
   }
 }

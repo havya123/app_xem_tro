@@ -62,7 +62,7 @@ class _DetailScreenState extends State<DetailScreen> {
     listImg = room.img!.split(", ");
     utilities = room.utilities.split(" ,");
     listCate = [
-      "4.1 (66 reviews)",
+      "4.1",
       "${room.numberOfPeople} người",
       "${room.numberOfFloor} tầng",
       "${room.acreage}m2",
@@ -101,11 +101,11 @@ class _DetailScreenState extends State<DetailScreen> {
                         style: largeTextStyle(context),
                       ),
                       spaceHeight(context, height: 0.01),
-                      Consumer<User>(
+                      Consumer<User?>(
                         builder: (context, value, child) {
                           return Consumer<FavouriteProvider>(
                             builder: (context, value1, child) {
-                              return value.role == 0
+                              return value!.role == 0
                                   ? LikeButton(
                                       isLiked: value1.isSaved(roomId),
                                       onTap: (isLiked) async {
