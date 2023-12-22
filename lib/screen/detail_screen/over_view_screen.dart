@@ -178,28 +178,28 @@ class _DetailScreenState extends State<OverViewScreen> {
                     ],
                   ),
                   spaceHeight(context),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Text(
-                        "Review",
-                        style: mediumTextStyle(context),
-                      ),
-                      Text(
-                        "Xem tat ca",
-                        style: mediumTextStyle(context, color: Colors.blue),
-                      ),
-                    ],
-                  ),
-                  ListView.separated(
-                      physics: const NeverScrollableScrollPhysics(),
-                      shrinkWrap: true,
-                      itemBuilder: (context, index) {
-                        return const ReviewWidget();
-                      },
-                      separatorBuilder: (context, index) =>
-                          spaceHeight(context),
-                      itemCount: 2)
+                  // Row(
+                  //   mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  //   children: [
+                  //     Text(
+                  //       "Review",
+                  //       style: mediumTextStyle(context),
+                  //     ),
+                  //     Text(
+                  //       "Xem tat ca",
+                  //       style: mediumTextStyle(context, color: Colors.blue),
+                  //     ),
+                  //   ],
+                  // ),
+                  // ListView.separated(
+                  //     physics: const NeverScrollableScrollPhysics(),
+                  //     shrinkWrap: true,
+                  //     itemBuilder: (context, index) {
+                  //       return const ReviewWidget();
+                  //     },
+                  //     separatorBuilder: (context, index) =>
+                  //         spaceHeight(context),
+                  //     itemCount: 2)
                 ],
               ),
             )
