@@ -29,7 +29,8 @@ class _AppXemTroState extends State<AppXemTro> {
     return MultiProvider(
       providers: [
         ChangeNotifierProvider(create: (context) => UserProvider()),
-        ChangeNotifierProvider(create: (context) => UserLoginProvider()),
+        ChangeNotifierProvider(
+            create: (context) => UserLoginProvider()..readPhoneNumber()),
         ChangeNotifierProvider(create: (context) => GoogleMapProvider()),
         ChangeNotifierProvider(create: (context) => HouseProvider()),
         ChangeNotifierProvider(create: (context) => RoomRegisterProvider()),
@@ -39,39 +40,32 @@ class _AppXemTroState extends State<AppXemTro> {
         ChangeNotifierProvider(create: (context) => SearchProvider()),
       ],
       builder: (context, child) {
-        return FutureBuilder(
-            future: context.read<UserLoginProvider>().readPhoneNumber(),
-            builder: (context, snapshot) {
-              if (snapshot.connectionState == ConnectionState.waiting) {
-                return const Center(
-                  child: CircularProgressIndicator(),
-                );
-              }
-              if (snapshot.data!.isEmpty) {
+        return Consumer<UserLoginProvider>(builder: (context, value, chid) {
+          if (value.userPhone.isEmpty) {
+            return GetMaterialApp(
+              debugShowCheckedModeBanner: false,
+              initialRoute: Routes.splashRoute,
+              getPages: RouteManager.routeManager,
+              unknownRoute: RouteManager.notFound,
+            );
+          }
+          return StreamProvider<User?>.value(
+              initialData: null,
+              value: FirebaseService.userRef
+                  .doc(value.userPhone)
+                  .snapshots()
+                  .map((event) {
+                return event.data();
+              }),
+              builder: (contexts, snapshot) {
                 return GetMaterialApp(
                   debugShowCheckedModeBanner: false,
-                  initialRoute: Routes.splashRoute,
+                  initialRoute: Routes.navigationRoute,
                   getPages: RouteManager.routeManager,
                   unknownRoute: RouteManager.notFound,
                 );
-              }
-              return StreamProvider<User?>.value(
-                  initialData: null,
-                  value: FirebaseService.userRef
-                      .doc(snapshot.data)
-                      .snapshots()
-                      .map((event) {
-                    return event.data();
-                  }),
-                  builder: (contexts, snapshot) {
-                    return GetMaterialApp(
-                      debugShowCheckedModeBanner: false,
-                      initialRoute: Routes.navigationRoute,
-                      getPages: RouteManager.routeManager,
-                      unknownRoute: RouteManager.notFound,
-                    );
-                  });
-            });
+              });
+        });
       },
     );
   }
