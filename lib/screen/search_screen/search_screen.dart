@@ -245,11 +245,11 @@ class _SearchScreenState extends State<SearchScreen> {
                         spaceHeight(context),
                         TextButton(
                             onPressed: () {
-                              context.read<SearchProvider>().searchList(
-                                  streetController.text,
-                                  ward,
-                                  district,
-                                  province);
+                              context
+                                  .read<SearchProvider>()
+                                  .searchList(streetController.text, ward,
+                                      district, province)
+                                  .then((value) => Get.back());
                             },
                             child: const Text('Search'))
                       ],

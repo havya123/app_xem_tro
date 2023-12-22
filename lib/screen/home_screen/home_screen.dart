@@ -1,6 +1,7 @@
 import 'package:app_xem_tro/config/size_config.dart';
 import 'package:app_xem_tro/config/widget/item.dart';
 import 'package:app_xem_tro/models/house.dart';
+import 'package:app_xem_tro/models/users.dart';
 import 'package:app_xem_tro/provider/google_map_provider.dart';
 import 'package:app_xem_tro/provider/house_register_provider.dart';
 import 'package:app_xem_tro/route/routes.dart';
@@ -81,7 +82,10 @@ class HomeScreen extends StatelessWidget {
                 ),
               ),
               spaceHeight(context),
-              Text("Welcome to ...", style: largeTextStyle(context)),
+              Consumer<User?>(builder: (context, value, child) {
+                return Text("Xin chào ${value?.name}",
+                    style: largeTextStyle(context));
+              }),
               spaceHeight(context),
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,

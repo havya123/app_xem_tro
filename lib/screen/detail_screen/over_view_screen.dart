@@ -90,7 +90,7 @@ class _DetailScreenState extends State<OverViewScreen> {
                   ),
                   spaceHeight(context),
                   Text(
-                    'Facilities',
+                    'Cơ sở vật chất',
                     style: largeTextStyle(context),
                   ),
                   spaceHeight(context),

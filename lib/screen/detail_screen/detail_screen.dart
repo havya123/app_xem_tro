@@ -188,13 +188,14 @@ class _DetailScreenState extends State<DetailScreen> {
                             child: Row(
                                 crossAxisAlignment: CrossAxisAlignment.center,
                                 children: [
-                                  SizedBox(
-                                    width: getWidth(context, width: 0.2),
-                                    height: getHeight(context, height: 0.1),
-                                    child: const CircleAvatar(
+                                  const SizedBox(
+                                    width: 50,
+                                    height: 50,
+                                    child: CircleAvatar(
                                       backgroundColor: Colors.yellow,
                                     ),
                                   ),
+                                  spaceWidth(context, width: 0.02),
                                   Expanded(
                                       flex: 3,
                                       child: Column(
@@ -232,8 +233,8 @@ class _DetailScreenState extends State<DetailScreen> {
                           crossAxisAlignment: CrossAxisAlignment.center,
                           children: [
                             Container(
-                                width: getWidth(context, width: 0.2),
-                                height: getHeight(context, height: 0.1),
+                                width: 100,
+                                height: 100,
                                 clipBehavior: Clip.hardEdge,
                                 decoration: BoxDecoration(
                                   borderRadius: BorderRadius.circular(100),

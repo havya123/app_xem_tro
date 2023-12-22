@@ -70,10 +70,19 @@ class _HouseRegistrationState extends State<HouseRegistration> {
     FontAwesomeIcons.cartShopping,
     FontAwesomeIcons.store,
     FontAwesomeIcons.mugSaucer,
-    FontAwesomeIcons.water
+    FontAwesomeIcons.water,
+    FontAwesomeIcons.school,
+    FontAwesomeIcons.hospital
   ];
 
-  List label = ["Chợ", "Cửa hàng", "Cafe", "Tiệm giặt"];
+  List label = [
+    "Chợ",
+    "Cửa hàng",
+    "Cafe",
+    "Tiệm giặt",
+    "Trường học",
+    "Bệnh viện"
+  ];
 
   TextEditingController userNameController = TextEditingController();
   TextEditingController phoneNumberController = TextEditingController();
