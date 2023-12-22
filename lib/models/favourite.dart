@@ -4,10 +4,12 @@ class Favourite {
   String roomId;
   String userId;
   String houseId;
+  String houseAddress;
   Favourite({
     required this.houseId,
     required this.userId,
     required this.roomId,
+    required this.houseAddress,
   });
 
   Map<String, dynamic> toMap() {
@@ -15,6 +17,7 @@ class Favourite {
       'houseId': houseId,
       'userId': userId,
       'roomId': roomId,
+      'houseAddress': houseAddress
     };
   }
 
@@ -22,7 +25,8 @@ class Favourite {
     return Favourite(
         houseId: map['houseId'] ?? "",
         userId: map['userId'] ?? "",
-        roomId: map['roomId'] ?? "");
+        roomId: map['roomId'] ?? "",
+        houseAddress: map['houseAddress'] ?? "");
   }
 
   String toJson() => json.encode(toMap());

@@ -12,12 +12,14 @@ class ButtonWidget extends StatelessWidget {
         Color(0xff6357CC),
       ],
       this.textColor = Colors.white,
-      this.border = false});
+      this.border = false,
+      this.colorBorder = Colors.red});
   final VoidCallback function;
   final String textButton;
   final List<Color> listColor;
   final Color textColor;
   final bool border;
+  final Color colorBorder;
   @override
   Widget build(BuildContext context) {
     var isLoading = false.obs;
@@ -34,7 +36,7 @@ class ButtonWidget extends StatelessWidget {
           width: double.infinity,
           height: getHeight(context, height: 0.08),
           decoration: BoxDecoration(
-              border: border ? Border.all(color: Colors.red) : null,
+              border: border ? Border.all(color: colorBorder) : null,
               gradient: LinearGradient(colors: listColor),
               borderRadius:
                   BorderRadius.circular(borderRadius(context, border: 0.5))),

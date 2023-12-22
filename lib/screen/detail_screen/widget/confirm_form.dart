@@ -165,6 +165,9 @@ class _ConfirmFormWidgetState extends State<ConfirmFormWidget> {
                                   timeController.text,
                                   widget.houseAddress)
                               .then((value) {
+                            context.read<BookingProvider>().getListBookingUser(
+                                  context.read<UserLoginProvider>().userPhone,
+                                );
                             showDialog(
                               context: context,
                               builder: (context) {

@@ -88,9 +88,9 @@ class HouseProvider extends ChangeNotifier {
     });
   }
 
-  Future<List<House>> getListHouseUser() async {
-    List<House> listHouse = await HouseRepo().getAllHouse();
-    return listHouse;
+  Future<List> getAllHouse() async {
+    List listData = await HouseRepo().getAllHouse();
+    return listData;
   }
 
   Future<List> getListHouseNearBy(String address) async {

@@ -8,7 +8,6 @@ import 'package:app_xem_tro/provider/favourite_provider.dart';
 import 'package:app_xem_tro/provider/message_provider.dart';
 import 'package:app_xem_tro/provider/room_register_provider.dart';
 import 'package:app_xem_tro/provider/user_login_provider.dart';
-import 'package:app_xem_tro/provider/user_provider.dart';
 import 'package:app_xem_tro/route/routes.dart';
 import 'package:app_xem_tro/screen/detail_screen/widget/confirm_form.dart';
 import 'package:app_xem_tro/screen/detail_screen/widget/desciption.dart';
@@ -34,6 +33,7 @@ class _DetailScreenState extends State<DetailScreen> {
   late String roomId;
   late String landlordId;
   late String houseAddess;
+  String houseId = "";
   List<String> listImg = [];
   List<String> utilities = [];
   List<String> listCate = [];
@@ -58,6 +58,7 @@ class _DetailScreenState extends State<DetailScreen> {
     room = arg['room'];
     roomId = arg['roomId'];
     houseAddess = arg['houseAddress'];
+    houseId = arg['houseId'];
     listImg = room.img!.split(", ");
     utilities = room.utilities.split(" ,");
     listCate = [
@@ -100,29 +101,52 @@ class _DetailScreenState extends State<DetailScreen> {
                         style: largeTextStyle(context),
                       ),
                       spaceHeight(context, height: 0.01),
-                      Consumer<FavouriteProvider>(
+                      Consumer<User>(
                         builder: (context, value, child) {
-                          return Positioned(
-                              right: 0,
-                              child: LikeButton(
-                                isLiked: value.isSaved(roomId),
-                                onTap: (isLiked) async {
-                                  context
-                                      .read<FavouriteProvider>()
-                                      .addFavouriteItem(
-                                          room.houseId,
-                                          context
-                                              .read<UserLoginProvider>()
-                                              .userPhone,
-                                          roomId);
-                                  context
-                                      .read<FavouriteProvider>()
-                                      .loadWatchList();
-                                  return !isLiked;
-                                },
-                              ));
+                          return Consumer<FavouriteProvider>(
+                            builder: (context, value1, child) {
+                              return value.role == 0
+                                  ? LikeButton(
+                                      isLiked: value1.isSaved(roomId),
+                                      onTap: (isLiked) async {
+                                        context
+                                            .read<FavouriteProvider>()
+                                            .addFavouriteItem(
+                                                room.houseId,
+                                                context
+                                                    .read<UserLoginProvider>()
+                                                    .userPhone,
+                                                roomId,
+                                                houseAddess);
+
+                                        context
+                                            .read<FavouriteProvider>()
+                                            .loadWatchList();
+
+                                        return !isLiked;
+                                      },
+                                    )
+                                  : Container(
+                                      height: getHeight(context, height: 0.04),
+                                      width: getWidth(context, width: 0.2),
+                                      decoration: BoxDecoration(
+                                          borderRadius:
+                                              BorderRadius.circular(5),
+                                          color:
+                                              room.bookingStatus == "available"
+                                                  ? Colors.green
+                                                  : Colors.red),
+                                      child: Center(
+                                        child: Text(
+                                          room.bookingStatus,
+                                          style: const TextStyle(
+                                              color: Colors.white),
+                                        ),
+                                      ));
+                            },
+                          );
                         },
-                      ),
+                      )
                     ],
                   ),
                   spaceHeight(context),
@@ -289,27 +313,57 @@ class _DetailScreenState extends State<DetailScreen> {
                   spaceHeight(context, height: 0.02),
                   const DescriptionWidget(),
                   spaceHeight(context),
-                  ButtonWidget(
-                    function: () {
-                      showModalBottomSheet(
-                        backgroundColor: Colors.transparent,
-                        context: context,
-                        builder: (context) {
-                          return ConfirmFormWidget(
-                            roomId: roomId,
-                            landlordId: landlordId,
-                            landlordName: landlordName,
-                            landlordPhone: landlordPhone,
-                            houseAddress: houseAddess,
-                          );
-                        },
-                      );
+                  Consumer<User>(
+                    builder: (context, value, child) {
+                      return value.role == 0
+                          ? room.bookingStatus == 'booked'
+                              ? const SizedBox()
+                              : ButtonWidget(
+                                  function: () {
+                                    showModalBottomSheet(
+                                      backgroundColor: Colors.transparent,
+                                      context: context,
+                                      builder: (context) {
+                                        return ConfirmFormWidget(
+                                          roomId: roomId,
+                                          landlordId: landlordId,
+                                          landlordName: landlordName,
+                                          landlordPhone: landlordPhone,
+                                          houseAddress: houseAddess,
+                                        );
+                                      },
+                                    );
+                                  },
+                                  textButton: "Đặt lịch hẹn",
+                                )
+                          : ButtonWidget(
+                              function: () {
+                                room.bookingStatus == "available"
+                                    ? context
+                                        .read<RoomRegisterProvider>()
+                                        .bookedRoomStatus(roomId)
+                                        .then((value) async {
+                                        await context
+                                            .read<RoomRegisterProvider>()
+                                            .getListRoomLandlord(houseId);
+                                      })
+                                    : context
+                                        .read<RoomRegisterProvider>()
+                                        .availableRoomStatus(roomId)
+                                        .then((value) async {
+                                        await context
+                                            .read<RoomRegisterProvider>()
+                                            .getListRoomLandlord(houseId);
+                                      });
+                              },
+                              textButton: "Thay đổi trạng thái phòng trọ",
+                            );
                     },
-                    textButton: "Đặt lịch hẹn",
                   )
                 ],
               ),
             ),
+            spaceHeight(context, height: 0.07),
           ],
         ),
       ),

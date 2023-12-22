@@ -41,12 +41,14 @@ class BookingProvider extends ChangeNotifier {
   Future<void> getListBookingUser(String userId) async {
     listBookingUser = await BookingRepo().listBookingUser(userId);
     listRoomId = listBookingUser.map((e) => e.roomId).toList();
+    await getListRoom();
     notifyListeners();
   }
 
   Future<void> getListBookingLandlord(String landlordId) async {
     listBookingLandlord = await BookingRepo().listBookingLandlord(landlordId);
-    listRoomId = listBookingUser.map((e) => e.roomId).toList();
+    listRoomId = listBookingLandlord.map((e) => e.roomId).toList();
+    await getListRoom();
     notifyListeners();
   }
 

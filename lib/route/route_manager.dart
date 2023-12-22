@@ -1,4 +1,5 @@
 import 'package:app_xem_tro/route/routes.dart';
+import 'package:app_xem_tro/screen/all_house_screen/all_house_screen.dart';
 import 'package:app_xem_tro/screen/booking_screen/booking_screen.dart';
 import 'package:app_xem_tro/screen/chat_screen/chat_screen.dart';
 import 'package:app_xem_tro/screen/chat_screen/list_chat_screen.dart';
@@ -152,6 +153,10 @@ class RouteManager {
     GetPage(
       name: Routes.bookingroute,
       page: () => const BookingScreen(),
+    ),
+    GetPage(
+      name: Routes.allHouseRoute,
+      page: () => const AllHouseScreen(),
     ),
   ];
 

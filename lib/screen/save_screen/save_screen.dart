@@ -52,48 +52,14 @@ class _SaveScreenState extends State<SaveScreen> {
                   )
                 ],
               ),
-              StreamBuilder(
-                stream: context
-                    .read<FavouriteProvider>()
-                    .favouriteController
-                    .stream,
-                builder: (context, snapshot) {
-                  if (snapshot.data?['status'] == null) {
+              Consumer<FavouriteProvider>(
+                builder: (context, value, child) {
+                  if (value.listRoom.isEmpty) {
                     return const Center(
                       child: Text('Danh sách hiện đang trống'),
                     );
                   }
-
-                  if (snapshot.data?['status'] == statusCode.loading) {
-                    return Shimmer.fromColors(
-                        baseColor: Colors.grey[400]!,
-                        highlightColor: Colors.grey[300]!,
-                        child: ListView.separated(
-                          separatorBuilder: (context, index) =>
-                              spaceHeight(context),
-                          physics: const NeverScrollableScrollPhysics(),
-                          shrinkWrap: true,
-                          scrollDirection: Axis.vertical,
-                          itemCount: 5,
-                          itemBuilder: (context, index) {
-                            return Container(
-                              width: double.infinity,
-                              height: getHeight(context, height: 0.4),
-                              margin: EdgeInsets.only(right: padding(context)),
-                              decoration: BoxDecoration(
-                                color: Colors.white,
-                                borderRadius: BorderRadius.circular(8.0),
-                              ),
-                            );
-                          },
-                        ));
-                  }
-                  if (snapshot.data?['data'].isEmpty) {
-                    return const Center(
-                      child: Text('Danh sách hiện đang trống'),
-                    );
-                  }
-                  List<Room> listRoom = snapshot.data?['data'] as List<Room>;
+                  List<Room> listRoom = value.listRoom;
                   List<Favourite> listFavourite =
                       context.read<FavouriteProvider>().listFavourite;
                   return ListView.separated(
@@ -103,36 +69,14 @@ class _SaveScreenState extends State<SaveScreen> {
                         return RoomItem(
                           room: listRoom[index],
                           roomId: listFavourite[index].roomId,
+                          houseAddress: listFavourite[index].houseAddress,
                         );
                       },
                       separatorBuilder: (context, index) =>
                           spaceHeight(context),
                       itemCount: listRoom.length);
                 },
-              )
-
-              // Consumer<FavouriteProvider>(
-              //   builder: (context, value, child) {
-              //     List<Room> listRoom = value.listRoom;
-              //     List<Favourite> listFavourite = value.listFavourite;
-              //     if (listRoom.isEmpty) {
-              //       return const Center(
-              //         child: Text("Danh sách yêu thích đang trốn"),
-              //       );
-              //     }
-              //     return ListView.separated(
-              //         physics: const NeverScrollableScrollPhysics(),
-              //         shrinkWrap: true,
-              //         itemBuilder: (context, index) {
-              //           return RoomItem(
-              //             room: listRoom[index],
-              //             roomId: listFavourite[index].roomId,
-              //           );
-              //         },
-              //         separatorBuilder: (context, index) => spaceHeight(context),
-              //         itemCount: listRoom.length);
-              //   },
-              // )
+              ),
             ],
           ),
         ),

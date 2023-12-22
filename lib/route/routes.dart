@@ -38,4 +38,5 @@ class Routes {
   static const String listRoomRouteUser = "/listRoomRouteUser";
   static const String listHouseNearby = "/listHouseNearbyRoute";
   static const String bookingroute = "/bookingRoute";
+  static const String allHouseRoute = "/allHouseRoute";
 }

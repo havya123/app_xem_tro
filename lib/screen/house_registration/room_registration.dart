@@ -254,8 +254,6 @@ class _RoomRegistrationState extends State<RoomRegistration> {
               spaceHeight(context),
               ButtonWidget(
                   function: () async {
-                    print(numberOfFloor);
-                    print(numberOfPeople);
                     String facilities = getFacility.join(' ,');
 
                     if (formKey.currentState!.validate() &&

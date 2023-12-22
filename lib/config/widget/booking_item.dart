@@ -9,10 +9,15 @@ import 'package:shimmer/shimmer.dart';
 import 'package:transparent_image/transparent_image.dart';
 
 class BookingItem extends StatelessWidget {
-  BookingItem({required this.room, required this.booking, super.key});
+  BookingItem(
+      {required this.role,
+      required this.room,
+      required this.booking,
+      super.key});
 
   Room room;
   Booking booking;
+  int role;
   @override
   Widget build(BuildContext context) {
     List<String> listImage = room.img!.split(',');
@@ -22,7 +27,7 @@ class BookingItem extends StatelessWidget {
           showModalBottomSheet(
             context: context,
             builder: (context) =>
-                BookingDetailWidget(room: room, booking: booking),
+                BookingDetailWidget(room: room, booking: booking, role: role),
           );
         },
         child: Ink(
@@ -84,6 +89,25 @@ class BookingItem extends StatelessWidget {
                                 ),
                               ],
                             ),
+                            spaceHeight(context),
+                            Container(
+                                height: getHeight(context, height: 0.04),
+                                width: getWidth(context, width: 0.2),
+                                decoration: BoxDecoration(
+                                    borderRadius: BorderRadius.circular(5),
+                                    color: booking.status == "accept"
+                                        ? Colors.green
+                                        : booking.status == "waiting"
+                                            ? Colors.yellow
+                                            : Colors.red),
+                                child: Center(
+                                  child: Text(
+                                    booking.status,
+                                    style: const TextStyle(
+                                        color: Colors.white,
+                                        fontWeight: FontWeight.bold),
+                                  ),
+                                )),
                           ],
                         ),
                       ))

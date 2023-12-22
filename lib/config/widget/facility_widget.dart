@@ -21,7 +21,6 @@ class _MyWidgetState extends State<FacilityWidget> {
   }
 
   void fetchData() {
-    print(widget.facility);
     if (widget.facility == "Cửa hàng") {
       icon = const Icon(FontAwesomeIcons.store);
       return;

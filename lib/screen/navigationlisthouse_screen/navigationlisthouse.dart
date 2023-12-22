@@ -1,7 +1,6 @@
 import 'package:app_xem_tro/config/size_config.dart';
 import 'package:app_xem_tro/provider/booking_provider.dart';
 import 'package:app_xem_tro/provider/user_login_provider.dart';
-import 'package:app_xem_tro/screen/chat_screen/chat_screen.dart';
 import 'package:app_xem_tro/screen/chat_screen/list_chat_screen.dart';
 import 'package:app_xem_tro/screen/listhouse_screen/listhouse_screen.dart';
 import 'package:app_xem_tro/screen/login_screen/login_screen.dart';
@@ -22,7 +21,14 @@ class NavigationListHouseScreen extends StatefulWidget {
 class _NavigationListHouseScreenState extends State<NavigationListHouseScreen> {
   @override
   void initState() {
+    fetchData();
     super.initState();
+  }
+
+  Future<void> fetchData() async {
+    await context
+        .read<BookingProvider>()
+        .getListBookingLandlord(context.read<UserLoginProvider>().userPhone);
   }
 
   @override

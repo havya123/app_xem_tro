@@ -8,7 +8,7 @@ class UserLoginProvider extends ChangeNotifier {
 
   Future<void> updatePhone(String phone) async {
     userPhone = phone;
-    print(userPhone);
+
     notifyListeners();
   }
 

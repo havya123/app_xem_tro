@@ -39,13 +39,12 @@ class _HouseRegistrationState extends State<HouseRegistration> {
   String province = "";
   String district = "";
   String ward = "";
-
+  final formKey = GlobalKey<FormState>();
   String errorTextProvince = "Vui lòng chọn Tỉnh/TP";
   String errorTextDistrict = "Vui lòng chọn Quận/Huyện";
   String errorTextWard = "";
 
   TextEditingController streetController = TextEditingController();
-  final formKey = GlobalKey<FormState>();
 
   void showErrorDialog() {
     showDialog(

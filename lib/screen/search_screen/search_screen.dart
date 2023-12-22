@@ -1,11 +1,20 @@
 import 'package:app_xem_tro/config/size_config.dart';
+import 'package:app_xem_tro/config/status/status_code.dart';
 import 'package:app_xem_tro/config/widget/button.dart';
 import 'package:app_xem_tro/config/widget/check_box.dart';
 import 'package:app_xem_tro/config/widget/item.dart';
 import 'package:app_xem_tro/config/widget/text_field.dart';
+import 'package:app_xem_tro/models/district.dart';
+import 'package:app_xem_tro/models/house.dart';
+import 'package:app_xem_tro/models/province.dart';
+import 'package:app_xem_tro/models/ward.dart';
+import 'package:app_xem_tro/provider/google_map_provider.dart';
+import 'package:app_xem_tro/provider/search_provider.dart';
 import 'package:app_xem_tro/repository/search_repository.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:get/get.dart';
+import 'package:provider/provider.dart';
 
 class SearchScreen extends StatefulWidget {
   const SearchScreen({super.key});
@@ -24,8 +33,14 @@ class _SearchScreenState extends State<SearchScreen> {
 
   List numbers = ["1", "2", "3", "4"];
   bool isSelected = false;
+  String province = "";
+  String district = "";
+  String ward = "";
+  TextEditingController streetController = TextEditingController();
+  final formKey = GlobalKey<FormState>();
   @override
   Widget build(BuildContext context) {
+    context.read<GoogleMapProvider>().getListProvince();
     return SafeArea(
         child: Scaffold(
       body: Padding(
@@ -37,46 +52,37 @@ class _SearchScreenState extends State<SearchScreen> {
             children: [
               Row(
                 children: [
-                  SizedBox(
-                    width: getWidth(context, width: 0.1),
-                    height: getHeight(context, height: 0.06),
-                    child: const Icon(FontAwesomeIcons.angleLeft),
-                  ),
-                  spaceWidth(context, width: 0.02),
-                  Container(
-                    padding: EdgeInsets.symmetric(
-                        horizontal: padding(context, padding: 0.03)),
-                    width: getWidth(context, width: 0.7),
-                    height: getHeight(context, height: 0.075),
-                    decoration: BoxDecoration(
-                        color: Colors.grey.shade200,
-                        borderRadius: BorderRadius.circular(30),
-                        border: Border.all(color: Colors.grey)),
-                    child: Row(
-                      children: [
-                        Image.asset("assets/images/home_img/search.png"),
-                        spaceWidth(context),
-                        GestureDetector(
-                          onTap: () => SearchRepository().searchHouse(),
-                          child: Text('Bình Thạnh',
-                              style: smallTextStyle(context, size: 0.024)),
-                        )
-                      ],
+                  GestureDetector(
+                    onTap: () => Get.back(),
+                    child: SizedBox(
+                      width: getWidth(context, width: 0.1),
+                      height: getHeight(context, height: 0.06),
+                      child: const Icon(FontAwesomeIcons.angleLeft),
                     ),
                   ),
-                  spaceWidth(context, width: 0.015),
-                  InkWell(
-                    onTap: () => filterDialog(places, numbers),
+                  spaceWidth(context, width: 0.02),
+                  GestureDetector(
+                    onTap: () => filterDialog(places, numbers, ward, district,
+                        province, streetController),
                     child: Container(
-                      width: getWidth(context, width: 0.13),
+                      padding: EdgeInsets.symmetric(
+                          horizontal: padding(context, padding: 0.03)),
+                      width: getWidth(context, width: 0.7),
                       height: getHeight(context, height: 0.075),
                       decoration: BoxDecoration(
                           color: Colors.grey.shade200,
-                          borderRadius: BorderRadius.circular(15),
+                          borderRadius: BorderRadius.circular(30),
                           border: Border.all(color: Colors.grey)),
-                      child: const Icon(FontAwesomeIcons.sliders),
+                      child: Row(
+                        children: [
+                          Image.asset("assets/images/home_img/search.png"),
+                          spaceWidth(context),
+                          Text('Chọn địa chỉ',
+                              style: smallTextStyle(context, size: 0.024))
+                        ],
+                      ),
                     ),
-                  )
+                  ),
                 ],
               ),
               spaceHeight(context, height: 0.025),
@@ -86,9 +92,61 @@ class _SearchScreenState extends State<SearchScreen> {
               ),
               spaceHeight(context, height: 0.02),
               Padding(
-                padding: EdgeInsets.only(
-                    left: padding(context, padding: 0.02),
-                    right: padding(context, padding: 0.08)),
+                padding: const EdgeInsets.all(10),
+                child: StreamBuilder(
+                    stream:
+                        context.read<SearchProvider>().searchController.stream,
+                    builder: (context, snapshot) {
+                      if (snapshot.data == null) {
+                        return const Center(
+                            child: Text('Vui lòng chọn khu vực để tìm kiếm'));
+                      }
+                      if (snapshot.data?['status'] == statusCode.loading) {
+                        return const Center(
+                          child: Padding(
+                            padding: EdgeInsets.symmetric(horizontal: 20),
+                            child: CircularProgressIndicator(),
+                          ),
+                        );
+                      }
+                      if (snapshot.data!['data'].length == 0) {
+                        return Center(
+                          child: Text(
+                            "Không có dữ liệu về khu vực bạn tìm kiếm",
+                            style: mediumTextStyle(context, color: Colors.blue),
+                          ),
+                        );
+                      }
+                      List listData = snapshot.data?['data'];
+                      List<House> listHouse = listData[0];
+                      List<String> listDoc = listData[1];
+                      return ListView.separated(
+                          scrollDirection: Axis.vertical,
+                          shrinkWrap: true,
+                          physics: const NeverScrollableScrollPhysics(),
+                          itemBuilder: (context, index) {
+                            return Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Text(
+                                  listHouse[index].houseName,
+                                  style: mediumTextStyle(
+                                    context,
+                                  ),
+                                ),
+                                spaceHeight(context, height: 0.02),
+                                HouseItem(
+                                  house: listHouse[index],
+                                  houseId: listDoc[index],
+                                ),
+                                spaceHeight(context, height: 0.02),
+                              ],
+                            );
+                          },
+                          separatorBuilder: (context, index) =>
+                              spaceHeight(context),
+                          itemCount: listHouse.length);
+                    }),
               )
             ],
           ),
@@ -97,7 +155,14 @@ class _SearchScreenState extends State<SearchScreen> {
     ));
   }
 
-  filterDialog(List place, List number) {
+  filterDialog(
+    List place,
+    List number,
+    String province,
+    String district,
+    String ward,
+    TextEditingController streetController,
+  ) {
     showDialog(
       context: context,
       builder: (BuildContext context) => AlertDialog(
@@ -108,213 +173,145 @@ class _SearchScreenState extends State<SearchScreen> {
         content: Scaffold(
           body: SingleChildScrollView(
             child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                const Divider(
-                  color: Colors.grey,
-                ),
-                Text(
-                  "Vị trí",
-                  style: smallTextStyle(context,
-                      size: 0.023, color: Colors.grey.shade600),
-                ),
-                GridView.builder(
-                  itemCount: place.length,
-                  physics: const NeverScrollableScrollPhysics(),
-                  shrinkWrap: true,
-                  gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                    crossAxisCount: 2,
-                    childAspectRatio: 2,
-                  ),
-                  itemBuilder: (context, index) {
-                    return StatefulBuilder(
-                      builder: (context, setState) {
-                        return ChoiceChip(
-                          label: SizedBox(
-                              width: getWidth(context, width: 0.2),
-                              height: getHeight(context, height: 0.05),
-                              child: Center(child: Text(place[index]))),
-                          selected: isSelected,
-                          selectedColor: Colors.blue,
-                          onSelected: (newState) {
-                            setState(() {
-                              isSelected = newState;
-                            });
-                          },
-                        );
-                      },
-                    );
-                  },
-                ),
-                Center(
-                  child: SizedBox(
-                    width: getWidth(context, width: 0.25),
-                    height: getHeight(context, height: 0.06),
-                    child: const TextField(
-                      keyboardType: TextInputType.name,
-                      decoration: InputDecoration(
-                        label: Center(child: Text("...")),
-                        labelStyle: TextStyle(color: Colors.black),
-                        focusedErrorBorder: OutlineInputBorder(
-                            borderSide: BorderSide(color: Colors.black),
-                            borderRadius:
-                                BorderRadius.all(Radius.circular(30))),
-                        errorBorder: OutlineInputBorder(
-                            borderSide: BorderSide(color: Colors.black),
-                            borderRadius:
-                                BorderRadius.all(Radius.circular(30))),
-                        enabledBorder: OutlineInputBorder(
-                            borderSide: BorderSide(color: Colors.black),
-                            borderRadius:
-                                BorderRadius.all(Radius.circular(30))),
-                        focusedBorder: OutlineInputBorder(
-                            borderSide: BorderSide(color: Colors.black),
-                            borderRadius:
-                                BorderRadius.all(Radius.circular(10))),
-                      ),
-                    ),
-                  ),
-                ),
-                spaceHeight(context, height: 0.023),
-                const Divider(
-                  color: Colors.black,
-                ),
-                Text(
-                  "Khoảng giá",
-                  style: smallTextStyle(context,
-                      size: 0.023, color: Colors.grey.shade600),
-                ),
-                spaceHeight(context, height: 0.023),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    SizedBox(
-                        width: getWidth(context, width: 0.45),
-                        height: getHeight(context, height: 0.07),
-                        child: TextFieldWidget(
-                          hint: "Tối thiểu",
-                          type: TextInputType.number,
-                        )),
-                    Text(
-                      "VND",
-                      style: mediumTextStyle(context),
-                    )
-                  ],
-                ),
-                spaceHeight(context),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    SizedBox(
-                        width: getWidth(context, width: 0.45),
-                        height: getHeight(context, height: 0.07),
-                        child: TextFieldWidget(
-                          hint: "Tối đa",
-                          type: TextInputType.number,
-                        )),
-                    Text(
-                      "VND",
-                      style: mediumTextStyle(context),
-                    )
-                  ],
-                ),
-                spaceHeight(context, height: 0.023),
-                const Divider(
-                  color: Colors.black,
-                ),
-                Text(
-                  "Số lượng người ở",
-                  style: smallTextStyle(context,
-                      size: 0.023, color: Colors.grey.shade600),
-                ),
-                GridView.builder(
-                  itemCount: number.length,
-                  physics: const NeverScrollableScrollPhysics(),
-                  shrinkWrap: true,
-                  gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                    crossAxisCount: 2,
-                    childAspectRatio: 2,
-                  ),
-                  itemBuilder: (context, index) {
-                    return StatefulBuilder(
-                      builder: (context, setState) {
-                        return ChoiceChip(
-                          label: SizedBox(
-                              width: getWidth(context, width: 0.1),
-                              height: getHeight(context, height: 0.025),
-                              child: Center(child: Text(number[index]))),
-                          selected: isSelected,
-                          selectedColor: Colors.blue,
-                          onSelected: (newState) {
-                            setState(() {
-                              isSelected = newState;
-                            });
-                          },
-                        );
-                      },
-                    );
-                  },
-                ),
-                Center(
-                  child: SizedBox(
-                    width: getWidth(context, width: 0.15),
-                    height: getHeight(context, height: 0.035),
-                    child: const TextField(
-                      keyboardType: TextInputType.number,
-                      decoration: InputDecoration(
-                        label: Center(child: Text("...")),
-                        labelStyle: TextStyle(color: Colors.black),
-                        focusedErrorBorder: OutlineInputBorder(
-                            borderSide: BorderSide(color: Colors.black),
-                            borderRadius:
-                                BorderRadius.all(Radius.circular(10))),
-                        errorBorder: OutlineInputBorder(
-                            borderSide: BorderSide(color: Colors.black),
-                            borderRadius:
-                                BorderRadius.all(Radius.circular(10))),
-                        enabledBorder: OutlineInputBorder(
-                            borderSide: BorderSide(color: Colors.black),
-                            borderRadius:
-                                BorderRadius.all(Radius.circular(10))),
-                        focusedBorder: OutlineInputBorder(
-                            borderSide: BorderSide(color: Colors.black),
-                            borderRadius:
-                                BorderRadius.all(Radius.circular(10))),
-                      ),
-                    ),
-                  ),
-                ),
-                spaceHeight(context, height: 0.023),
-                const Divider(
-                  color: Colors.black,
-                ),
-                Row(
-                  children: [
-                    Text(
-                      "Ở ghép",
-                      style: smallTextStyle(context,
-                          size: 0.023, color: Colors.grey.shade600),
-                    ),
-                    // const CheckboxExample()
-                  ],
-                ),
-                spaceHeight(context, height: 0.05),
-                Center(
-                  child: SizedBox(
-                      width: getWidth(context, width: 0.5),
-                      height: getHeight(context, height: 0.05),
-                      child: ButtonWidget(
-                        function: () {
-                          Navigator.pop(context);
-                        },
-                        textButton: "Xác nhận",
-                      )),
-                )
+                Form(
+                    key: formKey,
+                    child: Column(
+                      children: [
+                        spaceHeight(context, height: 0.03),
+                        const Align(
+                          alignment: Alignment.topLeft,
+                          child: Text(
+                            "Địa chỉ",
+                            style: TextStyle(fontSize: 18),
+                          ),
+                        ),
+                        spaceHeight(context, height: 0.01),
+                        Consumer<GoogleMapProvider>(
+                            builder: (context, value, child) {
+                          return dropDownProvince(
+                            context,
+                            value.listProvince,
+                            "Tỉnh/TP",
+                            (p0) {
+                              province = p0 as String;
+                              int code = value.listProvince
+                                  .firstWhere((province) => province.name == p0)
+                                  .code;
+
+                              context
+                                  .read<GoogleMapProvider>()
+                                  .getListDistrict(code);
+                            },
+                          );
+                        }),
+                        spaceHeight(context, height: 0.03),
+                        Consumer<GoogleMapProvider>(
+                            builder: (context, value, child) {
+                          return dropDownDistrict(
+                            context,
+                            value.listDistrict,
+                            "Quận/Huyện",
+                            (p0) {
+                              district = p0 as String;
+                              int code = value.listDistrict
+                                  .firstWhere(
+                                      (listDistrict) => listDistrict.name == p0)
+                                  .code;
+                              context
+                                  .read<GoogleMapProvider>()
+                                  .getListWard(code);
+                            },
+                          );
+                        }),
+                        spaceHeight(context, height: 0.03),
+                        Consumer<GoogleMapProvider>(
+                            builder: (context, value, child) {
+                          return dropDownWard(
+                            context,
+                            value.listWard,
+                            "Phường/Xã",
+                            (p0) {
+                              ward = p0 as String;
+                            },
+                          );
+                        }),
+                        spaceHeight(context, height: 0.03),
+                        TextFieldWidget(
+                          errorText: "Vui lòng nhập đầy đủ địa chỉ",
+                          hint: "Đường",
+                          controller: streetController,
+                        ),
+                        spaceHeight(context),
+                        TextButton(
+                            onPressed: () {
+                              context.read<SearchProvider>().searchList(
+                                  streetController.text,
+                                  ward,
+                                  district,
+                                  province);
+                            },
+                            child: const Text('Search'))
+                      ],
+                    )),
               ],
             ),
           ),
         ),
       ),
+    );
+  }
+
+  DropdownMenu<String> dropDownProvince(context, List<Province> province,
+      String hint, Function(String?)? onSelected) {
+    return DropdownMenu(
+      width: getWidth(context, width: 0.57),
+      hintText: hint,
+      onSelected: (String? value) {
+        onSelected!(value);
+      },
+      dropdownMenuEntries:
+          province.map<DropdownMenuEntry<String>>((Province province) {
+        return DropdownMenuEntry<String>(
+          value: province.name,
+          label: province.name,
+        );
+      }).toList(),
+    );
+  }
+
+  DropdownMenu<String> dropDownDistrict(context, List<District> district,
+      String hint, Function(String?)? onSelected) {
+    return DropdownMenu(
+      width: getWidth(context, width: 0.57),
+      hintText: hint,
+      onSelected: (String? value) {
+        onSelected!(value);
+      },
+      dropdownMenuEntries:
+          district.map<DropdownMenuEntry<String>>((District district) {
+        return DropdownMenuEntry<String>(
+          value: district.name,
+          label: district.name,
+        );
+      }).toList(),
+    );
+  }
+
+  DropdownMenu<String> dropDownWard(
+      context, List<Ward> ward, String hint, Function(String?)? onSelected) {
+    return DropdownMenu(
+      width: getWidth(context, width: 0.57),
+      hintText: hint,
+      onSelected: (String? value) {
+        onSelected!(value);
+      },
+      dropdownMenuEntries: ward.map<DropdownMenuEntry<String>>((Ward ward) {
+        return DropdownMenuEntry<String>(
+          value: ward.name,
+          label: ward.name,
+        );
+      }).toList(),
     );
   }
 }

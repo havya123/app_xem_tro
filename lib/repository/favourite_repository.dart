@@ -3,10 +3,12 @@ import 'package:app_xem_tro/models/favourite.dart';
 
 class FavouriteRepo {
   Future<void> saveWatchList(
-      String houseId, String userId, String roomId) async {
-    await FirebaseService.favouriteRef
-        .doc()
-        .set(Favourite(houseId: houseId, userId: userId, roomId: roomId));
+      String houseId, String userId, String roomId, String houseAddress) async {
+    await FirebaseService.favouriteRef.doc().set(Favourite(
+        houseId: houseId,
+        userId: userId,
+        roomId: roomId,
+        houseAddress: houseAddress));
   }
 
   Future<bool> checkExist(String phone, String roomId) async {
@@ -22,7 +24,6 @@ class FavouriteRepo {
   }
 
   Future<List<Favourite>> getFavouriteList(String phone) async {
-    print(phone);
     List<Favourite> listFavourite = [];
     await FirebaseService.favouriteRef
         .where('userId', isEqualTo: phone)
@@ -30,7 +31,6 @@ class FavouriteRepo {
         .then((value) {
       listFavourite = value.docs.map((e) => e.data()).toList();
     });
-    print(listFavourite);
     return listFavourite;
   }
 }

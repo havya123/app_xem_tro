@@ -120,14 +120,6 @@ class HouseRepo {
     return listDocHouse;
   }
 
-  Future<List<House>> getAllHouse() async {
-    List<House> listHouse = [];
-    await FirebaseService.houseRef.get().then((value) {
-      listHouse = value.docs.map((e) => e.data()).toList();
-    });
-    return listHouse;
-  }
-
   Future<List> getListHouseNearBy(String address) async {
     String address =
         "69/1/25 Nguyễn Gia Trí, Phường 25, Quận Bình Thạnh, Thành Phố Hồ Chí Minh";
@@ -139,6 +131,7 @@ class HouseRepo {
     if (address.isEmpty) {
       await FirebaseService.houseRef.get().then((value) {
         listHouse = value.docs.map((e) => e.data()).toList().take(5).toList();
+        uniqueDocIds.addAll(value.docs.map((e) => e.id));
       });
       List listData = [
         listHouse,
@@ -153,6 +146,7 @@ class HouseRepo {
         .then((value) {
       uniqueDocIds.addAll(value.docs.map((e) => e.id));
     });
+
     await FirebaseService.houseRef
         .where('ward', isEqualTo: listAddress[1])
         .where('status', isEqualTo: 'accept')
@@ -173,9 +167,7 @@ class HouseRepo {
       await FirebaseService.houseRef.doc(docId).get().then((value) {
         if (value.exists) {
           listHouse.add(value.data() as House);
-        } else {
-          print("Document with ID $docId does not exist.");
-        }
+        } else {}
       });
     }
     if (listHouse.isNotEmpty) {
@@ -192,7 +184,22 @@ class HouseRepo {
       listHouse,
       listDoc,
     ];
-    print(listData);
+
+    return listData;
+  }
+
+  Future<List> getAllHouse() async {
+    List<String> listDoc = [];
+    List<House> listHouse = [];
+    await FirebaseService.houseRef
+        .where('status', isEqualTo: 'accept')
+        .where('province', isEqualTo: 'Thành phố Hồ Chí Minh')
+        .get()
+        .then((value) {
+      listDoc = value.docs.map((e) => e.id).toList();
+      listHouse = value.docs.map((e) => e.data()).toList();
+    });
+    List listData = [listDoc, listHouse];
     return listData;
   }
 }

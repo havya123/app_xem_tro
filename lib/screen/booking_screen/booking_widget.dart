@@ -4,6 +4,7 @@ import 'package:app_xem_tro/models/booking.dart';
 import 'package:app_xem_tro/models/room.dart';
 import 'package:app_xem_tro/provider/booking_provider.dart';
 import 'package:app_xem_tro/provider/user_login_provider.dart';
+import 'package:app_xem_tro/screen/navigationlisthouse_screen/navigationlisthouse.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get_core/src/get_main.dart';
 import 'package:get/get_navigation/get_navigation.dart';
@@ -11,11 +12,15 @@ import 'package:provider/provider.dart';
 import 'package:transparent_image/transparent_image.dart';
 
 class BookingDetailWidget extends StatelessWidget {
-  BookingDetailWidget({required this.booking, required this.room, super.key});
+  BookingDetailWidget(
+      {required this.role,
+      required this.booking,
+      required this.room,
+      super.key});
 
   Room room;
   Booking booking;
-
+  int role;
   @override
   Widget build(BuildContext context) {
     List<String> listImage = room.img!.split(", ");
@@ -97,6 +102,78 @@ class BookingDetailWidget extends StatelessWidget {
                   listTitle(context, 'Trạng thái: ', booking.status,
                       Colors.grey.shade400, statusColors),
                   spaceHeight(context),
+                  booking.status != "waiting"
+                      ? const SizedBox()
+                      : role == 0
+                          ? const SizedBox()
+                          : ButtonWidget(
+                              function: () {
+                                showDialog(
+                                  context: context,
+                                  builder: (context) {
+                                    return AlertDialog(
+                                      title: const Text('Xác nhận lịch hẹn'),
+                                      content: const SizedBox(
+                                        height: 100,
+                                        child: Center(
+                                          child: Text(
+                                            'Xác nhận lịch hẹn',
+                                          ),
+                                        ),
+                                      ),
+                                      actions: [
+                                        TextButton(
+                                            onPressed: () {
+                                              context
+                                                  .read<BookingProvider>()
+                                                  .acceptBooking(
+                                                      booking.userId,
+                                                      booking.landlordId,
+                                                      booking.roomId,
+                                                      booking.createdAt)
+                                                  .then((value) async {
+                                                await context
+                                                    .read<BookingProvider>()
+                                                    .getListBookingUser(
+                                                        booking.userId)
+                                                    .then((value) async {
+                                                  await context
+                                                      .read<BookingProvider>()
+                                                      .getListBookingLandlord(
+                                                          context
+                                                              .read<
+                                                                  UserLoginProvider>()
+                                                              .userPhone)
+                                                      .then((value) async {
+                                                    await context
+                                                        .read<BookingProvider>()
+                                                        .getListRoom();
+                                                  }).then((value) {
+                                                    Get.back();
+                                                    Get.back();
+                                                  });
+                                                });
+                                              });
+                                            },
+                                            child: const Text(
+                                                'Xác nhận lịch hẹn')),
+                                        TextButton(
+                                            onPressed: () {
+                                              Get.back();
+                                            },
+                                            child: const Text('Trở về')),
+                                      ],
+                                    );
+                                  },
+                                );
+                              },
+                              textButton: 'Xác nhận lịch hẹn',
+                              listColor: const [Colors.white, Colors.white],
+                              textColor: Colors.green,
+                              border: true,
+                              colorBorder: Colors.green,
+                            ),
+                  spaceHeight(context),
                   cancel
                       ? ButtonWidget(
                           function: () {
@@ -141,7 +218,21 @@ class BookingDetailWidget extends StatelessWidget {
                                                 .read<BookingProvider>()
                                                 .getListBookingUser(
                                                     booking.userId)
-                                                .then((value) => Get.back());
+                                                .then((value) async {
+                                              await context
+                                                  .read<BookingProvider>()
+                                                  .getListBookingLandlord(context
+                                                      .read<UserLoginProvider>()
+                                                      .userPhone)
+                                                  .then((value) async {
+                                                await context
+                                                    .read<BookingProvider>()
+                                                    .getListRoom();
+                                              }).then((value) {
+                                                Get.back();
+                                                Get.back();
+                                              });
+                                            });
                                           });
                                         },
                                         child: const Text('Xác nhận hủy')),

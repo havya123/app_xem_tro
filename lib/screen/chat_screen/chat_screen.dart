@@ -165,7 +165,7 @@ class chatInput extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     TextEditingController textEditingController = TextEditingController();
-    print("roomId in chatInput: $roomId");
+
     return Row(
       children: [
         Expanded(

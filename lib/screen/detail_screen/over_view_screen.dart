@@ -6,6 +6,7 @@ import 'package:app_xem_tro/config/widget/facility_widget.dart';
 import 'package:app_xem_tro/config/widget/review.dart';
 import 'package:app_xem_tro/config/widget/services.dart';
 import 'package:app_xem_tro/models/house.dart';
+import 'package:app_xem_tro/models/users.dart';
 import 'package:app_xem_tro/provider/google_map_provider.dart';
 import 'package:app_xem_tro/route/routes.dart';
 import 'package:easy_image_viewer/easy_image_viewer.dart';
@@ -115,16 +116,29 @@ class _DetailScreenState extends State<OverViewScreen> {
                       },
                       textButton: "Xem toàn bộ hình ảnh"),
                   spaceHeight(context),
-                  ButtonWidget(
-                    function: () {
-                      Get.toNamed(Routes.listRoomRouteUser, arguments: {
-                        'houseId': houseId,
-                        'houseAddress':
-                            "${house.street}, ${house.ward}, ${house.district}, ${house.province}"
-                      });
-                    },
-                    textButton: "Danh sách phòng trọ",
-                  ),
+                  Consumer<User?>(builder: (context, value, child) {
+                    return value?.role == 0
+                        ? ButtonWidget(
+                            function: () {
+                              Get.toNamed(Routes.listRoomRouteUser, arguments: {
+                                'houseId': houseId,
+                                'houseAddress':
+                                    "${house.street}, ${house.ward}, ${house.district}, ${house.province}"
+                              });
+                            },
+                            textButton: "Danh sách phòng trọ",
+                          )
+                        : ButtonWidget(
+                            function: () {
+                              Get.toNamed(Routes.listRoomRoute, arguments: {
+                                'houseId': houseId,
+                                'houseAddress':
+                                    "${house.street}, ${house.ward}, ${house.district}, ${house.province}"
+                              });
+                            },
+                            textButton: "Danh sách phòng trọ",
+                          );
+                  }),
                   spaceHeight(context),
                   Stack(
                     children: [

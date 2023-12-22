@@ -11,6 +11,7 @@ class Room {
   String? img;
   String createAt;
   String price;
+  String bookingStatus;
 
   Room({
     required this.houseId,
@@ -22,6 +23,7 @@ class Room {
     this.img,
     required this.createAt,
     required this.price,
+    required this.bookingStatus,
   });
 
   Map<String, dynamic> toMap() {
@@ -35,6 +37,7 @@ class Room {
       'img': img,
       'createAt': createAt,
       'price': price,
+      'bookingStatus': bookingStatus
     };
   }
 
@@ -49,6 +52,7 @@ class Room {
       img: map['img'] ?? "",
       createAt: map['createAt'] as String,
       price: map['price'] as String,
+      bookingStatus: map['bookingStatus'] as String,
     );
   }
 

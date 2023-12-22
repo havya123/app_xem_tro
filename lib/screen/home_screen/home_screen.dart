@@ -86,7 +86,8 @@ class HomeScreen extends StatelessWidget {
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  Text("Gần bạn", style: largeTextStyle(context)),
+                  Text("Gần bạn",
+                      style: largeTextStyle(context, color: Colors.blue)),
                   TextButton(
                       onPressed: () {
                         Get.toNamed(Routes.listHouseNearby,
@@ -137,37 +138,70 @@ class HomeScreen extends StatelessWidget {
                           separatorBuilder: (context, index) {
                             return spaceWidth(context);
                           },
-                          itemCount: 5),
+                          itemCount:
+                              listHouse.length < 5 ? listHouse.length : 5),
                     );
                   }),
               spaceHeight(context),
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  Text(
-                    "Top đánh giá ",
-                    style: largeTextStyle(context),
-                  ),
+                  Text("Tất cả phòng trọ",
+                      style: largeTextStyle(context, color: Colors.blue)),
                   TextButton(
-                      onPressed: () {},
+                      onPressed: () {
+                        Get.toNamed(
+                          Routes.allHouseRoute,
+                        );
+                      },
                       child: Text(
                         "Xem tất cả",
                         style: mediumTextStyle(context, color: Colors.blue),
                       ))
                 ],
               ),
-              spaceHeight(context, height: 0.02),
-              SizedBox(
-                height: getHeight(context, height: 0.2),
-                child: ListView.separated(
-                    scrollDirection: Axis.horizontal,
-                    itemBuilder: (context, index) {
-                      return Container();
-                    },
-                    separatorBuilder: (context, index) {
-                      return spaceWidth(context);
-                    },
-                    itemCount: 5),
+              spaceHeight(context),
+              FutureBuilder(
+                future: context.read<HouseProvider>().getAllHouse(),
+                builder: (context, snapshot) {
+                  if (snapshot.connectionState == ConnectionState.waiting) {
+                    return Shimmer.fromColors(
+                        baseColor: Colors.grey[400]!,
+                        highlightColor: Colors.grey[300]!,
+                        child: SizedBox(
+                          height: getHeight(context, height: 0.5),
+                          width: double.infinity,
+                          child: Container(
+                            margin: EdgeInsets.only(right: padding(context)),
+                            decoration: BoxDecoration(
+                              color: Colors.white,
+                              borderRadius: BorderRadius.circular(8.0),
+                            ),
+                          ),
+                        ));
+                  }
+                  if (snapshot.data!.isEmpty) {
+                    return const Center(
+                      child: Text("No data"),
+                    );
+                  }
+                  List<House> listHouse = snapshot.data![1] as List<House>;
+                  List<String> listDoc = snapshot.data![0] as List<String>;
+                  return SizedBox(
+                    height: getHeight(context, height: 0.5),
+                    child: ListView.separated(
+                        shrinkWrap: true,
+                        scrollDirection: Axis.horizontal,
+                        itemBuilder: (context, index) {
+                          return HouseItem(
+                              houseId: listDoc[index], house: listHouse[index]);
+                        },
+                        separatorBuilder: (context, index) {
+                          return spaceWidth(context);
+                        },
+                        itemCount: listHouse.length < 5 ? listHouse.length : 5),
+                  );
+                },
               ),
               spaceHeight(context),
             ]),

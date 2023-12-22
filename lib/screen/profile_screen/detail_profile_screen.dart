@@ -85,10 +85,14 @@ class _DetailProfileScreenState extends State<DetailProfileScreen> {
                       TextEditingController(), () {})),
               spaceHeight(context),
               const Divider(color: Colors.black87),
-              Switchs(
-                title: 'Switch to Landlord',
-                isSwitch: false,
-              ),
+              Consumer<User?>(builder: (context, value, child) {
+                return value!.role == 1
+                    ? const SizedBox()
+                    : Switchs(
+                        title: 'Switch to Landlord',
+                        isSwitch: false,
+                      );
+              }),
               spaceHeight(context),
               ButtonWidget(
                 function: () async {

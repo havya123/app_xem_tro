@@ -93,9 +93,35 @@ class RoomRegisterProvider extends ChangeNotifier {
     });
   }
 
+  Future<void> getListRoomLandlord(String houseId) async {
+    timer?.cancel();
+    timer = Timer(const Duration(seconds: 1), () async {
+      roomController.add({'status': statusCode.loading, 'data': []});
+      var response = await RoomRepo().getListRoomLandlord(houseId);
+      List<Room> rooms = response[1];
+      List<String> listId = response[0];
+      if (response.isNotEmpty) {
+        listRoom.clear();
+        listRoom = rooms;
+        listRoomId = listId;
+        roomController.add({'status': statusCode.success, 'data': listRoom});
+      } else {
+        roomController.add({'status': statusCode.error, 'data': []});
+      }
+    });
+  }
+
   Future<User> getLandLord(String houseId) async {
     User user = await RoomRepo().getUser(houseId) as User;
     return user;
+  }
+
+  Future<void> bookedRoomStatus(String roomId) async {
+    await RoomRepo().bookedStatusRoom(roomId);
+  }
+
+  Future<void> availableRoomStatus(String roomId) async {
+    await RoomRepo().availableStatusRoom(roomId);
   }
 
   @override

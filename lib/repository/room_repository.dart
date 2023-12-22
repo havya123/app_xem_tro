@@ -5,7 +5,7 @@ import 'package:app_xem_tro/models/house.dart';
 import 'package:app_xem_tro/models/room.dart';
 import 'package:app_xem_tro/models/users.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_core/firebase_core.dart';
+
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:image_picker/image_picker.dart';
 
@@ -31,7 +31,8 @@ class RoomRepo {
         numberOfFloor: numberOfFloor,
         acreage: acreage,
         createAt: createAt,
-        price: price));
+        price: price,
+        bookingStatus: 'available'));
   }
 
   void currentDate() {
@@ -95,6 +96,23 @@ class RoomRepo {
     await FirebaseFirestore.instance
         .collection('room')
         .where('houseId', isEqualTo: houseId)
+        .where('bookingStatus', isEqualTo: 'available')
+        .get()
+        .then((value) {
+      listIdRoom = value.docs.map((e) => e.id).toList();
+      listRoom = value.docs.map((e) => Room.fromMap(e.data())).toList();
+    });
+    data = [listIdRoom, listRoom];
+    return data;
+  }
+
+  Future<List> getListRoomLandlord(String houseId) async {
+    List data = [];
+    List<Room> listRoom = [];
+    List<String> listIdRoom = [];
+    await FirebaseFirestore.instance
+        .collection('room')
+        .where('houseId', isEqualTo: houseId)
         .get()
         .then((value) {
       listIdRoom = value.docs.map((e) => e.id).toList();
@@ -121,5 +139,17 @@ class RoomRepo {
       return value.data();
     });
     return room;
+  }
+
+  Future<void> bookedStatusRoom(String roomId) async {
+    await FirebaseService.roomRef
+        .doc(roomId)
+        .update({'bookingStatus': 'booked'});
+  }
+
+  Future<void> availableStatusRoom(String roomId) async {
+    await FirebaseService.roomRef
+        .doc(roomId)
+        .update({'bookingStatus': 'available'});
   }
 }

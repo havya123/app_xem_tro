@@ -25,36 +25,29 @@ class NavigationScreen extends StatefulWidget {
 }
 
 class _NavigationScreenState extends State<NavigationScreen> {
+  bool isNotReady = true;
   @override
   void initState() {
-    fectData();
+    fetchData();
     super.initState();
   }
 
-  Future<void> fectData() async {
-    await context.read<GoogleMapProvider>().initPlace().then((value) async {
-      await context
-          .read<HouseProvider>()
-          .getListHouseNearBy(context.read<GoogleMapProvider>().currentPlace)
-          .then((value) async {
-        await context
-            .read<FavouriteProvider>()
-            .loadListId(context.read<UserLoginProvider>().userPhone)
-            .then((value) async {
-          await context
-              .read<FavouriteProvider>()
-              .loadWatchList()
-              .then((value) async {
-            await context
-                .read<BookingProvider>()
-                .getListBookingUser(context.read<UserLoginProvider>().userPhone)
-                .then((value) async {
-              await context.read<BookingProvider>().getListRoom();
-            });
-          });
-        });
-      });
-    });
+  Future<void> fetchData() async {
+    final googleMapProvider = context.read<GoogleMapProvider>();
+    final houseProvider = context.read<HouseProvider>();
+    final favouriteProvider = context.read<FavouriteProvider>();
+    final userLoginProvider = context.read<UserLoginProvider>();
+    final bookingProvider = context.read<BookingProvider>();
+
+    await Future.wait([
+      googleMapProvider.initPlace(),
+      favouriteProvider.loadListId(userLoginProvider.userPhone),
+    ]);
+
+    await houseProvider.getListHouseNearBy(googleMapProvider.currentPlace);
+    await bookingProvider.getListBookingUser(userLoginProvider.userPhone);
+
+    isNotReady = false;
   }
 
   @override

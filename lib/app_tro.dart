@@ -6,6 +6,7 @@ import 'package:app_xem_tro/provider/google_map_provider.dart';
 import 'package:app_xem_tro/provider/house_register_provider.dart';
 import 'package:app_xem_tro/provider/message_provider.dart';
 import 'package:app_xem_tro/provider/room_register_provider.dart';
+import 'package:app_xem_tro/provider/search_provider.dart';
 import 'package:app_xem_tro/provider/user_login_provider.dart';
 import 'package:app_xem_tro/provider/user_provider.dart';
 import 'package:app_xem_tro/route/route_manager.dart';
@@ -36,6 +37,7 @@ class _AppXemTroState extends State<AppXemTro> {
         ChangeNotifierProvider(create: (context) => FavouriteProvider()),
         ChangeNotifierProvider(create: (context) => MessageProvider()),
         ChangeNotifierProvider(create: (context) => BookingProvider()),
+        ChangeNotifierProvider(create: (context) => SearchProvider()),
       ],
       builder: (context, child) {
         return Consumer<UserLoginProvider>(builder: (context, value, chid) {

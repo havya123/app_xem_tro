@@ -13,8 +13,10 @@ class ListRoom extends StatelessWidget {
   const ListRoom({super.key});
   @override
   Widget build(BuildContext context) {
-    String arg = Get.arguments as String;
-    context.read<RoomRegisterProvider>().getListRoom(arg);
+    Map<String, dynamic> arg = Get.arguments as Map<String, dynamic>;
+    String houseId = arg['houseId'];
+    String houseAddress = arg['houseAddress'];
+    context.read<RoomRegisterProvider>().getListRoomLandlord(houseId);
     return SafeArea(
       child: Scaffold(
         body: Padding(
@@ -104,6 +106,8 @@ class ListRoom extends StatelessWidget {
                                   ),
                                   spaceHeight(context, height: 0.02),
                                   RoomItem(
+                                      houseId: houseId,
+                                      houseAddress: houseAddress,
                                       room: listRoom[index],
                                       roomId: context
                                           .read<RoomRegisterProvider>()

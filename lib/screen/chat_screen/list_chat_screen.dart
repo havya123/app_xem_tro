@@ -54,7 +54,10 @@ class _ListChatScreenState extends State<ListChatScreen> {
                   }
                   if (snapshot.data!.isEmpty) {
                     return const Center(
-                      child: Text("Bạn chưa có cuộc trò chuyện nào"),
+                      child: Text(
+                        "Bạn chưa có cuộc trò chuyện nào",
+                        style: TextStyle(color: Colors.black),
+                      ),
                     );
                   }
                   List<RoomChat> roomChats = snapshot.data![1];
