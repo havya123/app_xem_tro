@@ -17,6 +17,7 @@ class BookingRepo {
   ) async {
     DateTime currentTime = DateTime.now();
     String createdAt = currentTime.toString();
+
     await FirebaseService.bookingRef.doc().set(Booking(
         userId: userId,
         userName: userName,
@@ -92,87 +93,21 @@ class BookingRepo {
     return listBooking;
   }
 
-  // Future<List<Booking>> fetchWaitingBookingUser(String userId) async {
-  //   List<Booking> listBooking = [];
-  //   await FirebaseService.bookingRef
-  //       .where('userId', isEqualTo: userId)
-  //       .where('status', isEqualTo: 'waiting')
-  //       .get()
-  //       .then((value) {
-  //     if (value.docs.isNotEmpty) {
-  //       listBooking = value.docs.map((e) => e.data()).toList();
-  //     }
-  //   });
-  //   return listBooking;
-  // }
+  Future<bool> checkIsExist(String userPhone, String roomId) async {
+    var response = await FirebaseService.bookingRef
+        .where('userPhone', isEqualTo: userPhone)
+        .where('roomId', isEqualTo: roomId)
+        .where('status', isEqualTo: 'accept')
+        .get();
+    var response2 = await FirebaseService.bookingRef
+        .where('userPhone', isEqualTo: userPhone)
+        .where('roomId', isEqualTo: roomId)
+        .where('status', isEqualTo: 'waiting')
+        .get();
 
-  // Future<List<Booking>> fetchAcceptBookingUser(String userId) async {
-  //   List<Booking> listBooking = [];
-  //   await FirebaseService.bookingRef
-  //       .where('userId', isEqualTo: userId)
-  //       .where('status', isEqualTo: 'accept')
-  //       .get()
-  //       .then((value) {
-  //     if (value.docs.isNotEmpty) {
-  //       listBooking = value.docs.map((e) => e.data()).toList();
-  //     }
-  //   });
-  //   return listBooking;
-  // }
-
-  // Future<List<Booking>> fetchDeclineBookingUser(String userId) async {
-  //   List<Booking> listBooking = [];
-  //   await FirebaseService.bookingRef
-  //       .where('userId', isEqualTo: userId)
-  //       .where('status', isEqualTo: 'decline')
-  //       .get()
-  //       .then((value) {
-  //     if (value.docs.isNotEmpty) {
-  //       listBooking = value.docs.map((e) => e.data()).toList();
-  //     }
-  //   });
-  //   return listBooking;
-  // }
-
-  // Future<List<Booking>> fetchWaitingBookingLandlord(String landlordId) async {
-  //   List<Booking> listBooking = [];
-  //   await FirebaseService.bookingRef
-  //       .where('landlordId', isEqualTo: landlordId)
-  //       .where('status', isEqualTo: 'waiting')
-  //       .get()
-  //       .then((value) {
-  //     if (value.docs.isNotEmpty) {
-  //       listBooking = value.docs.map((e) => e.data()).toList();
-  //     }
-  //   });
-  //   return listBooking;
-  // }
-
-  // Future<List<Booking>> fetchAcceptBookingLandlord(String landlordId) async {
-  //   List<Booking> listBooking = [];
-  //   await FirebaseService.bookingRef
-  //       .where('landlordId', isEqualTo: landlordId)
-  //       .where('status', isEqualTo: 'accept')
-  //       .get()
-  //       .then((value) {
-  //     if (value.docs.isNotEmpty) {
-  //       listBooking = value.docs.map((e) => e.data()).toList();
-  //     }
-  //   });
-  //   return listBooking;
-  // }
-
-  // Future<List<Booking>> fetchDeclineBookingLandlord(String landlordId) async {
-  //   List<Booking> listBooking = [];
-  //   await FirebaseService.bookingRef
-  //       .where('landlordId', isEqualTo: landlordId)
-  //       .where('status', isEqualTo: 'decline')
-  //       .get()
-  //       .then((value) {
-  //     if (value.docs.isNotEmpty) {
-  //       listBooking = value.docs.map((e) => e.data()).toList();
-  //     }
-  //   });
-  //   return listBooking;
-  // }
+    if (response.docs.isEmpty && response2.docs.isEmpty) {
+      return false;
+    }
+    return true;
+  }
 }

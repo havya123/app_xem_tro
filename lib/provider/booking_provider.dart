@@ -12,7 +12,7 @@ class BookingProvider extends ChangeNotifier {
 
   List<String> listRoomId = [];
 
-  Future<void> saveBooking(
+  Future<bool> saveBooking(
     String userName,
     String userPhone,
     String userId,
@@ -24,8 +24,22 @@ class BookingProvider extends ChangeNotifier {
     String time,
     String address,
   ) async {
-    await BookingRepo().saveBooking(userName, userPhone, userId, landlordName,
-        landlordPhone, landlordId, roomId, date, time, address);
+    if (await BookingRepo().checkIsExist(userPhone, roomId)) {
+      return true;
+    }
+    await BookingRepo().saveBooking(
+      userName,
+      userPhone,
+      userId,
+      landlordName,
+      landlordPhone,
+      landlordId,
+      roomId,
+      date,
+      time,
+      address,
+    );
+    return false;
   }
 
   Future<void> acceptBooking(

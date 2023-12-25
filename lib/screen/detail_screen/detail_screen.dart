@@ -283,15 +283,21 @@ class _DetailScreenState extends State<DetailScreen> {
                                                             UserLoginProvider>()
                                                         .userPhone,
                                                     landlordId)
-                                                .then((value) => Get.toNamed(
-                                                        Routes.chatRoute,
-                                                        arguments: [
-                                                          context
-                                                              .read<
-                                                                  UserLoginProvider>()
-                                                              .userPhone,
-                                                          landlordId
-                                                        ]));
+                                                .then((value) async {
+                                              Get.toNamed(Routes.chatRoute,
+                                                  arguments: [
+                                                    context
+                                                        .read<
+                                                            UserLoginProvider>()
+                                                        .userPhone,
+                                                    landlordId
+                                                  ]);
+                                              await context
+                                                  .read<MessageProvider>()
+                                                  .loadRoomChat(context
+                                                      .read<UserLoginProvider>()
+                                                      .userPhone);
+                                            });
                                           },
                                           icon: const Icon(
                                               FontAwesomeIcons.message)),

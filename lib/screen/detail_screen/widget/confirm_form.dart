@@ -166,17 +166,39 @@ class _ConfirmFormWidgetState extends State<ConfirmFormWidget> {
                           await context
                               .read<BookingProvider>()
                               .saveBooking(
-                                  nameController.text,
-                                  phoneController.text,
-                                  context.read<UserLoginProvider>().userPhone,
-                                  widget.landlordName,
-                                  widget.landlordPhone,
-                                  widget.landlordId,
-                                  widget.roomId,
-                                  dateController.text,
-                                  timeController.text,
-                                  widget.houseAddress)
+                                nameController.text,
+                                phoneController.text,
+                                context.read<UserLoginProvider>().userPhone,
+                                widget.landlordName,
+                                widget.landlordPhone,
+                                widget.landlordId,
+                                widget.roomId,
+                                dateController.text,
+                                timeController.text,
+                                widget.houseAddress,
+                              )
                               .then((value) {
+                            if (value) {
+                              return showDialog(
+                                context: context,
+                                builder: (context) {
+                                  return AlertDialog(
+                                    title: const Text(
+                                        "Đặt lịch hẹn không thành công"),
+                                    content: const Text(
+                                        "Bạn đã có lịch hẹn về phòng trọ này, vui lòng xem lại chi tiết ở trang cá nhân"),
+                                    actions: [
+                                      TextButton(
+                                          onPressed: () {
+                                            Get.back();
+                                            Get.back();
+                                          },
+                                          child: const Text("Ok")),
+                                    ],
+                                  );
+                                },
+                              );
+                            }
                             context.read<BookingProvider>().getListBookingUser(
                                   context.read<UserLoginProvider>().userPhone,
                                 );
@@ -186,7 +208,7 @@ class _ConfirmFormWidgetState extends State<ConfirmFormWidget> {
                                 return AlertDialog(
                                   title: const Text("Đặt lịch hẹn thành công"),
                                   content: const Text(
-                                      "Vui lòng xem chi tiết lịch hẹn tại trang cá nha"),
+                                      "Vui lòng xem chi tiết lịch hẹn tại trang cá nhân"),
                                   actions: [
                                     TextButton(
                                         onPressed: () {

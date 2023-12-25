@@ -183,12 +183,12 @@ class BookingDetailWidget extends StatelessWidget {
                                 return AlertDialog(
                                   title: const Text('Xác nhận hủy'),
                                   content: SizedBox(
-                                    height: 100,
+                                    height: 150,
                                     child: Column(
                                       children: [
                                         Center(
                                           child: SizedBox(
-                                            height: 50,
+                                            height: 20,
                                             width: 50,
                                             child: Image.asset(
                                               'assets/icons/alert.png',
@@ -230,7 +230,6 @@ class BookingDetailWidget extends StatelessWidget {
                                                     .getListRoom();
                                               }).then((value) {
                                                 Get.back();
-                                                Get.back();
                                               });
                                             });
                                           });
@@ -252,7 +251,7 @@ class BookingDetailWidget extends StatelessWidget {
                           border: true,
                         )
                       : const SizedBox(),
-                  spaceHeight(context, height: 0.2),
+                  spaceHeight(context, height: 0.4),
                 ],
               ),
             ),
