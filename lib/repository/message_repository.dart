@@ -19,20 +19,31 @@ class MessageRepo {
 
   Future<String> getRoomChat(String senderId, String receiverId) async {
     String roomChatId = await FirebaseService.chatRoomRef
-        .where('participantIds', arrayContainsAny: [senderId, receiverId])
+        .where('participantIds', arrayContains: senderId)
         .get()
         .then((value) {
-          return value.docs.first.id;
-        });
+      for (var id in value.docs) {
+        if (id.data().participantIds.contains(senderId) &&
+            id.data().participantIds.contains(receiverId)) {
+          return id.id;
+        }
+      }
+      return "";
+    });
     return roomChatId;
   }
 
   Future<bool> checkRoomChatExist(String userId, String landlord) async {
-    var response = await FirebaseService.chatRoomRef
-        .where('participantIds', arrayContainsAny: [userId, landlord]).get();
+    var response = await FirebaseService.chatRoomRef.get();
     if (response.docs.isNotEmpty) {
-      return true;
+      for (var document in response.docs) {
+        if (document.data().participantIds.contains(userId) &&
+            document.data().participantIds.contains(landlord)) {
+          return true;
+        }
+      }
     }
+
     return false;
   }
 
@@ -58,7 +69,9 @@ class MessageRepo {
     });
   }
 
-  Future<List> getListRoomChat(String userId) async {
+  Future<List> getListRoomChat(
+    String userId,
+  ) async {
     List<RoomChat> listRoomChat = [];
     List<String> listDocId = [];
     List data = [];

@@ -122,9 +122,13 @@ class _ListHouseState extends State<ListHouse> {
                                     TextButton(
                                         onPressed: () {
                                           Get.toNamed(Routes.listRoomRoute,
-                                              arguments: context
-                                                  .read<HouseProvider>()
-                                                  .listDoc[index]);
+                                              arguments: {
+                                                'houseId': context
+                                                    .read<HouseProvider>()
+                                                    .listDoc[index],
+                                                "houseAddress":
+                                                    listHouse[index].fullAddress
+                                              });
                                         },
                                         child: Text(
                                           "Xem tất cả phòng trọ ",

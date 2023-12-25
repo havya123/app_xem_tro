@@ -297,7 +297,7 @@ class _HouseRegistrationState extends State<HouseRegistration> {
                   physics: const NeverScrollableScrollPhysics(),
                   gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
                       crossAxisCount: 2, childAspectRatio: 2),
-                  itemCount: 4,
+                  itemCount: 6,
                   itemBuilder: (context, index) {
                     return checkBoxCombo(context, logo[index], label[index]);
                   }),
@@ -498,6 +498,7 @@ class _HouseRegistrationState extends State<HouseRegistration> {
         Text(
           label,
           style: smallMediumTextStyle(context),
+          overflow: TextOverflow.ellipsis,
         )
       ],
     );

@@ -29,16 +29,19 @@ class _ChatScreenState extends State<ChatScreen> {
   Future<void> fetchData() async {
     senderId = arg[0];
     receiverId = arg[1];
-    await context.read<MessageProvider>().getRoomChat(senderId, receiverId);
+    await context
+        .read<MessageProvider>()
+        .getRoomChat(senderId, receiverId)
+        .then((value) async {
+      await context
+          .read<MessageProvider>()
+          .loadListMessage(context.read<MessageProvider>().roomChatId);
+    });
   }
 
   @override
   void initState() {
-    fetchData().then((value) {
-      context
-          .read<MessageProvider>()
-          .loadListMessage(context.read<MessageProvider>().roomChatId);
-    });
+    fetchData();
     super.initState();
   }
 
@@ -74,12 +77,7 @@ class _ChatScreenState extends State<ChatScreen> {
                       children: [
                         IconButton(
                             onPressed: () {
-                              Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                    builder: (context) =>
-                                        const ListChatScreen()),
-                              );
+                              Get.back();
                             },
                             icon: const Icon(
                               FontAwesomeIcons.angleLeft,

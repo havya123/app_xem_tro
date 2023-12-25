@@ -17,10 +17,10 @@ class FavouriteRepo {
         .where('roomId', isEqualTo: roomId)
         .get();
     if (film.docs.isEmpty) {
-      return true;
+      return false;
     }
     film.docs.first.reference.delete();
-    return false;
+    return true;
   }
 
   Future<List<Favourite>> getFavouriteList(String phone) async {

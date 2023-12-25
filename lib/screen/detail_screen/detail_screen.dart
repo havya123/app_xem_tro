@@ -109,19 +109,22 @@ class _DetailScreenState extends State<DetailScreen> {
                                   ? LikeButton(
                                       isLiked: value1.isSaved(roomId),
                                       onTap: (isLiked) async {
-                                        context
+                                        await context
                                             .read<FavouriteProvider>()
-                                            .addFavouriteItem(
+                                            .saveItem(
                                                 room.houseId,
                                                 context
                                                     .read<UserLoginProvider>()
                                                     .userPhone,
                                                 roomId,
-                                                houseAddess);
-
-                                        context
-                                            .read<FavouriteProvider>()
-                                            .loadWatchList();
+                                                houseAddess)
+                                            .then((value) async {
+                                          await context
+                                              .read<FavouriteProvider>()
+                                              .loadWatchList(context
+                                                  .read<UserLoginProvider>()
+                                                  .userPhone);
+                                        });
 
                                         return !isLiked;
                                       },
@@ -240,9 +243,11 @@ class _DetailScreenState extends State<DetailScreen> {
                                   borderRadius: BorderRadius.circular(100),
                                 ),
                                 child: FadeInImage.memoryNetwork(
+                                  fit: BoxFit.cover,
                                   placeholder: kTransparentImage,
                                   image: user.avatar ?? "",
                                 )),
+                            spaceWidth(context),
                             Expanded(
                                 flex: 3,
                                 child: Column(
@@ -259,32 +264,40 @@ class _DetailScreenState extends State<DetailScreen> {
                                     )
                                   ],
                                 )),
-                            Expanded(
-                                child: Container(
-                              height: getHeight(context, height: 0.07),
-                              decoration: BoxDecoration(
-                                  borderRadius: BorderRadius.circular(10),
-                                  color: Colors.grey.shade200),
-                              child: IconButton(
-                                  onPressed: () async {
-                                    await context
-                                        .read<MessageProvider>()
-                                        .createRoomChat(
-                                            context
-                                                .read<UserLoginProvider>()
-                                                .userPhone,
-                                            landlordId)
-                                        .then((value) => Get.toNamed(
-                                                Routes.chatRoute,
-                                                arguments: [
-                                                  context
-                                                      .read<UserLoginProvider>()
-                                                      .userPhone,
-                                                  landlordId
-                                                ]));
-                                  },
-                                  icon: const Icon(FontAwesomeIcons.message)),
-                            ))
+                            Consumer<User?>(builder: (context, value, child) {
+                              return value?.role == 0
+                                  ? Expanded(
+                                      child: Container(
+                                      height: getHeight(context, height: 0.07),
+                                      decoration: BoxDecoration(
+                                          borderRadius:
+                                              BorderRadius.circular(10),
+                                          color: Colors.grey.shade200),
+                                      child: IconButton(
+                                          onPressed: () async {
+                                            await context
+                                                .read<MessageProvider>()
+                                                .createRoomChat(
+                                                    context
+                                                        .read<
+                                                            UserLoginProvider>()
+                                                        .userPhone,
+                                                    landlordId)
+                                                .then((value) => Get.toNamed(
+                                                        Routes.chatRoute,
+                                                        arguments: [
+                                                          context
+                                                              .read<
+                                                                  UserLoginProvider>()
+                                                              .userPhone,
+                                                          landlordId
+                                                        ]));
+                                          },
+                                          icon: const Icon(
+                                              FontAwesomeIcons.message)),
+                                    ))
+                                  : const SizedBox();
+                            })
                           ],
                         );
                       }),

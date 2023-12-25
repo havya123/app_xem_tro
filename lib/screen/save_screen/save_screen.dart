@@ -5,7 +5,7 @@ import 'package:app_xem_tro/models/room.dart';
 import 'package:app_xem_tro/provider/favourite_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:app_xem_tro/config/size_config.dart';
-import 'package:flutter/material.dart';
+
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:provider/provider.dart';
 import 'package:shimmer/shimmer.dart';

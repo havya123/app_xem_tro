@@ -47,7 +47,7 @@ class ListRoom extends StatelessWidget {
                       InkWell(
                         onTap: () {
                           Get.toNamed(Routes.roomRegistrationRoute,
-                              arguments: arg);
+                              arguments: houseId);
                         },
                         child: const Icon(
                           Icons.add,

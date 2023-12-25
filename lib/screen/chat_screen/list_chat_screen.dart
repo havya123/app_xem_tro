@@ -1,4 +1,5 @@
 import 'package:app_xem_tro/config/size_config.dart';
+import 'package:app_xem_tro/models/message.dart';
 import 'package:app_xem_tro/models/roomChat.dart';
 import 'package:app_xem_tro/models/users.dart';
 import 'package:app_xem_tro/provider/message_provider.dart';
@@ -24,6 +25,12 @@ class _ListChatScreenState extends State<ListChatScreen> {
   @override
   void initState() {
     super.initState();
+  }
+
+  fetchData() async {
+    await context
+        .read<MessageProvider>()
+        .loadRoomChat(context.read<UserLoginProvider>().userPhone);
   }
 
   @override
@@ -52,7 +59,9 @@ class _ListChatScreenState extends State<ListChatScreen> {
                       child: CircularProgressIndicator(),
                     );
                   }
-                  if (snapshot.data!.isEmpty) {
+                  if (snapshot.data![0].isEmpty &&
+                      snapshot.data![1].isEmpty &&
+                      snapshot.data![2].isEmpty) {
                     return const Center(
                       child: Text(
                         "Bạn chưa có cuộc trò chuyện nào",
@@ -60,8 +69,10 @@ class _ListChatScreenState extends State<ListChatScreen> {
                       ),
                     );
                   }
+                  print(snapshot.data);
                   List<RoomChat> roomChats = snapshot.data![1];
                   List<User> user = snapshot.data![2];
+
                   return ListView.separated(
                     physics: const NeverScrollableScrollPhysics(),
                     shrinkWrap: true,

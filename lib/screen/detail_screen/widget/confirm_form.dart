@@ -119,29 +119,41 @@ class _ConfirmFormWidgetState extends State<ConfirmFormWidget> {
                             },
                           ),
                           detail(
-                            context,
-                            "Thời gian: ",
-                            timeController,
-                            20,
-                            TextInputType.name,
-                            true,
-                            FontAwesomeIcons.clock,
-                            () async {
-                              TimeOfDay? pickedTime = await showTimePicker(
-                                context: context,
-                                initialTime: selectedTime,
-                              );
+                              context,
+                              "Thời gian: ",
+                              timeController,
+                              20,
+                              TextInputType.name,
+                              true,
+                              FontAwesomeIcons.clock, () async {
+                            final TimeOfDay currentTime = TimeOfDay.now();
 
-                              if (pickedTime != null &&
-                                  pickedTime != selectedTime) {
-                                setState(() {
-                                  selectedTime = pickedTime;
-                                  timeController.text =
-                                      selectedTime.format(context);
-                                });
-                              }
-                            },
-                          ),
+                            TimeOfDay? pickedTime = await showTimePicker(
+                              context: context,
+                              initialTime: currentTime,
+                              builder: (BuildContext context, Widget? child) {
+                                return MediaQuery(
+                                  data: MediaQuery.of(context)
+                                      .copyWith(alwaysUse24HourFormat: false),
+                                  child: child!,
+                                );
+                              },
+                            );
+
+                            if (pickedTime != null &&
+                                pickedTime != selectedTime &&
+                                pickedTime.hour >= currentTime.hour &&
+                                !(pickedTime.hour >= 0 &&
+                                    pickedTime.hour < 6)) {
+                              setState(() {
+                                selectedTime = pickedTime;
+                                timeController.text =
+                                    selectedTime.format(context);
+                              });
+                            } else {
+                              print("Invalid time selection");
+                            }
+                          }),
                         ],
                       ),
                     ),

@@ -19,8 +19,8 @@ class MessageProvider extends ChangeNotifier {
   Timer? timer;
 
   Future<void> createRoomChat(String userId, String landlordId) async {
-    await MessageRepo().createChat(userId, landlordId).then((value) {
-      loadRoomChat(userId);
+    await MessageRepo().createChat(userId, landlordId).then((value) async {
+      await loadRoomChat(userId);
     });
   }
 
@@ -30,19 +30,23 @@ class MessageProvider extends ChangeNotifier {
     notifyListeners();
   }
 
-  Future<List> loadRoomChat(String userId) async {
+  Future<List> loadRoomChat(
+    String userId,
+  ) async {
     try {
       User user;
+      data.clear();
+      receivers.clear();
       data = await MessageRepo().getListRoomChat(userId);
       List<RoomChat> roomChats = data[1];
       for (var index in roomChats) {
         if (userId == index.participantIds[1]) {
           user = await UserProvider().getUserDetail(index.participantIds[0]);
+          receivers.add(user);
         } else {
           user = await UserProvider().getUserDetail(index.participantIds[1]);
+          receivers.add(user);
         }
-        receivers.clear();
-        receivers.add(user);
       }
 
       data.add(receivers);

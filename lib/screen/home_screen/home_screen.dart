@@ -83,7 +83,7 @@ class HomeScreen extends StatelessWidget {
               ),
               spaceHeight(context),
               Consumer<User?>(builder: (context, value, child) {
-                return Text("Xin chào ${value?.name}",
+                return Text("Xin chào ${value?.name ?? ""}",
                     style: largeTextStyle(context));
               }),
               spaceHeight(context),
