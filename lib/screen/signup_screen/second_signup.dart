@@ -121,35 +121,37 @@ class SecondSignup extends StatelessWidget {
                         ),
                       ),
                       spaceHeight(context, height: 0.01),
-                      DropdownDatePickerVN(
-                        locale: 'vi',
-                        inputDecoration: InputDecoration(
-                            enabledBorder: const OutlineInputBorder(
-                              borderSide:
-                                  BorderSide(color: Colors.grey, width: 1.0),
-                            ),
-                            border: OutlineInputBorder(
-                                borderRadius:
-                                    BorderRadius.circular(10))), // optional
-                        isDropdownHideUnderline: true, // optional
-                        isFormValidator: true, // optional
-                        startYear: 1950, // optional
-                        endYear: 2023, // optional
-                        width: 5,
-                        monthFlex: 4,
-                        dayFlex: 2,
-                        yearFlex: 3,
-                        hintTextStyle: const TextStyle(fontSize: 15),
-                        // selectedDay: 14,/ optional
-                        onChangedDay: (value) {
-                          day = value;
-                        },
-                        onChangedMonth: (value) {
-                          month = value;
-                        },
-                        onChangedYear: (value) {
-                          year = value;
-                        },
+                      Expanded(
+                        child: DropdownDatePickerVN(
+                          locale: 'vi',
+                          inputDecoration: InputDecoration(
+                              enabledBorder: const OutlineInputBorder(
+                                borderSide:
+                                    BorderSide(color: Colors.grey, width: 1.0),
+                              ),
+                              border: OutlineInputBorder(
+                                  borderRadius:
+                                      BorderRadius.circular(10))), // optional
+                          isDropdownHideUnderline: true, // optional
+                          isFormValidator: true, // optional
+                          startYear: 1950, // optional
+                          endYear: 2023, // optional
+                          width: 5,
+                          monthFlex: 4,
+                          dayFlex: 2,
+                          yearFlex: 3,
+                          hintTextStyle: const TextStyle(fontSize: 15),
+                          // selectedDay: 14,/ optional
+                          onChangedDay: (value) {
+                            day = value;
+                          },
+                          onChangedMonth: (value) {
+                            month = value;
+                          },
+                          onChangedYear: (value) {
+                            year = value;
+                          },
+                        ),
                       ),
                       spaceHeight(context),
                       const Align(

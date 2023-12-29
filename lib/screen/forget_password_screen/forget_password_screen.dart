@@ -54,10 +54,12 @@ class ForgetPasswordScreen extends StatelessWidget {
                     ),
                     spaceWidth(context, width: 0.07),
                     const Center(
-                      child: Text(
-                        'Quên mật khẩu',
-                        style: TextStyle(
-                            fontSize: 40, fontWeight: FontWeight.bold),
+                      child: Expanded(
+                        child: Text(
+                          'Quên mật khẩu',
+                          style: TextStyle(
+                              fontSize: 32, fontWeight: FontWeight.bold),
+                        ),
                       ),
                     ),
                   ],

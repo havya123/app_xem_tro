@@ -18,7 +18,7 @@ class SignupScreen extends StatelessWidget {
     TextEditingController otpController = TextEditingController();
     final formKey = GlobalKey<FormState>();
     final phonekey = GlobalKey<FormState>();
-
+    var isLoading = false.obs;
     return Scaffold(
       body: Padding(
         padding: EdgeInsets.symmetric(
@@ -77,6 +77,10 @@ class SignupScreen extends StatelessWidget {
                               child: InkWell(
                             onTap: () async {
                               if (phonekey.currentState!.validate()) {
+                                if (isLoading.value) {
+                                  return;
+                                }
+                                isLoading.value = true;
                                 bool existsPhoneNumber = await context
                                     .read<UserProvider>()
                                     .checkingNumberPhone(phoneController.text);
@@ -84,9 +88,12 @@ class SignupScreen extends StatelessWidget {
                                   await FirebaseAuth.instance.verifyPhoneNumber(
                                     phoneNumber: "+84${phoneController.text}",
                                     verificationCompleted:
-                                        (PhoneAuthCredential credential) {},
+                                        (PhoneAuthCredential credential) {
+                                      isLoading.value = false;
+                                    },
                                     verificationFailed:
                                         (FirebaseAuthException e) {
+                                      isLoading.value = false;
                                       showDialog(
                                           context: context,
                                           builder: (BuildContext context) {
@@ -114,6 +121,7 @@ class SignupScreen extends StatelessWidget {
                                     },
                                     codeSent: (String verificationId,
                                         int? resendToken) {
+                                      isLoading.value = false;
                                       showDialog(
                                           context: context,
                                           builder: (BuildContext context) {
@@ -143,7 +151,9 @@ class SignupScreen extends StatelessWidget {
                                       verifyID = verificationId;
                                     },
                                     codeAutoRetrievalTimeout:
-                                        (String verificationId) {},
+                                        (String verificationId) {
+                                      isLoading.value = false;
+                                    },
                                   );
                                 } else {
                                   return showDialog(
@@ -176,21 +186,26 @@ class SignupScreen extends StatelessWidget {
                               }
                             },
                             child: Container(
-                              width: double.infinity,
-                              height: getHeight(context, height: 0.075),
-                              decoration: BoxDecoration(
-                                  color: const Color(0xff315EE7),
-                                  borderRadius: BorderRadius.circular(10)),
-                              child: const Center(
-                                child: Text(
-                                  'Lấy mã OTP',
-                                  style: TextStyle(
-                                      color: Colors.white,
-                                      fontSize: 20,
-                                      fontWeight: FontWeight.bold),
-                                ),
-                              ),
-                            ),
+                                width: double.infinity,
+                                height: getHeight(context, height: 0.075),
+                                decoration: BoxDecoration(
+                                    color: const Color(0xff315EE7),
+                                    borderRadius: BorderRadius.circular(10)),
+                                child: Obx(
+                                  () {
+                                    return Center(
+                                      child: isLoading.value
+                                          ? const CircularProgressIndicator()
+                                          : const Text(
+                                              'Lấy mã OTP',
+                                              style: TextStyle(
+                                                  color: Colors.white,
+                                                  fontSize: 20,
+                                                  fontWeight: FontWeight.bold),
+                                            ),
+                                    );
+                                  },
+                                )),
                           ))
                         ],
                       ),

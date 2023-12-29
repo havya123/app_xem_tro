@@ -100,7 +100,7 @@ class _ListChatScreenState extends State<ListChatScreen> {
                             ),
                             spaceWidth(context),
                             SizedBox(
-                              height: 50,
+                              height: 80,
                               child: Column(
                                 mainAxisAlignment:
                                     MainAxisAlignment.spaceBetween,
@@ -110,8 +110,8 @@ class _ListChatScreenState extends State<ListChatScreen> {
                                     user[index].name,
                                     style: mediumTextStyle(context),
                                   ),
-                                  Text(
-                                      "${roomChats[index].lastMsg} ${roomChats[index].lastSend}")
+                                  Text(roomChats[index].lastMsg),
+                                  Text(roomChats[index].lastSend),
                                 ],
                               ),
                             )
