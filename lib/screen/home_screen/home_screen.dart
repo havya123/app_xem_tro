@@ -161,6 +161,7 @@ class HomeScreen extends StatelessWidget {
                       child: Text(
                         "Xem tất cả",
                         style: mediumTextStyle(context, color: Colors.blue),
+                        overflow: TextOverflow.ellipsis,
                       ))
                 ],
               ),
