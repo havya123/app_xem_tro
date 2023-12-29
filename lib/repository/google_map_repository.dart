@@ -54,7 +54,7 @@ class GoogleMapRepo {
 
   Future<Place?> getPlace(String keyword) async {
     final String url =
-        "https://maps.googleapis.com/maps/api/place/textsearch/json?v=3.exp&key=AIzaSyBabuR6QtvsJGLpiQjcg1CZxDHgPN-fUH4&language=vi&region=VN&query=$keyword";
+        "https://maps.googleapis.com/maps/api/place/textsearch/json?v=3.exp&key=AIzaSyDoTVhwfpySNd0D1rVH8OmBxF2bT7TlF5w&language=vi&region=VN&query=$keyword";
 
     final uri = Uri.parse(url);
 
@@ -76,7 +76,7 @@ class GoogleMapRepo {
 
   Future<Place?> getPlaceByAttitude(String keyword) async {
     final String url =
-        "https://maps.googleapis.com/maps/api/geocode/json?latlng=$keyword&key=AIzaSyBabuR6QtvsJGLpiQjcg1CZxDHgPN-fUH4";
+        "https://maps.googleapis.com/maps/api/geocode/json?latlng=$keyword&key=AIzaSyDoTVhwfpySNd0D1rVH8OmBxF2bT7TlF5w";
 
     final uri = Uri.parse(url);
     var response = await http.get(uri);
