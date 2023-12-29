@@ -33,25 +33,13 @@ class _SaveScreenState extends State<SaveScreen> {
               vertical: padding(context, padding: 0.1)),
           child: Column(
             children: [
-              Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  SizedBox(
-                    width: getWidth(context, width: 0.1),
-                    height: getHeight(context, height: 0.06),
-                    child: const Icon(FontAwesomeIcons.angleLeft),
-                  ),
-                  Padding(
-                    padding: EdgeInsets.symmetric(
-                        horizontal: padding(context, padding: 0.18)),
-                    child: const Text(
-                      "Danh sách yêu thích",
-                      style:
-                          TextStyle(fontSize: 21, fontWeight: FontWeight.bold),
-                    ),
-                  )
-                ],
+              const Center(
+                child: Text(
+                  "Danh sách yêu thích",
+                  style: TextStyle(fontSize: 21, fontWeight: FontWeight.bold),
+                ),
               ),
+              spaceHeight(context),
               Consumer<FavouriteProvider>(
                 builder: (context, value, child) {
                   if (!value.loadFavoutire) {
