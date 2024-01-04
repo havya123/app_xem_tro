@@ -99,6 +99,18 @@ class BookingRepo {
         .where('roomId', isEqualTo: roomId)
         .where('status', isEqualTo: 'accept')
         .get();
+
+    if (response.docs.isNotEmpty) {
+      var createdAt = DateTime.parse(response.docs.first.data().createdAt)
+          .add(const Duration(days: 7));
+      var currentTime = DateTime.now();
+
+      if (currentTime.isBefore(createdAt)) {
+        return true;
+      }
+      return false;
+    }
+
     var response2 = await FirebaseService.bookingRef
         .where('userPhone', isEqualTo: userPhone)
         .where('roomId', isEqualTo: roomId)

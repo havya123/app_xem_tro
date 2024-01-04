@@ -144,14 +144,32 @@ class _ConfirmFormWidgetState extends State<ConfirmFormWidget> {
                                 pickedTime != selectedTime &&
                                 pickedTime.hour >= currentTime.hour &&
                                 !(pickedTime.hour >= 0 &&
-                                    pickedTime.hour < 6)) {
+                                    pickedTime.hour < 6) &&
+                                !(pickedTime.hour >= 22)) {
                               setState(() {
                                 selectedTime = pickedTime;
                                 timeController.text =
                                     selectedTime.format(context);
                               });
                             } else {
-                              print("Invalid time selection");
+                              return showDialog(
+                                context: context,
+                                builder: (context) {
+                                  return AlertDialog(
+                                    title:
+                                        const Text("Chọn giờ không thành công"),
+                                    content: const Text(
+                                        "Vui lòng chọn khung giờ từ 6 giờ sáng tới trước 22h đêm"),
+                                    actions: [
+                                      TextButton(
+                                          onPressed: () {
+                                            Get.back();
+                                          },
+                                          child: const Text("Ok")),
+                                    ],
+                                  );
+                                },
+                              );
                             }
                           }),
                         ],
@@ -186,7 +204,7 @@ class _ConfirmFormWidgetState extends State<ConfirmFormWidget> {
                                     title: const Text(
                                         "Đặt lịch hẹn không thành công"),
                                     content: const Text(
-                                        "Bạn đã có lịch hẹn về phòng trọ này, vui lòng xem lại chi tiết ở trang cá nhân"),
+                                        "Bạn đã có lịch hẹn về phòng trọ này, vui lòng xem lại chi tiết ở trang cá nhân hoặc đặt lại lịch hẹn sau 7 ngày"),
                                     actions: [
                                       TextButton(
                                           onPressed: () {
